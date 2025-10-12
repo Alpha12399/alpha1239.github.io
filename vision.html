@@ -1,0 +1,1301 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vision - Nexora Prime</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;500;600;700&family=Orbitron:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-cyan: #00a8c5;
+            --secondary-cyan: #3ac6e0;
+            --dark-cyan: #005f73;
+            --neon-blue: #00f3ff;
+            --neon-purple: #b967ff;
+            --text-primary: #fff;
+            --text-secondary: #d1eef5;
+            --bg-primary: #0b0c1a;
+            --bg-secondary: #1a1d3a;
+            --card-bg: rgba(20, 25, 60, 0.5);
+            --border-color: rgba(58, 198, 224, 0.3);
+            --highlight-color: #ff7a00;
+            --glass-bg: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --footer-bg: linear-gradient(135deg, #001820 0%, #002e40 100%);
+            --vision-bg: linear-gradient(135deg, rgba(10, 20, 50, 0.6) 0%, rgba(20, 40, 80, 0.8) 100%);
+            --grid-pattern-color: rgba(0, 168, 197, 0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Exo 2', sans-serif;
+            background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(58, 198, 224, 0.1) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(185, 103, 255, 0.1) 0%, transparent 40%);
+            z-index: -1;
+        }
+
+        .grid-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(var(--grid-pattern-color) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid-pattern-color) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: -2;
+            pointer-events: none;
+        }
+
+        /* Header futuriste */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 15px 0;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.2);
+            border-bottom: 1px solid var(--glass-border);
+            transition: all 0.5s ease;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--neon-blue);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-shadow: 0 0 10px rgba(0, 243, 255, 0.7);
+        }
+
+        .logo-icon {
+            width: 42px;
+            height: 42px;
+            background: linear-gradient(135deg, var(--primary-cyan), var(--secondary-cyan));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            box-shadow: 0 0 15px var(--primary-cyan);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 35px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+            font-family: 'Exo 2', sans-serif;
+            font-size: 1.05rem;
+            padding: 5px 0;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--neon-blue);
+            transition: width 0.3s ease;
+            box-shadow: 0 0 5px var(--neon-blue);
+        }
+
+        .nav-links a:hover {
+            color: var(--neon-blue);
+            text-shadow: 0 0 8px rgba(0, 243, 255, 0.7);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .theme-toggle {
+            background: transparent;
+            border: none;
+            color: var(--neon-blue);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-left: 20px;
+        }
+
+        /* Reserve Button Styles */
+        .reserve-button {
+            background: linear-gradient(135deg, #00a8c5, #3ac6e0);
+            border: none;
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: auto;
+            height: 40px;
+            border-radius: 20px;
+            margin-left: 15px;
+            padding: 0 15px;
+            font-weight: 600;
+            box-shadow: 0 0 15px rgba(0, 168, 197, 0.6);
+        }
+
+        .reserve-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 25px rgba(0, 168, 197, 0.8);
+        }
+
+        .reserve-button i {
+            margin-right: 8px;
+        }
+
+        /* Hero avec dégradé radial */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 5%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-radial {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 150vw;
+            height: 150vh;
+            background: radial-gradient(circle, rgba(0, 168, 197, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            z-index: -1;
+            animation: pulse-radial 6s infinite alternate;
+        }
+
+        @keyframes pulse-radial {
+            0% { transform: translate(-50%, -50%) scale(1); opacity: 0.1; }
+            100% { transform: translate(-50%, -50%) scale(1.1); opacity: 0.3; }
+        }
+
+        .hero h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 4.5rem;
+            font-weight: 800;
+            margin-bottom: 25px;
+            color: white;
+            line-height: 1.1;
+            letter-spacing: -1px;
+            text-shadow: 0 0 25px rgba(0, 243, 255, 0.7);
+            position: relative;
+        }
+
+        .hero h1 strong {
+            color: var(--neon-blue);
+            font-weight: 800;
+            background: linear-gradient(90deg, var(--primary-cyan), var(--neon-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: none;
+        }
+
+        .hero .subtitle {
+            font-family: 'Exo 2', sans-serif;
+            font-size: 1.8rem;
+            color: var(--secondary-cyan);
+            margin-bottom: 35px;
+            font-weight: 400;
+            text-shadow: 0 0 10px rgba(58, 198, 224, 0.5);
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            margin: 0 auto 45px;
+            max-width: 800px;
+            line-height: 1.7;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 16px 32px;
+            background: linear-gradient(135deg, var(--primary-cyan), var(--secondary-cyan));
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 25px rgba(0, 168, 197, 0.6);
+            cursor: pointer;
+            border: none;
+            font-family: 'Exo 2', sans-serif;
+            font-size: 10px;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: 0.5s;
+            z-index: -1;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 35px rgba(0, 168, 197, 0.8);
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
+        }
+
+        /* Section Vision avec disposition en spirale */
+        .vision-section {
+            padding: 150px 5% 100px;
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .section-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3.5rem;
+            text-align: center;
+            margin-bottom: 100px;
+            color: white;
+            position: relative;
+            text-shadow: 0 0 15px rgba(0, 243, 255, 0.5);
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-cyan), var(--neon-blue));
+            border-radius: 2px;
+            box-shadow: 0 0 15px var(--primary-cyan);
+        }
+
+        .spiral-container {
+            position: relative;
+            width: 100%;
+            height: 1000px;
+            margin: 0 auto;
+            perspective: 1000px;
+        }
+
+        .spiral-path {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 80%;
+            height: 80%;
+            transform: translate(-50%, -50%);
+            border: 2px dashed rgba(58, 198, 224, 0.3);
+            border-radius: 50%;
+            animation: rotate-spiral 120s linear infinite;
+        }
+
+        @keyframes rotate-spiral {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        .vision-card {
+            position: absolute;
+            width: 300px;
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(10px);
+            transition: all 0.5s ease;
+            transform-style: preserve-3d;
+            text-align: center;
+        }
+
+        .vision-card:hover {
+            transform: scale(1.05) rotateY(10deg) !important;
+            box-shadow: 0 0 50px rgba(0, 168, 197, 0.5);
+            border-color: var(--neon-blue);
+            z-index: 10 !important;
+        }
+
+        .vision-card-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary-cyan), var(--secondary-cyan));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+            color: white;
+            font-size: 2rem;
+            box-shadow: 0 0 20px var(--primary-cyan);
+            transition: all 0.3s ease;
+        }
+
+        .vision-card:hover .vision-card-icon {
+            transform: scale(1.1);
+            box-shadow: 0 0 30px var(--neon-blue);
+        }
+
+        .vision-card h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: var(--neon-blue);
+            text-shadow: 0 0 10px rgba(0, 243, 255, 0.3);
+        }
+
+        .vision-card p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            line-height: 1.7;
+        }
+
+        /* Section Parcours avec effet de vague */
+        .journey-section {
+            padding: 150px 5%;
+            background: linear-gradient(to bottom, var(--bg-primary), rgba(10, 15, 35, 0.8));
+            position: relative;
+            overflow: hidden;
+        }
+
+        .journey-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3.2rem;
+            text-align: center;
+            margin-bottom: 80px;
+            color: white;
+            position: relative;
+            text-shadow: 0 0 15px rgba(0, 243, 255, 0.5);
+        }
+
+        .wave-container {
+            position: relative;
+            height: 600px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .wave-path {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 90%;
+            height: 500px;
+            transform: translate(-50%, -50%);
+            border: 2px dashed rgba(58, 198, 224, 0.2);
+            border-radius: 50% 50% 0 0;
+        }
+
+        .milestone {
+            position: absolute;
+            width: 250px;
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: all 0.4s ease;
+        }
+
+        .milestone:hover {
+            transform: scale(1.08) translateY(-10px);
+            box-shadow: 0 0 40px rgba(0, 168, 197, 0.5);
+            border-color: var(--neon-blue);
+            z-index: 10;
+        }
+
+        .milestone h4 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            color: var(--neon-blue);
+        }
+
+        .milestone p {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        .milestone-year {
+            position: absolute;
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--primary-cyan);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            box-shadow: 0 0 15px var(--primary-cyan);
+        }
+
+        /* Section Impact avec grille hexagonale */
+        .impact-section {
+            padding: 150px 5% 100px;
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .hex-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .hex-item {
+            position: relative;
+            height: 300px;
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 40px;
+            transition: all 0.4s ease;
+            transform: translateY(0);
+        }
+
+        .hex-item:nth-child(even) {
+            transform: translateY(60px);
+        }
+
+        .hex-item:hover {
+            transform: scale(1.05) !important;
+            box-shadow: 0 0 40px rgba(0, 168, 197, 0.5);
+            border-color: var(--neon-blue);
+            z-index: 10;
+        }
+
+        .hex-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, var(--primary-cyan), var(--secondary-cyan));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+            color: white;
+            font-size: 1.8rem;
+            box-shadow: 0 0 15px var(--primary-cyan);
+            transition: all 0.3s ease;
+        }
+
+        .hex-item:hover .hex-icon {
+            transform: scale(1.1);
+            box-shadow: 0 0 25px var(--neon-blue);
+        }
+
+        .hex-item h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--neon-blue);
+            text-shadow: 0 0 10px rgba(0, 243, 255, 0.3);
+        }
+
+        .hex-item p {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        /* Call to Action holographique */
+        .cta-section {
+            padding: 150px 5% 100px;
+            max-width: 1400px;
+            margin: 0 auto;
+            text-align: center;
+            position: relative;
+        }
+
+        .hologram-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            height: 400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            perspective: 1000px;
+        }
+
+        .hologram {
+            position: absolute;
+            width: 80%;
+            height: 80%;
+            background: linear-gradient(135deg, rgba(0, 168, 197, 0.1), rgba(185, 103, 255, 0.1));
+            border: 2px solid var(--neon-blue);
+            border-radius: 20px;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 0 40px rgba(0, 243, 255, 0.3), inset 0 0 40px rgba(0, 243, 255, 0.2);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+            transform: rotateX(10deg) rotateY(5deg);
+            animation: hologram-float 8s infinite alternate;
+        }
+
+        @keyframes hologram-float {
+            0% { transform: rotateX(10deg) rotateY(5deg) translateY(0); }
+            50% { transform: rotateX(12deg) rotateY(8deg) translateY(-20px); }
+            100% { transform: rotateX(10deg) rotateY(5deg) translateY(0); }
+        }
+
+        .hologram h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.8rem;
+            margin-bottom: 30px;
+            color: var(--neon-blue);
+            text-shadow: 0 0 20px rgba(0, 243, 255, 0.7);
+        }
+
+        .hologram p {
+            font-size: 1.4rem;
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+            max-width: 600px;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--footer-bg);
+            color: var(--text-primary);
+            padding: 100px 5% 60px;
+            text-align: center;
+            position: relative;
+            border-top: 1px solid var(--border-color);
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary-cyan), var(--neon-blue));
+            box-shadow: 0 0 20px var(--primary-cyan);
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 50px;
+            text-align: left;
+            margin-bottom: 60px;
+        }
+
+        .footer-column h4 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            margin-bottom: 25px;
+            color: var(--neon-blue);
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .footer-column h4::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--secondary-cyan);
+            border-radius: 2px;
+            box-shadow: 0 0 10px var(--secondary-cyan);
+        }
+
+        .footer-column p {
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 15px;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .footer-links a:hover {
+            color: var(--neon-blue);
+            transform: translateX(5px);
+            text-shadow: 0 0 8px var(--neon-blue);
+        }
+
+        .footer-links i {
+            color: var(--neon-blue);
+            text-shadow: 0 0 8px var(--neon-blue);
+        }
+
+        .copyright {
+            padding-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Responsive */
+        /* Extra large devices (large desktops, 1200px and up) */
+        @media (min-width: 1200px) {
+            .spiral-container {
+                height: 900px;
+            }
+            
+            .hex-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .wave-container {
+                height: 700px;
+            }
+        }
+
+        /* Large devices (desktops, 992px and up) */
+        @media (max-width: 1199px) and (min-width: 992px) {
+            .spiral-container {
+                height: 800px;
+            }
+            
+            .hex-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .hex-item:nth-child(even) {
+                transform: translateY(0);
+            }
+            
+            .wave-container {
+                height: 600px;
+            }
+        }
+
+        /* Medium devices (tablets, 768px and up) */
+        @media (max-width: 991px) and (min-width: 768px) {
+            .hero h1 {
+                font-size: 3rem;
+            }
+            
+            .section-title {
+                font-size: 2.5rem;
+            }
+            
+            .spiral-container {
+                height: 700px;
+            }
+            
+            .vision-card {
+                width: 250px;
+                padding: 20px;
+            }
+            
+            .hex-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .wave-container {
+                height: 500px;
+            }
+            
+            .hologram h2 {
+                font-size: 2.2rem;
+            }
+        }
+
+        /* Small devices (landscape phones, 576px and up) */
+        @media (max-width: 767px) and (min-width: 576px) {
+            .hero h1 {
+                font-size: 3rem;
+            }
+            
+            .section-title {
+                font-size: 2.5rem;
+            }
+            
+            .spiral-container {
+                height: 600px;
+            }
+            
+            .vision-card {
+                width: 250px;
+                padding: 20px;
+            }
+            
+            .hex-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .wave-container {
+                height: 400px;
+            }
+            
+            .hologram h2 {
+                font-size: 2.2rem;
+            }
+        }
+
+        /* Extra small devices (portrait phones, less than 576px) */
+        @media (max-width: 575px) {
+            .nav-links {
+                gap: 10px;
+                font-size: 0.9rem;
+            }
+            
+            .logo {
+                font-size: 1.5rem;
+            }
+            
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .hero .subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .spiral-container {
+                height: 500px;
+            }
+            
+            .vision-card {
+                width: 200px;
+                font-size: 0.9rem;
+            }
+            
+            .milestone {
+                padding: 20px;
+            }
+            
+            .milestone h4 {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="css/responsive-theme.css">
+</head>
+<body>
+    <div class="grid-pattern"></div>
+    
+    <header id="header">
+        <nav>
+            <a href="index.html" class="logo">
+                <div class="logo-icon">X</div>
+                Nexora Prime
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="solution.html">Solutions</a></li>
+                <li><a href="innovation.html">Innovation</a></li>
+                <li><a href="vision.html" class="active">Vision</a></li>
+                <li><a href="formation.html">Formation</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="blog.html">Blog</a></li>
+                <li>
+                    <button class="reserve-button" id="reserveButton" aria-label="Changer de style">
+                        <i class="fas fa-exchange-alt"></i> Style
+                    </button>
+                </li>
+                <li>
+                    <button class="theme-toggle" id="themeToggle" aria-label="Basculer le mode clair/sombre">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="hero-radial"></div>
+            <div class="hero-content">
+                <h1>Notre <strong>Vision</strong> pour l'Afrique</h1>
+                <div class="subtitle">Transformer le continent par l'innovation technologique</div>
+                <p>Chez Nexora Prime, nous croyons en un avenir où l'Afrique devient l'épicentre de l'innovation mondiale. Notre vision est de créer des solutions d'IA qui résolvent les défis locaux tout en ayant un impact global.</p>
+                <a href="#vision" class="cta-button">Explorer notre vision</a>
+            </div>
+        </section>
+
+        <section id="vision" class="vision-section">
+            <h2 class="section-title">Une Vision Radiale</h2>
+            <div class="spiral-container">
+                <div class="spiral-path"></div>
+                
+                <div class="vision-card" style="top: -10%; left: 50%; transform: translateX(-50%);">
+                    <div class="vision-card-icon">
+                        <i class="fas fa-globe-africa"></i>
+                    </div>
+                    <h3>Souveraineté Technologique</h3>
+                    <p>Développer une expertise africaine autonome en IA pour réduire la dépendance aux technologies étrangères.</p>
+                </div>
+                
+                <div class="vision-card" style="top: 10%; left: 0%;">
+                    <div class="vision-card-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3>Innovation Inclusive</h3>
+                    <p>Des solutions qui profitent à tous, des centres urbains aux zones rurales les plus reculées.</p>
+                </div>
+                
+                <div class="vision-card" style="top: 10%; left: 80%;">
+                    <div class="vision-card-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>Formation des Talents</h3>
+                    <p>Créer la prochaine génération d'experts africains en intelligence artificielle.</p>
+                </div>
+                
+                <div class="vision-card" style="top: 60%; left: -01%;">
+                    <div class="vision-card-icon">
+                        <i class="fas fa-leaf"></i>
+                    </div>
+                    <h3>Développement Durable</h3>
+                    <p>Des technologies respectueuses de l'environnement pour un avenir plus vert.</p>
+                </div>
+                
+                <div class="vision-card" style="top: 60%; left: 85%;">
+                    <div class="vision-card-icon">
+                        <i class="fas fa-handshake"></i>
+                    </div>
+                    <h3>Collaboration Panafricaine</h3>
+                    <p>Unir les nations africaines autour d'un projet technologique commun.</p>
+                </div>
+                
+                <div class="vision-card" style="top: 60%; left: 50%; transform: translateX(-50%);">
+                    <div class="vision-card-icon">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <h3>Leadership Mondial</h3>
+                    <p>Positionner l'Afrique comme leader dans la quatrième révolution industrielle.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="journey-section">
+            <h2 class="journey-title">Notre Parcours Visionnaire</h2>
+            <div class="wave-container">
+                <div class="wave-path"></div>
+                
+                <div class="milestone" style="top: 10%; left: 10%;">
+                    <div class="milestone-year">2025</div>
+                    <h4>Fondation</h4>
+                    <p>Création de Nexora Prime avec une équipe de 03 visionnaires déterminés à transformer l'Afrique par l'IA.</p>
+                </div>
+                
+                <div class="milestone" style="top: 30%; left: 30%;">
+                    <div class="milestone-year">2025</div>
+                    <h4>Première Innovation</h4>
+                    <p>Lancement de notre assistant IA pour l'education, aidant les enseignant à optimiser leurs résultats.</p>
+                </div>
+                
+                <div class="milestone" style="top: 50%; left: 50%;">
+                    <div class="milestone-year">2025</div>
+                    <h4>Expansion Régionale</h4>
+                    <p>Formation des population dans la sous region Afrique Centrale.</p>
+                </div>
+                
+                <div class="milestone" style="top: 70%; left: 70%;">
+                    <div class="milestone-year">2026</div>
+                    <h4>Impact Continental</h4>
+                    <p>Nos solutions touchent 15 pays africains et transforment des secteurs clés.</p>
+                </div>
+                
+                <div class="milestone" style="top: 90%; left: 90%;">
+                    <div class="milestone-year">2030</div>
+                    <h4>Vision Globale</h4>
+                    <p>Devenir le leader africain de l'IA avec des solutions exportées dans 30 pays.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="impact-section">
+            <h2 class="section-title">Notre Impact à l'avenir</h2>
+            <div class="hex-grid">
+                <div class="hex-item">
+                    <div class="hex-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <h3>Éducation</h3>
+                    <p>Formation de 10 000 talents africains en IA à travers notre programme de formation numérique.</p>
+                </div>
+                
+                <div class="hex-item">
+                    <div class="hex-icon">
+                        <i class="fas fa-seedling"></i>
+                    </div>
+                    <h3>Agriculture</h3>
+                    <p>Augmentation de 40% des rendements pour 5 000 fermiers utilisant nos solutions d'agriculture intelligente.</p>
+                </div>
+                
+                <div class="hex-item">
+                    <div class="hex-icon">
+                        <i class="fas fa-heartbeat"></i>
+                    </div>
+                    <h3>Santé</h3>
+                    <p>Diagnostics médicaux assistés par IA accessibles dans 100 centres de santé à travers l'Afrique.</p>
+                </div>
+                
+                <div class="hex-item">
+                    <div class="hex-icon">
+                        <i class="fas fa-industry"></i>
+                    </div>
+                    <h3>Industrie</h3>
+                    <p>Optimisation des processus industriels pour 50 entreprises africaines grâce à notre plateforme IA.</p>
+                </div>
+                
+                <div class="hex-item">
+                    <div class="hex-icon">
+                        <i class="fas fa-solar-panel"></i>
+                    </div>
+                    <h3>Énergie</h3>
+                    <p>Optimisation des réseaux énergétiques pour 10 villes africaines, réduisant la consommation de 25%.</p>
+                </div>
+                
+                <div class="hex-item">
+                    <div class="hex-icon">
+                        <i class="fas fa-water"></i>
+                    </div>
+                    <h3>Environnement</h3>
+                    <p>Surveillance IA des écosystèmes pour protéger la biodiversité africaine.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta-section">
+            <div class="hologram-container">
+                <div class="hologram">
+                    <h2>Rejoignez Notre Mission</h2>
+                    <p>Vous partagez notre vision d'une Afrique transformée par l'innovation technologique ? Contribuez à façonner l'avenir du continent avec nous.</p>
+                    <a href="contact.html" class="cta-button">Devenir Partenaire</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h4>Nexora Prime</h4>
+                <p>L'élite des savoir Tech africain entre vos mains. Nous développons des solutions technologiques avancées pour transformer l'Afrique et inspirer le monde.</p>
+            </div>
+            <div class="footer-column">
+                <h4>Liens rapides</h4>
+                <ul class="footer-links">
+                    <li><a href="index.html"><i class="fas fa-chevron-right"></i> Accueil</a></li>
+                    <li><a href="solutions.html"><i class="fas fa-chevron-right"></i> Solutions</a></li>
+                    <li><a href="innovation.html"><i class="fas fa-chevron-right"></i> Innovation</a></li>
+                    <li><a href="vision.html"><i class="fas fa-chevron-right"></i> Vision</a></li>
+                    <li><a href="contact.html"><i class="fas fa-chevron-right"></i> Contact</a></li>
+                    <li><a href="formation.html"><i class="fas fa-chevron-right"></i> Formation</a></li>
+                    <li><a href="blog.html"><i class="fas fa-chevron-right"></i> Blog</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Nos Engagements</h4>
+                <ul class="footer-links">
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Éthique de l'IA</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Développement Durable</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Formation des Talents</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Innovation Inclusive</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Partenariats Stratégiques</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            &copy; 2025 Nexora Prime. Tous droits réservés. L'innovation africaine au service du monde.
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Effet de particules pour le background
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            canvas.style.position = 'fixed';
+            canvas.style.top = '0';
+            canvas.style.left = '0';
+            canvas.style.zIndex = '-1';
+            document.body.appendChild(canvas);
+            
+            const particles = [];
+            const particleCount = 150;
+            
+            class Particle {
+                constructor() {
+                    this.x = Math.random() * canvas.width;
+                    this.y = Math.random() * canvas.height;
+                    this.size = Math.random() * 2 + 0.5;
+                    this.speedX = (Math.random() - 0.5) * 0.5;
+                    this.speedY = (Math.random() - 0.5) * 0.5;
+                    this.color = `rgba(58, 198, 224, ${Math.random() * 0.5 + 0.1})`;
+                }
+                
+                update() {
+                    this.x += this.speedX;
+                    this.y += this.speedY;
+                    
+                    if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+                    if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+                }
+                
+                draw() {
+                    ctx.fillStyle = this.color;
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+            
+            function initParticles() {
+                for (let i = 0; i < particleCount; i++) {
+                    particles.push(new Particle());
+                }
+            }
+            
+            function animateParticles() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                
+                for (let i = 0; i < particles.length; i++) {
+                    particles[i].update();
+                    particles[i].draw();
+                    
+                    // Connect particles
+                    for (let j = i; j < particles.length; j++) {
+                        const dx = particles[i].x - particles[j].x;
+                        const dy = particles[i].y - particles[j].y;
+                        const distance = Math.sqrt(dx * dx + dy * dy);
+                        
+                        if (distance < 100) {
+                            ctx.beginPath();
+                            ctx.strokeStyle = `rgba(58, 198, 224, ${0.1 * (1 - distance/100)})`;
+                            ctx.lineWidth = 0.2;
+                            ctx.moveTo(particles[i].x, particles[i].y);
+                            ctx.lineTo(particles[j].x, particles[j].y);
+                            ctx.stroke();
+                        }
+                    }
+                }
+                
+                requestAnimationFrame(animateParticles);
+            }
+            
+            initParticles();
+            animateParticles();
+            
+            // Animation au défilement des sections
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            document.querySelectorAll('.vision-card, .milestone, .hex-item').forEach(el => {
+                el.classList.add('reveal');
+                observer.observe(el);
+            });
+            
+            // Redimensionnement du canvas
+            window.addEventListener('resize', function() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            });
+            
+            // Fonctionnalité de basculement de thème
+            const themeToggle = document.getElementById('themeToggle');
+            const themeIcon = themeToggle.querySelector('i');
+            
+            // Vérifier la préférence de thème dans localStorage
+            const currentTheme = localStorage.getItem('theme') || 'dark';
+            if (currentTheme === 'light') {
+                document.body.classList.add('light-theme');
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+            }
+            
+            // Basculer le thème au clic
+            themeToggle.addEventListener('click', function() {
+                document.body.classList.toggle('light-theme');
+                
+                if (document.body.classList.contains('light-theme')) {
+                    localStorage.setItem('theme', 'light');
+                    themeIcon.classList.remove('fa-moon');
+                    themeIcon.classList.add('fa-sun');
+                } else {
+                    localStorage.setItem('theme', 'dark');
+                    themeIcon.classList.remove('fa-sun');
+                    themeIcon.classList.add('fa-moon');
+                }
+            });
+
+            // Fonctionnalité du bouton reserve (changement de style)
+            const reserveButton = document.getElementById('reserveButton');
+            if (reserveButton) {
+                reserveButton.addEventListener('click', () => {
+                    // Apply glass morphing transition
+                    const overlay = document.createElement('div');
+                    overlay.style.cssText = `
+                        position: fixed;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        background: rgba(0, 168, 197, 0.2);
+                        backdrop-filter: blur(10px);
+                        z-index: 9999;
+                        opacity: 0;
+                        transition: all 3s ease;
+                        pointer-events: none;
+                    `;
+                    
+                    document.body.appendChild(overlay);
+                    
+                    // Start transition
+                    setTimeout(() => {
+                        overlay.style.opacity = '1';
+                        
+                        // Apply morphing effect
+                        overlay.style.transform = 'scale(1.1)';
+                        overlay.style.borderRadius = '50%';
+                        
+                        // Get current page and redirect to its pair
+                        const currentPage = window.location.pathname.split('/').pop();
+                        const pagePairs = {
+                            'blog.html': 'blog2.html',
+                            'contact.html': 'contact2.html',
+                            'solution.html': 'solu2.html',
+                            'index.html': 'Nexora2.html',
+                            'formation.html': 'formation2.html',
+                            'vision.html': 'vision2.html',
+                            'innovation.html': 'innov2.html'
+                        };
+                        
+                        const targetPage = pagePairs[currentPage] || 
+                                          Object.keys(pagePairs).find(key => pagePairs[key] === currentPage);
+                        
+                        setTimeout(() => {
+                            if (targetPage) {
+                                window.location.href = targetPage;
+                            }
+                        }, 3000);
+                    }, 100);
+                });
+            }
+        });
+    </script>
+    <script src="js/theme-transition.js"></script>
+</body>
+</html>

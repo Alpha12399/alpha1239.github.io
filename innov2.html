@@ -1,0 +1,1270 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Innovation - Nexora Prime</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --dark-bg: #0a0a1a;
+            --darker-bg: #050510;
+            --card-bg: #15152b;
+            --primary-blue: #2563eb;
+            --neon-blue: #3b82f6;
+            --light-blue: #93c5fd;
+            --accent-cyan: #06b6d4;
+            --text-light: #f8fafc;
+            --text-muted: #cbd5e1;
+            --border-color: #334155;
+            --gradient-start: #1e40af;
+            --gradient-end: #0ea5e9;
+            
+            /* Variables pour le mode clair */
+            --light-bg: #ffffff;
+            --lighter-bg: #f8fafc;
+            --light-card-bg: #ffffff;
+            --light-text: #1f2937;
+            --light-text-muted: #6b7280;
+            --light-border: #e5e7eb;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text-light);
+            line-height: 1.6;
+            overflow-x: hidden;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* Mode clair */
+        body.light-theme {
+            background-color: var(--light-bg);
+            color: var(--light-text);
+        }
+
+        body.light-theme .grid-pattern {
+            background-image: 
+                linear-gradient(rgba(220, 220, 220, 0.7) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(220, 220, 220, 0.7) 1px, transparent 1px);
+        }
+
+        body.light-theme #header {
+            background: rgba(255, 255, 255, 0.8);
+            border-bottom: 1px solid var(--light-border);
+        }
+
+        body.light-theme .logo {
+            color: var(--light-text);
+        }
+
+        body.light-theme .nav-links a {
+            color: var(--light-text-muted);
+        }
+
+        body.light-theme .nav-links a:hover, 
+        body.light-theme .nav-links a.active {
+            color: var(--light-text);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Pattern de fond */
+        .grid-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(18, 18, 38, 0.9) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(18, 18, 38, 0.9) 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: -2;
+            opacity: 0.3;
+            transition: background-image 0.3s ease;
+        }
+
+        /* Header et Navigation */
+        #header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10, 10, 26, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            z-index: 1000;
+            transition: background 0.3s ease, border-color 0.3s ease;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--text-light);
+            transition: color 0.3s ease;
+        }
+
+        .logo-icon {
+            position: relative;
+            width: 60px;
+            height: 60px;
+            margin-right: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            color: var(--neon-blue);
+            background: rgba(59, 130, 246, 0.1);
+            border-radius: 12px;
+            overflow: hidden;
+            font-size: 2.5rem;
+        }
+
+        .logo-icon::before {
+            content: '';
+            position: absolute;
+            width: 150%;
+            height: 150%;
+            background: conic-gradient(transparent, transparent, transparent, var(--neon-blue));
+            animation: animateX 4s linear infinite;
+        }
+
+        .logo-icon::after {
+            content: '';
+            position: absolute;
+            inset: 2px;
+            background: var(--darker-bg);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        body.light-theme .logo-icon::after {
+            background: var(--lighter-bg);
+        }
+
+        .logo-icon span {
+            position: relative;
+            z-index: 10;
+        }
+
+        @keyframes animateX {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--text-light);
+        }
+
+        .nav-links a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--neon-blue);
+            border-radius: 2px;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: color 0.3s;
+        }
+
+        .theme-toggle:hover {
+            color: var(--text-light);
+        }
+
+        /* Section principale avec la spirale 3D */
+        .main-container {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            padding-top: 80px;
+        }
+
+        #spiral-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .project-info {
+            text-align: center;
+            z-index: 2;
+            padding: 30px;
+            background: rgba(10, 10, 26, 0.7);
+            backdrop-filter: blur(15px);
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            max-width: 650px;
+            animation: fadeIn 1s ease;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .project-info h2 {
+            font-size: 3.5rem;
+            margin-bottom: 15px;
+            background: linear-gradient(90deg, var(--neon-blue), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
+        }
+
+        .project-info p {
+            font-size: 1.3rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        /* Indicateurs de progression */
+        .scroll-indicator {
+            position: fixed;
+            right: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            z-index: 100;
+        }
+
+        .indicator-dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .indicator-dot.active {
+            background: var(--neon-blue);
+            transform: scale(1.4);
+            box-shadow: 0 0 15px var(--neon-blue);
+        }
+
+        .indicator-dot:hover {
+            background: var(--accent-cyan);
+        }
+
+        .indicator-dot::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border: 2px solid transparent;
+            transform: translate(-50%, -50%);
+            transition: all 0.3s ease;
+        }
+
+        .indicator-dot.active::after {
+            border-color: var(--neon-blue);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                width: 24px;
+                height: 24px;
+                opacity: 0.8;
+            }
+            70% {
+                width: 32px;
+                height: 32px;
+                opacity: 0;
+            }
+            100% {
+                width: 24px;
+                height: 24px;
+                opacity: 0;
+            }
+        }
+
+        /* Conteneur des slides de contenu */
+        .projects-container {
+            min-height: 100vh;
+            padding: 100px 0;
+        }
+
+        .project-slide {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 0;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            visibility: hidden;
+        }
+
+        .project-slide.active {
+            opacity: 1;
+            transform: translateY(0);
+            position: relative;
+            visibility: visible;
+        }
+
+        .slide-content {
+            max-width: 1000px;
+            text-align: center;
+        }
+
+        .slide-content h3 {
+            font-size: 2.8rem;
+            margin-bottom: 20px;
+            color: var(--text-light);
+            background: linear-gradient(90deg, var(--neon-blue), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .slide-content > p {
+            font-size: 1.3rem;
+            color: var(--text-muted);
+            margin-bottom: 50px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .feature-card {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            transition: all 0.4s ease;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-blue), var(--accent-cyan));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.5s ease;
+        }
+
+        .feature-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            border-color: var(--neon-blue);
+        }
+
+        .feature-card i {
+            font-size: 3rem;
+            color: var(--neon-blue);
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover i {
+            transform: scale(1.2);
+            color: var(--accent-cyan);
+        }
+
+        .feature-card h4 {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            color: var(--text-light);
+        }
+
+        .feature-card p {
+            color: var(--text-muted);
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--darker-bg);
+            padding: 50px 0;
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+            transition: background 0.3s ease, border-color 0.3s ease;
+        }
+
+        .copyright {
+            color: var(--text-muted);
+            transition: color 0.3s ease;
+            font-size: 1.1rem;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsive */
+        /* Extra large devices (large desktops, 1200px and up) */
+        @media (min-width: 1200px) {
+            .features-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* Large devices (desktops, 992px and up) */
+        @media (max-width: 1199px) and (min-width: 992px) {
+            .features-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* Medium devices (tablets, 768px and up) */
+        @media (max-width: 991px) and (min-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .project-info h2 {
+                font-size: 2.5rem;
+            }
+            
+            .slide-content h3 {
+                font-size: 2.2rem;
+            }
+            
+            .scroll-indicator {
+                right: 20px;
+            }
+        }
+
+        /* Small devices (landscape phones, 576px and up) */
+        @media (max-width: 767px) and (min-width: 576px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .project-info h2 {
+                font-size: 2.5rem;
+            }
+            
+            .slide-content h3 {
+                font-size: 2.2rem;
+            }
+            
+            .logo-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 2rem;
+            }
+            
+            .scroll-indicator {
+                right: 15px;
+            }
+        }
+
+        /* Extra small devices (portrait phones, less than 576px) */
+        @media (max-width: 575px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .project-info h2 {
+                font-size: 2rem;
+            }
+            
+            .slide-content h3 {
+                font-size: 2rem;
+            }
+            
+            .project-info {
+                padding: 20px;
+                margin: 0 15px;
+            }
+            
+            .project-info p {
+                font-size: 1.1rem;
+            }
+            
+            .logo-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 2rem;
+            }
+            
+            .scroll-indicator {
+                right: 15px;
+            }
+            
+            .feature-card {
+                padding: 20px;
+            }
+            
+            .feature-card h4 {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="grid-pattern"></div>
+    
+    <header id="header">
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">
+                    <div class="logo-icon"><span>X</span></div>
+                    Nexora Prime
+                </a>
+                <ul class="nav-links">
+                    <li><a href="Nexora2.html">Accueil</a></li>
+                    <li><a href="solu2.html">Solutions</a></li>
+                    <li><a href="innov2.html" class="active">Innovation</a></li>
+                    <li><a href="vision2.html">Vision</a></li>
+                    <li><a href="formation2.html">Formation</a></li>
+                    <li><a href="contact2.html">Contact</a></li>
+                    <li><a href="blog2.html" >Blog</a></li>
+                    <li>
+                        <button class="reserve-button" id="reserveButton" aria-label="Changer de style">
+                            <i class="fas fa-exchange-alt"></i> Style
+                        </button>
+                    </li>
+                    <li>
+                        <button class="theme-toggle" id="themeToggle" aria-label="Basculer le mode clair/sombre">
+                            <i class="fas fa-moon"></i>
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Section principale avec la spirale 3D -->
+    <div class="main-container">
+        <canvas id="spiral-canvas"></canvas>
+        
+        <!-- Conteneur pour les informations des projets -->
+        <div class="project-info" id="projectInfo">
+            <h2 id="projectTitle">ALTAROS</h2>
+            <p id="projectDescription">IA cognitive ultime qui apprend et évolue avec vous</p>
+        </div>
+        
+        <!-- Indicateurs de progression -->
+        <div class="scroll-indicator">
+            <div class="indicator-dot active" data-target="0"></div>
+            <div class="indicator-dot" data-target="1"></div>
+            <div class="indicator-dot" data-target="2"></div>
+            <div class="indicator-dot" data-target="3"></div>
+            <div class="indicator-dot" data-target="4"></div>
+            <div class="indicator-dot" data-target="5"></div>
+            <div class="indicator-dot" data-target="6"></div>
+            <div class="indicator-dot" data-target="7"></div>
+            <div class="indicator-dot" data-target="8"></div>
+            <div class="indicator-dot" data-target="9"></div>
+            <div class="indicator-dot" data-target="10"></div>
+        </div>
+    </div>
+    
+    <!-- Conteneur des slides de contenu -->
+    <div class="projects-container">
+        <!-- ALTAROS -->
+        <div class="project-slide active" data-index="0">
+            <div class="slide-content">
+                <h3>ALTAROS</h3>
+                <p>Notre IA cognitive ultime qui apprend et évolue avec vous</p>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <i class="fas fa-brain"></i>
+                        <h4>Apprentissage adaptatif</h4>
+                        <p>Évolue en fonction de vos interactions</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-lightbulb"></i>
+                        <h4>Raisonnement contextuel</h4>
+                        <p>Comprend les nuances et les sous-entendus</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-history"></i>
+                        <h4>Mémoire associative</h4>
+                        <p>Se souvient des contextes passés</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-chart-line"></i>
+                        <h4>Prédictions intuitives</h4>
+                        <p>Anticipe vos besoins avant même que vous ne les formuliez</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- PRIME -->
+        <div class="project-slide" data-index="1">
+            <div class="slide-content">
+                <h3>PRIME</h3>
+                <p>Agent IA personnel qui anticipe vos besoins quotidiens</p>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <i class="fas fa-robot"></i>
+                        <h4>Assistant personnel</h4>
+                        <p>Gestion intelligente de votre agenda</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-bell"></i>
+                        <h4>Alertes proactives</h4>
+                        <p>Vous informe des événements important</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-sync-alt"></i>
+                        <h4>Intégration totale</h4>
+                        <p>Connecté à tous vos appareils et services</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-shield-alt"></i>
+                        <h4>Sécurité renforcée</h4>
+                        <p>Protection de vos données personnelles</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- NEXSCRIBE -->
+        <div class="project-slide" data-index="2">
+            <div class="slide-content">
+                <h3>NEXSCRIBE</h3>
+                <p>Éditeur de texte futuriste avec IA intégrée</p>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <i class="fas fa-font"></i>
+                        <h4>Rédaction assistée</h4>
+                        <p>Suggestions contextuelles en temps réel</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-globe"></i>
+                        <h4>Traduction instantanée</h4>
+                        <p>40 langues avec préservation du style</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-magic"></i>
+                        <h4>Optimisation stylistique</h4>
+                        <p>Adapte le ton à votre audience</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-code"></i>
+                        <h4>Génération de code</h4>
+                        <p>Crée du code à partir de descriptions</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- ORA -->
+        <div class="project-slide" data-index="3">
+            <div class="slide-content">
+                <h3>ORA</h3>
+                <p>Marketplace intelligente qui révolutionne le e-commerce</p>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <i class="fas fa-shopping-cart"></i>
+                        <h4>Recommandations IA</h4>
+                        <p>Sélection personnalisée de produits</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-robot"></i>
+                        <h4>Assistant d'achat</h4>
+                        <p>Vous guide dans vos choix</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-percentage"></i>
+                        <h4>Comparaison intelligente</h4>
+                        <p>Analyse complète des options disponibles</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-shipping-fast"></i>
+                        <h4>Livraison prédictive</h4>
+                        <p>Anticipe vos besoins de livraison</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- APEX -->
+        <div class="project-slide" data-index="4">
+            <div class="slide-content">
+                <h3>APEX</h3>
+                <p>Réseau social ultra-interactif avec réalité augmentée</p>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <i class="fas fa-vr-cardboard"></i>
+                        <h4>Espaces virtuels</h4>
+                        <p>Environnements immersifs personnalisés</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-user-astronaut"></i>
+                        <h4>Avatars IA</h4>
+                        <p>Représentations personnalisables</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-hands-helping"></i>
+                        <h4>Collaboration en temps réel</h4>
+                        <p>Travaillez ensemble dans des espaces virtuels</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-gamepad"></i>
+                        <h4>Interactifs</h4>
+                        <p>Expériences sociales enrichies</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- CRYPTE 4 -->
+        <div class="project-slide" data-index="5">
+            <div class="slide-content">
+                <h3>CRYPTE 4</h3>
+                <p>Messagerie sécurisée par cryptographie quantique</p>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <i class="fas fa-lock"></i>
+                        <h4>Chiffrement inviolable</h4>
+                        <p>Protection de niveau militaire</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-fingerprint"></i>
+                        <h4>Authentification biométrique</h4>
+                        <p>Sécurité renforcée par identification unique</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-hourglass-end"></i>
+                        <h4>Messages auto-destructibles</h4>
+                        <p>Contrôle total sur la durée de vie de vos messages</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-shield-virus"></i>
+                        <h4>Protection quantique</h4>
+                        <p>À l'épreuve des futures menaces</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- LUKY -->
+        <div class="project-slide" data-index="6">
+            <div class="slide-content">
+                <h3>LUKY</h3>
+                <p>Messagerie publique pour communications ouvertes</p>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <i class="fas fa-bullhorn"></i>
+                        <h4>Communication de masse</h4>
+                        <p>Diffusez vos messages à large audience</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-users"></i>
+                        <h4>Communautés dynamiques</h4>
+                        <p>Créez et gérez vos espaces publics</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-search"></i>
+                        <h4>Découverte intelligente</h4>
+                        <p>Trouvez des contenus pertinents</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-chart-bar"></i>
+                        <h4>Analytics intégrés</h4>
+                        <p>Mesurez l'impact de vos communications</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- NEXLOCK -->
+        <div class="project-slide" data-index="7">
+            <div class="slide-content">
+                <h3>NEXLOCK</h3>
+                <p>Coffre à fichier intelligent et sécurisé</p>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <i class="fas fa-database"></i>
+                        <h4>Stockage intelligent</h4>
+                        <p>Organisation automatique de vos fichiers</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-user-lock"></i>
+                        <h4>Accès biométrique</h4>
+                        <p>Sécurité renforcée par identification unique</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-sync"></i>
+                        <h4>Synchronisation intelligente</h4>
+                        <p>Accès à vos fichiers depuis n'importe où</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-shield-alt"></i>
+                        <h4>Protection avancée</h4>
+                        <p>Chiffrement AES-256 pour vos données</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- PRIME OS -->
+        <div class="project-slide" data-index="8">
+            <div class="slide-content">
+                <h3>PRIME OS</h3>
+                <p>Système d'exploitation web intelligent</p>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <i class="fas fa-desktop"></i>
+                        <h4>Interface adaptative</h4>
+                        <p>S'adapte à vos habitudes d'utilisation</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-bolt"></i>
+                        <h4>Performance optimisée</h4>
+                        <p>Rapide et léger sur tous les appareils</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-robot"></i>
+                        <h4>Assistant intégré</h4>
+                        <p>IA qui anticipe vos besoins système</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-shield-alt"></i>
+                        <h4>Sécurité proactive</h4>
+                        <p>Protection contre les menaces en temps réel</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- NEXION -->
+        <div class="project-slide" data-index="9">
+            <div class="slide-content">
+                <h3>NEXION</h3>
+                <p>Logiciel de gestion des stocks intelligent</p>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <i class="fas fa-desktop"></i>
+                        <h4>Interface intuitive</h4>
+                        <p>Facile à prendre en main</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-bolt"></i>
+                        <h4>Performance optimisée</h4>
+                        <p>Rapide et léger sur tous les appareils</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-robot"></i>
+                        <h4>Assistant intégré</h4>
+                        <p>IA qui vous guide sur l'utilisation du logiciel</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-shield-alt"></i>
+                        <h4>Sécurité proactive</h4>
+                        <p>Protection contre la mauvaise gestion avec inclusion de mot de passe pour restraindre les accès</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- NEXTALK -->
+        <div class="project-slide" data-index="10">
+            <div class="slide-content">
+                <h3>NEXTALK</h3>
+                <p>Applications mobile motivatrice,instructive & guide à la prière</p>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <i class="fas fa-desktop"></i>
+                        <h4>Interface intuitive & personnalisable</h4>
+                        <p>Facile à prendre en mains , modifiable et adaptable aux préferences de chaque utilisateur</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-bolt"></i>
+                        <h4>Performance optimisée</h4>
+                        <p>Rapide et léger sur tous les appareils</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-robot"></i>
+                        <h4>Assistant intégré</h4>
+                        <p>IA qui vous accompagne dans la géneration de vos citations , punchlines , prières etc...</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-shield-alt"></i>
+                        <h4>Gamification</h4>
+                        <p>Quiz interactifs,augmentation de niveau , recommpense pour les meilleurs joueurs</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="copyright">
+            &copy; 2025 Nexora Prime. Tous droits réservés. L'élite des savoirs Tech africain entre vos mains.
+        </div>
+    </footer>
+
+    <script>
+        // Fonctionnalité de basculement de thème
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+        const icon = themeToggle.querySelector('i');
+        
+        // Vérifier le thème sauvegardé dans le localStorage
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'light') {
+            body.classList.add('light-theme');
+            icon.classList.remove('fa-moon');
+            icon.classList.add('fa-sun');
+        }
+
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('light-theme');
+            
+            if (body.classList.contains('light-theme')) {
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+                localStorage.setItem('theme', 'light');
+            } else {
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+                localStorage.setItem('theme', 'dark');
+            }
+        });
+
+        // Gestion de la navigation entre les projets
+        const projectSlides = document.querySelectorAll('.project-slide');
+        const indicatorDots = document.querySelectorAll('.indicator-dot');
+        const projectTitle = document.getElementById('projectTitle');
+        const projectDescription = document.getElementById('projectDescription');
+        
+        // Données des projets
+        const projects = [
+            { title: "ALTAROS", description: "IA cognitive ultime qui apprend et évolue avec vous" },
+            { title: "PRIME", description: "Agent IA personnel qui anticipe vos besoins quotidiens" },
+            { title: "NEXSCRIBE", description: "Éditeur de texte futuriste avec IA intégrée" },
+            { title: "ORA", description: "Marketplace intelligente qui révolutionne le e-commerce" },
+            { title: "APEX", description: "Réseau social ultra-interactif avec réalité augmentée" },
+            { title: "CRYPTE 4", description: "Messagerie sécurisée par cryptographie quantique" },
+            { title: "LUKY", description: "Messagerie publique pour communications ouvertes" },
+            { title: "NEXLOCK", description: "Coffre à fichier intelligent et sécurisé" },
+            { title: "PRIME OS", description: "Système d'exploitation web intelligent" },
+            { title: "NEXION", description: "Logiciel de gestion des stocks intelligent" },
+            { title: "NEXTALK", description: "Applications mobile motivatrice,instructive & guide à la prière" }
+        ];
+
+        // Fonction pour changer de projet
+        function showProject(index) {
+            // Mettre à jour les slides
+            projectSlides.forEach(slide => {
+                slide.classList.remove('active');
+            });
+            projectSlides[index].classList.add('active');
+            
+            // Mettre à jour les indicateurs
+            indicatorDots.forEach(dot => {
+                dot.classList.remove('active');
+            });
+            indicatorDots[index].classList.add('active');
+            
+            // Mettre à jour les informations du projet
+            projectTitle.textContent = projects[index].title;
+            projectDescription.textContent = projects[index].description;
+            
+            // Animation de fondu
+            projectInfo.style.animation = 'none';
+            setTimeout(() => {
+                projectInfo.style.animation = 'fadeIn 1s ease';
+            }, 10);
+        }
+
+        // Ajouter les écouteurs d'événements aux indicateurs
+        indicatorDots.forEach(dot => {
+            dot.addEventListener('click', () => {
+                const targetIndex = parseInt(dot.getAttribute('data-target'));
+                showProject(targetIndex);
+            });
+        });
+
+        // Navigation au défilement
+        let currentProject = 0;
+        let isScrolling = false;
+
+        window.addEventListener('wheel', (e) => {
+            if (isScrolling) return;
+            
+            isScrolling = true;
+            
+            if (e.deltaY > 0 && currentProject < projects.length - 1) {
+                currentProject++;
+            } else if (e.deltaY < 0 && currentProject > 0) {
+                currentProject--;
+            }
+            
+            showProject(currentProject);
+            
+            setTimeout(() => {
+                isScrolling = false;
+            }, 1000);
+        });
+
+        // Animation de la spirale 3D améliorée
+        const canvas = document.getElementById('spiral-canvas');
+        const ctx = canvas.getContext('2d');
+        
+        let particles = [];
+        const particleCount = 300;
+        const connectionDistance = 150;
+        
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+        
+        // Création des particules
+        function createParticles() {
+            particles = [];
+            for (let i = 0; i < particleCount; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    z: Math.random() * 1000 - 500,
+                    size: Math.random() * 3 + 1,
+                    speed: Math.random() * 2 + 0.5,
+                    color: `hsl(${Math.random() * 60 + 200}, 100%, 70%)`,
+                    angle: Math.random() * Math.PI * 2
+                });
+            }
+        }
+        
+        createParticles();
+        
+        function drawSpiral() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            const time = Date.now() * 0.001;
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+            
+            // Dessiner les connexions entre les particules
+            ctx.strokeStyle = 'rgba(59, 130, 246, 0.1)';
+            ctx.lineWidth = 1;
+            
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    
+                    if (distance < connectionDistance) {
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+            
+            // Dessiner les particules
+            for (let i = 0; i < particles.length; i++) {
+                const p = particles[i];
+                
+                // Mouvement en spirale
+                p.angle += 0.01 * p.speed;
+                p.z += p.speed;
+                
+                if (p.z > 500) p.z = -500;
+                
+                const scale = 500 / (500 + p.z);
+                const x = centerX + (p.x - centerX) * scale;
+                const y = centerY + (p.y - centerY) * scale;
+                
+                // Dessiner la particule
+                ctx.beginPath();
+                ctx.arc(x, y, p.size * scale, 0, Math.PI * 2);
+                ctx.fillStyle = p.color;
+                ctx.fill();
+                
+                // Ajouter un effet de glow
+                ctx.beginPath();
+                ctx.arc(x, y, (p.size + 2) * scale, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(59, 130, 246, 0.1)';
+                ctx.fill();
+            }
+            
+            // Dessiner une spirale centrale plus visible
+            ctx.beginPath();
+            ctx.strokeStyle = 'rgba(59, 130, 246, 0.3)';
+            ctx.lineWidth = 2;
+            
+            for (let i = 0; i < 100; i++) {
+                const angle = time + i * 0.1;
+                const radius = 50 + i * 2;
+                const x = centerX + Math.cos(angle) * radius;
+                const y = centerY + Math.sin(angle) * radius;
+                
+                if (i === 0) {
+                    ctx.moveTo(x, y);
+                } else {
+                    ctx.lineTo(x, y);
+                }
+            }
+            
+            ctx.stroke();
+            
+            // Dessiner un effet de vortex central
+            const gradient = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, 200);
+            gradient.addColorStop(0, 'rgba(59, 130, 246, 0.3)');
+            gradient.addColorStop(1, 'rgba(59, 130, 246, 0)');
+            
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, 200, 0, Math.PI * 2);
+            ctx.fillStyle = gradient;
+            ctx.fill();
+            
+            requestAnimationFrame(drawSpiral);
+        }
+        
+        drawSpiral();
+        
+        // Fonctionnalité du bouton reserve (changement de style)
+        const reserveButton = document.getElementById('reserveButton');
+        if (reserveButton) {
+            reserveButton.addEventListener('click', () => {
+                // Apply glass morphing transition
+                const overlay = document.createElement('div');
+                overlay.style.cssText = `
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: rgba(0, 168, 197, 0.2);
+                    backdrop-filter: blur(10px);
+                    z-index: 9999;
+                    opacity: 0;
+                    transition: all 3s ease;
+                    pointer-events: none;
+                `;
+                
+                document.body.appendChild(overlay);
+                
+                // Start transition
+                setTimeout(() => {
+                    overlay.style.opacity = '1';
+                    
+                    // Apply morphing effect
+                    overlay.style.transform = 'scale(1.1)';
+                    overlay.style.borderRadius = '50%';
+                    
+                    // Get current page and redirect to its pair
+                    const currentPage = window.location.pathname.split('/').pop();
+                    const pagePairs = {
+                        'blog.html': 'blog2.html',
+                        'contact.html': 'contact2.html',
+                        'solution.html': 'solu2.html',
+                        'index.html': 'Nexora2.html',
+                        'formation.html': 'formation2.html',
+                        'vision.html': 'vision2.html',
+                        'innovation.html': 'innov2.html'
+                    };
+                    
+                    const targetPage = pagePairs[currentPage] || 
+                                      Object.keys(pagePairs).find(key => pagePairs[key] === currentPage);
+                    
+                    setTimeout(() => {
+                        if (targetPage) {
+                            window.location.href = targetPage;
+                        }
+                    }, 3000);
+                }, 100);
+            });
+        }
+    </script>
+</body>
+</html>

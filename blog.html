@@ -1,0 +1,2090 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog IA - Nexora Prime</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;500;600;700&family=Orbitron:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/responsive-theme.css">
+    <style>
+        :root {
+            /* Couleurs par défaut (mode sombre) */
+            --primary-cyan: #00a8c5;
+            --secondary-cyan: #3ac6e0;
+            --dark-cyan: #005f73;
+            --neon-blue: #00f3ff;
+            --neon-purple: #b967ff;
+            --neon-orange: #ff7a00;
+            --text-primary: #fff;
+            --text-secondary: #d1eef5;
+            --bg-primary: #0b0c1a;
+            --bg-secondary: #1a1d3a;
+            --card-bg: rgba(20, 25, 60, 0.5);
+            --border-color: rgba(58, 198, 224, 0.3);
+            --highlight-color: #ff7a00;
+            --glass-bg: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --footer-bg: linear-gradient(135deg, #001820 0%, #002e40 100%);
+            --grid-pattern-color: rgba(0, 168, 197, 0.05);
+            --glow-intensity: 0.7;
+        }
+
+        /* Mode clair */
+        body.light-theme {
+            --text-primary: #222;
+            --text-secondary: #444;
+            --bg-primary: #f0f8ff;
+            --bg-secondary: #e6f7ff;
+            --card-bg: rgba(255, 255, 255, 0.7);
+            --border-color: rgba(0, 168, 197, 0.2);
+            --glass-bg: rgba(255, 255, 255, 0.7);
+            --glass-border: rgba(0, 0, 0, 0.1);
+            --footer-bg: linear-gradient(135deg, #e6f7ff 0%, #d1eef5 100%);
+            --grid-pattern-color: rgba(0, 168, 197, 0.03);
+            --glow-intensity: 0.3;
+        }
+
+        body.light-theme .hero h1,
+        body.light-theme .section-title,
+        body.light-theme .post-card h3,
+        body.light-theme .sidebar-title,
+        body.light-theme .category-title {
+            color: var(--text-primary);
+            text-shadow: none;
+        }
+
+        body.light-theme .logo {
+            color: var(--primary-cyan);
+            text-shadow: none;
+        }
+
+        body.light-theme .nav-links a {
+            color: var(--text-primary);
+        }
+
+        body.light-theme .nav-links a:hover {
+            color: var(--primary-cyan);
+        }
+
+        body.light-theme .hero p,
+        body.light-theme .post-meta,
+        body.light-theme .post-excerpt,
+        body.light-theme .sidebar-item p,
+        body.light-theme .footer-column p,
+        body.light-theme .copyright {
+            color: var(--text-secondary);
+        }
+
+        body.light-theme .subtitle {
+            color: var(--primary-cyan);
+        }
+
+        body.light-theme .grid-pattern {
+            background-image: 
+                linear-gradient(var(--grid-pattern-color) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid-pattern-color) 1px, transparent 1px);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Exo 2', sans-serif;
+            background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+            transition: background 0.5s ease, color 0.5s ease;
+            min-height: 100vh;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(58, 198, 224, 0.1) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(185, 103, 255, 0.1) 0%, transparent 40%);
+            z-index: -1;
+        }
+
+        /* Effet de grille futuriste en arrière-plan */
+        .grid-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(var(--grid-pattern-color) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid-pattern-color) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: -2;
+            pointer-events: none;
+        }
+
+        /* Animation de défilement des lignes */
+        @keyframes gridScroll {
+            0% { background-position: 0 0; }
+            100% { background-position: 50px 50px; }
+        }
+
+        .grid-pattern {
+            animation: gridScroll 20s linear infinite;
+        }
+
+        /* Header amélioré avec effet de verre */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 15px 0;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.2);
+            border-bottom: 1px solid var(--glass-border);
+            transition: all 0.5s ease;
+            transform: translateY(0);
+        }
+
+        header.scrolled {
+            transform: translateY(-100%);
+        }
+
+        header.active {
+            transform: translateY(0);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--neon-blue);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-shadow: 0 0 10px rgba(0, 243, 255, var(--glow-intensity));
+            transition: color 0.5s ease, transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .logo-icon {
+            width: 42px;
+            height: 42px;
+            background: linear-gradient(135deg, var(--primary-cyan), var(--secondary-cyan));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            box-shadow: 0 0 15px var(--primary-cyan);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 15px var(--primary-cyan); }
+            50% { box-shadow: 0 0 30px var(--neon-blue); }
+            100% { box-shadow: 0 0 15px var(--primary-cyan); }
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 35px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+            font-family: 'Exo 2', sans-serif;
+            font-size: 1.05rem;
+            padding: 5px 0;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--neon-blue);
+            transition: width 0.3s ease;
+            box-shadow: 0 0 5px var(--neon-blue);
+        }
+
+        .nav-links a:hover {
+            color: var(--neon-blue);
+            text-shadow: 0 0 8px rgba(0, 243, 255, var(--glow-intensity));
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Bouton de bascule du thème */
+        .theme-toggle {
+            background: transparent;
+            border: none;
+            color: var(--neon-blue);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-left: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .theme-toggle::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            transform: scale(0);
+            transition: transform 0.3s ease;
+            z-index: -1;
+        }
+
+        .theme-toggle:hover::before {
+            transform: scale(1);
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
+            color: var(--neon-purple);
+        }
+
+        body.light-theme .theme-toggle {
+            color: var(--primary-cyan);
+        }
+
+        body.light-theme .theme-toggle:hover {
+            color: var(--dark-cyan);
+        }
+
+        /* Hero Section - Effets futuristes */
+        .hero {
+            height: 60vh;
+            display: flex;
+            align-items: center;
+            padding: 0 5%;
+            margin-top: 80px;
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+            perspective: 1000px;
+        }
+
+        .hero-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+            transform: translateY(50px);
+            opacity: 0;
+            animation: fadeUp 1s forwards 0.5s;
+        }
+
+        @keyframes fadeUp {
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .hero h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 4.5rem;
+            font-weight: 800;
+            margin-bottom: 25px;
+            color: white;
+            line-height: 1.1;
+            letter-spacing: -1px;
+            text-shadow: 0 0 25px rgba(0, 243, 255, var(--glow-intensity));
+            transition: color 0.5s ease;
+            animation: glowPulse 3s infinite alternate;
+        }
+
+        @keyframes glowPulse {
+            0% { text-shadow: 0 0 25px rgba(0, 243, 255, var(--glow-intensity)); }
+            100% { text-shadow: 0 0 40px rgba(0, 243, 255, calc(var(--glow-intensity) + 0.2)), 0 0 60px rgba(185, 103, 255, 0.3); }
+        }
+
+        .hero h1 strong {
+            color: var(--neon-blue);
+            font-weight: 800;
+            background: linear-gradient(90deg, var(--primary-cyan), var(--neon-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: none;
+            position: relative;
+        }
+
+        .hero h1 strong::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-cyan), var(--neon-blue));
+            border-radius: 2px;
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.8s ease;
+        }
+
+        .hero:hover h1 strong::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        .hero .subtitle {
+            font-family: 'Exo 2', sans-serif;
+            font-size: 1.8rem;
+            color: var(--secondary-cyan);
+            margin-bottom: 35px;
+            font-weight: 400;
+            text-shadow: 0 0 10px rgba(58, 198, 224, 0.5);
+            transition: color 0.5s ease;
+            animation: floatText 6s infinite ease-in-out;
+        }
+
+        @keyframes floatText {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto 45px;
+            line-height: 1.7;
+            transition: color 0.5s ease;
+            opacity: 0;
+            animation: fadeIn 1s forwards 1s;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        /* Blog Content */
+        .blog-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 80px 5%;
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 50px;
+        }
+
+        .posts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 40px;
+        }
+
+        .post-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            transform-style: preserve-3d;
+            transform: translateZ(0);
+            opacity: 0;
+            animation: cardAppear 0.8s forwards;
+            animation-delay: calc(var(--delay) * 0.2s);
+        }
+
+        @keyframes cardAppear {
+            0% { 
+                opacity: 0;
+                transform: translateY(50px) rotateX(20deg);
+            }
+            100% { 
+                opacity: 1;
+                transform: translateY(0) rotateX(0);
+            }
+        }
+
+        .post-card:nth-child(1) { --delay: 1; }
+        .post-card:nth-child(2) { --delay: 2; }
+        .post-card:nth-child(3) { --delay: 3; }
+        .post-card:nth-child(4) { --delay: 4; }
+        .post-card:nth-child(5) { --delay: 5; }
+        .post-card:nth-child(6) { --delay: 6; }
+        .post-card:nth-child(7) { --delay: 7; }
+        .post-card:nth-child(8) { --delay: 8; }
+        .post-card:nth-child(9) { --delay: 9; }
+
+        .post-card:hover {
+            transform: translateY(-15px) translateZ(20px);
+            box-shadow: 0 25px 50px rgba(0, 168, 197, 0.3);
+            border-color: var(--neon-blue);
+        }
+
+        .post-image {
+            height: 220px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .post-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0, 168, 197, 0.2), transparent);
+            z-index: 1;
+        }
+
+        .post-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .post-card:hover .post-image img {
+            transform: scale(1.1);
+        }
+
+        .post-category {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, var(--primary-cyan), var(--secondary-cyan));
+            color: white;
+            padding: 8px 15px;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            box-shadow: 0 0 15px var(--primary-cyan);
+            z-index: 2;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        .post-content {
+            padding: 30px;
+        }
+
+        .post-meta {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .post-date {
+            display: flex;
+            align-items: center;
+            margin-right: 20px;
+        }
+
+        .post-date i {
+            color: var(--neon-blue);
+            margin-right: 8px;
+            text-shadow: 0 0 8px var(--neon-blue);
+        }
+
+        .post-author {
+            display: flex;
+            align-items: center;
+        }
+
+        .post-author i {
+            color: var(--neon-blue);
+            margin-right: 8px;
+            text-shadow: 0 0 8px var(--neon-blue);
+        }
+
+        .post-card h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: white;
+            line-height: 1.3;
+            transition: color 0.5s ease;
+            position: relative;
+        }
+
+        .post-card h3::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--neon-blue);
+            border-radius: 2px;
+            box-shadow: 0 0 10px var(--neon-blue);
+            transition: width 0.5s ease;
+        }
+
+        .post-card:hover h3::after {
+            width: 100%;
+        }
+
+        .post-excerpt {
+            color: var(--text-secondary);
+            margin-bottom: 25px;
+            line-height: 1.7;
+            transition: color 0.5s ease;
+        }
+
+        .read-more {
+            display: inline-flex;
+            align-items: center;
+            color: var(--neon-blue);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            padding: 5px 0;
+        }
+
+        .read-more::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--neon-blue);
+            transition: width 0.3s ease;
+        }
+
+        .read-more:hover::before {
+            width: 100%;
+        }
+
+        .read-more i {
+            margin-left: 8px;
+            transition: transform 0.3s ease;
+        }
+
+        .read-more:hover {
+            text-shadow: 0 0 10px var(--neon-blue);
+        }
+
+        .read-more:hover i {
+            transform: translateX(5px);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: relative;
+        }
+
+        .sidebar-widget {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 40px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            transform: translateY(20px);
+            opacity: 0;
+            animation: slideIn 0.8s forwards;
+            animation-delay: calc(var(--delay) * 0.2s);
+        }
+
+        .sidebar-widget:nth-child(1) { --delay: 1; }
+        .sidebar-widget:nth-child(2) { --delay: 2; }
+        .sidebar-widget:nth-child(3) { --delay: 3; }
+        .sidebar-widget:nth-child(4) { --delay: 4; }
+        .sidebar-widget:nth-child(5) { --delay: 5; }
+        .sidebar-widget:nth-child(6) { --delay: 6; }
+
+        @keyframes slideIn {
+            0% {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+            100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .sidebar-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.6rem;
+            margin-bottom: 25px;
+            color: var(--neon-blue);
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--neon-blue);
+            text-shadow: 0 0 10px rgba(0, 243, 255, 0.3);
+            transition: color 0.5s ease;
+        }
+
+        .categories-list {
+            list-style: none;
+        }
+
+        .categories-list li {
+            margin-bottom: 15px;
+            transition: transform 0.3s ease;
+        }
+
+        .categories-list li:hover {
+            transform: translateX(5px);
+        }
+
+        .categories-list a {
+            display: flex;
+            justify-content: space-between;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            padding: 10px 0;
+            border-bottom: 1px dashed var(--border-color);
+        }
+
+        .categories-list a:hover {
+            color: var(--neon-blue);
+        }
+
+        .categories-list span {
+            background: var(--primary-cyan);
+            color: white;
+            padding: 2px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+        }
+
+        .categories-list a:hover span {
+            background: var(--neon-purple);
+            box-shadow: 0 0 10px var(--neon-purple);
+        }
+
+        .popular-posts .sidebar-item {
+            display: flex;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px dashed var(--border-color);
+            transition: transform 0.3s ease;
+        }
+
+        .popular-posts .sidebar-item:hover {
+            transform: translateX(5px);
+        }
+
+        .popular-posts .sidebar-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .popular-thumb {
+            width: 80px;
+            height: 80px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-right: 15px;
+            flex-shrink: 0;
+            position: relative;
+        }
+
+        .popular-thumb::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0, 168, 197, 0.3), transparent);
+            z-index: 1;
+        }
+
+        .popular-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .popular-posts .sidebar-item:hover .popular-thumb img {
+            transform: scale(1.1);
+        }
+
+        .popular-content {
+            flex: 1;
+        }
+
+        .popular-content h4 {
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .popular-posts .sidebar-item:hover .popular-content h4 {
+            color: var(--neon-blue);
+        }
+
+        .popular-content p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .tags-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .tag {
+            background: rgba(58, 198, 224, 0.1);
+            color: var(--text-secondary);
+            padding: 8px 15px;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .tag::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 100%;
+            background: var(--primary-cyan);
+            z-index: -1;
+            transition: width 0.3s ease;
+        }
+
+        .tag:hover {
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 0 15px var(--primary-cyan);
+        }
+
+        .tag:hover::before {
+            width: 100%;
+        }
+
+        .newsletter-form input {
+            width: 100%;
+            padding: 14px 18px;
+            background: rgba(10, 15, 35, 0.5);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            font-family: 'Exo 2', sans-serif;
+            font-size: 1.05rem;
+            transition: all 0.3s ease;
+            color: var(--text-primary);
+            margin-bottom: 15px;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        body.light-theme .newsletter-form input {
+            background: rgba(255, 255, 255, 0.7);
+        }
+
+        .newsletter-form input:focus {
+            outline: none;
+            border-color: var(--neon-blue);
+            box-shadow: 0 0 0 3px rgba(0, 243, 255, 0.3), inset 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .newsletter-form button {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, var(--primary-cyan), var(--secondary-cyan));
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 25px rgba(0, 168, 197, 0.6);
+            cursor: pointer;
+            font-family: 'Exo 2', sans-serif;
+            font-size: 1.1rem;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .newsletter-form button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--secondary-cyan), var(--neon-blue));
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .newsletter-form button:hover::before {
+            opacity: 1;
+        }
+
+        .newsletter-form button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 35px rgba(0, 168, 197, 0.8);
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 60px;
+        }
+
+        .pagination a {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            margin: 0 8px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+            background: var(--card-bg);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .pagination a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary-cyan), var(--secondary-cyan));
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .pagination a:hover, .pagination a.active {
+            color: white;
+            box-shadow: 0 0 15px var(--primary-cyan);
+            transform: translateY(-5px);
+        }
+
+        .pagination a:hover::before, .pagination a.active::before {
+            opacity: 1;
+        }
+
+        /* Featured Category Section */
+        .featured-category {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 5% 80px;
+            opacity: 0;
+            animation: fadeIn 1s forwards 1.5s;
+        }
+
+        .category-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+            color: var(--neon-blue);
+            text-shadow: 0 0 15px rgba(0, 243, 255, 0.5);
+            transition: color 0.5s ease;
+            position: relative;
+            display: inline-block;
+            background: linear-gradient(90deg, var(--primary-cyan), var(--neon-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .category-title::after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-cyan), var(--neon-blue));
+            margin-top: 15px;
+            border-radius: 2px;
+            box-shadow: 0 0 15px var(--primary-cyan);
+            animation: widthGrow 2s infinite alternate;
+        }
+
+        @keyframes widthGrow {
+            0% { width: 100px; }
+            100% { width: 150px; }
+        }
+
+        .category-posts {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        /* Footer amélioré */
+        footer {
+            background: var(--footer-bg);
+            color: var(--text-primary);
+            padding: 100px 5% 60px;
+            text-align: center;
+            position: relative;
+            border-top: 1px solid var(--border-color);
+            transition: all 0.5s ease;
+            clip-path: polygon(0 5%, 100% 0, 100% 100%, 0 100%);
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary-cyan), var(--neon-blue));
+            box-shadow: 0 0 20px var(--primary-cyan);
+            animation: glowMove 3s infinite alternate;
+        }
+
+        @keyframes glowMove {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 50px;
+            text-align: left;
+            margin-bottom: 60px;
+        }
+
+        .footer-column h4 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            margin-bottom: 25px;
+            color: var(--neon-blue);
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .footer-column h4::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--secondary-cyan);
+            border-radius: 2px;
+            box-shadow: 0 0 10px var(--secondary-cyan);
+            animation: widthGrow 2s infinite alternate;
+        }
+
+        .footer-column p {
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            line-height: 1.8;
+            transition: color 0.5s ease;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 15px;
+            transition: transform 0.3s ease;
+        }
+
+        .footer-links li:hover {
+            transform: translateX(5px);
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .footer-links a:hover {
+            color: var(--neon-blue);
+            text-shadow: 0 0 8px var(--neon-blue);
+        }
+
+        .footer-links i {
+            color: var(--neon-blue);
+            text-shadow: 0 0 8px var(--neon-blue);
+        }
+
+        .copyright {
+            padding-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 1400px;
+            margin: 0 auto;
+            transition: color 0.5s ease;
+        }
+
+        /* Animation du curseur */
+        .cursor {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: rgba(0, 243, 255, 0.5);
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 9999;
+            mix-blend-mode: difference;
+            transition: transform 0.1s;
+        }
+
+        .cursor-follower {
+            position: fixed;
+            width: 40px;
+            height: 40px;
+            border: 1px solid rgba(0, 243, 255, 0.3);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 9998;
+            transition: all 0.2s ease;
+        }
+
+        /* Responsive */
+        /* Extra large devices (large desktops, 1200px and up) */
+        @media (min-width: 1200px) {
+            .posts-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .sidebar {
+                display: block;
+            }
+        }
+
+        /* Large devices (desktops, 992px and up) */
+        @media (max-width: 1199px) and (min-width: 992px) {
+            .posts-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .sidebar {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 30px;
+            }
+        }
+
+        /* Medium devices (tablets, 768px and up) */
+        @media (max-width: 991px) and (min-width: 768px) {
+            .blog-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 30px;
+            }
+            
+            .hero {
+                height: 50vh;
+            }
+            
+            .hero h1 {
+                font-size: 3.5rem;
+            }
+        }
+
+        /* Small devices (landscape phones, 576px and up) */
+        @media (max-width: 767px) and (min-width: 576px) {
+            .hero {
+                height: 50vh;
+            }
+            
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+            
+            .posts-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-links {
+                gap: 15px;
+            }
+        }
+
+        /* Extra small devices (portrait phones, less than 576px) */
+        @media (max-width: 575px) {
+            .nav-links {
+                gap: 10px;
+                font-size: 0.9rem;
+            }
+            
+            .logo {
+                font-size: 1.5rem;
+            }
+            
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .hero .subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .post-card {
+                padding: 25px;
+            }
+            
+            .post-content h3 {
+                font-size: 1.5rem;
+            }
+            
+            .post-excerpt {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="cursor"></div>
+    <div class="cursor-follower"></div>
+    <div class="grid-pattern"></div>
+    
+    <header id="header">
+        <nav>
+            <a href="index.html" class="logo">
+                <div class="logo-icon">X</div>
+                Nexora Prime
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="solution.html">Solutions</a></li>
+                <li><a href="innovation.html">Innovation</a></li>
+                <li><a href="vision.html">Vision</a></li>
+                <li><a href="formation.html">Formation</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="blog.html" class="active">Blog</a></li>
+                <li>
+                    <button class="reserve-button" id="reserveButton" aria-label="Changer de style">
+                        <i class="fas fa-exchange-alt"></i> Style
+                    </button>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Blog <strong>IA</strong> & Innovation</h1>
+                <div class="subtitle">L'avenir technologique de l'Afrique</div>
+                <p>Découvrez les dernières avancées en intelligence artificielle, les innovations africaines et les perspectives d'avenir dans notre blog dédié à la révolution technologique.</p>
+            </div>
+        </section>
+
+        <div class="blog-container">
+            <div class="posts-container">
+                <div class="posts-grid">
+                    <!-- Article 1 -->
+                    <article class="post-card">
+                        <div class="post-image">
+                            <img src="https://img.freepik.com/fotos-premium/conceito-de-tecnologia-agricola-agronomo-usando-telefone-movel-na-agricultura-relatorio-de-leitura-de-campo-combinar-tecnologia-de-aprendizagem-de-maquina-de-inteligencia-artificial-5g_808398-770.jpg" alt="IA en Agriculture Africaine">
+                            <div class="post-category">Innovation Africaine</div>
+                        </div>
+                        <div class="post-content">
+                            <div class="post-meta">
+                                <div class="post-date">
+                                    <i class="far fa-calendar"></i> 15 Août 2025
+                                </div>
+                                <div class="post-author">
+                                    <i class="far fa-user"></i> Awa Diop
+                                </div>
+                            </div>
+                            <h3>Comment l'IA transforme l'agriculture en Afrique de l'Ouest</h3>
+                            <p class="post-excerpt">L'intelligence artificielle permet aux agriculteurs africains d'accéder à des outils de prédiction météo et de gestion intelligente de l'irrigation.</p>
+                            <a href="#" class="read-more" data-article="0">Lire la suite <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </article>
+                    
+                    <!-- Article 2 -->
+                    <article class="post-card">
+                        <div class="post-image">
+                            <img src="https://lobservateur.info/observateur/uploads/images/2023/06/26/10609.png" alt="Santé Digitale Africaine">
+                            <div class="post-category">Santé Digitale</div>
+                        </div>
+                        <div class="post-content">
+                            <div class="post-meta">
+                                <div class="post-date">
+                                    <i class="far fa-calendar"></i> 10 Août 2025
+                                </div>
+                                <div class="post-author">
+                                    <i class="far fa-user"></i> Koffi Mensah
+                                </div>
+                            </div>
+                            <h3>Révolutionner la santé en Afrique avec l'intelligence artificielle</h3>
+                            <p class="post-excerpt">Les algorithmes IA de Nexora Prime facilitent le diagnostic médical dans les zones rurales, où l'accès aux médecins est limité.</p>
+                            <a href="#" class="read-more" data-article="1">Lire la suite <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </article>
+                    
+                    <!-- Article 3 -->
+                    <article class="post-card">
+                        <div class="post-image">
+                            <img src="https://tse3.mm.bing.net/th/id/OIP.GX-5m06j0ZBsOTPYfabuDQHaEB?w=1400&h=760&rs=1&pid=ImgDetMain&o=7&rm=3" alt="Éducation Technologique Africaine">
+                            <div class="post-category">Éducation</div>
+                        </div>
+                        <div class="post-content">
+                            <div class="post-meta">
+                                <div class="post-date">
+                                    <i class="far fa-calendar"></i> 5 Août 2025
+                                </div>
+                                <div class="post-author">
+                                    <i class="far fa-user"></i> Fatima Bello
+                                </div>
+                            </div>
+                            <h3>Former la prochaine génération d'experts africains en IA</h3>
+                            <p class="post-excerpt">Le programme académique Nexora Prime vise à former 10 000 jeunes africains aux métiers de l'IA.</p>
+                            <a href="#" class="read-more" data-article="2">Lire la suite <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </article>
+                    
+                    <!-- Article 4 -->
+                    <article class="post-card">
+                        <div class="post-image">
+                            <img src="https://img.freepik.com/photos-gratuite/technicien-afro-americain-verifie-entretien-panneaux-solaires-groupe-trois-ingenieurs-noirs-reunis-station-solaire_627829-4806.jpg" alt="Énergie Renouvelable Africaine">
+                            <div class="post-category">Énergie Durable</div>
+                        </div>
+                        <div class="post-content">
+                            <div class="post-meta">
+                                <div class="post-date">
+                                    <i class="far fa-calendar"></i> 28 Juillet 2025
+                                </div>
+                                <div class="post-author">
+                                    <i class="far fa-user"></i> Samuel Okafor
+                                </div>
+                            </div>
+                            <h3>IA et énergie renouvelable : le duo gagnant pour l'Afrique</h3>
+                            <p class="post-excerpt">L'IA optimise la production et la distribution d'énergie renouvelable dans les villes africaines.</p>
+                            <a href="#" class="read-more" data-article="3">Lire la suite <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </article>
+                    
+                    <!-- Article 5 -->
+                    <article class="post-card">
+                        <div class="post-image">
+                            <img src="https://cdn.slidesharecdn.com/ss_thumbnails/fintechinafrica-230218173813-af75e2ca-thumbnail.jpg?width=640&height=640&fit=bounds" alt="Fintech Africaine">
+                            <div class="post-category">Fintech</div>
+                        </div>
+                        <div class="post-content">
+                            <div class="post-meta">
+                                <div class="post-date">
+                                    <i class="far fa-calendar"></i> 20 Juillet 2025
+                                </div>
+                                <div class="post-author">
+                                    <i class="far fa-user"></i> Jean Kabore
+                                </div>
+                            </div>
+                            <h3>L'avenir des services bancaires en Afrique grâce à l'IA</h3>
+                            <p class="post-excerpt">La fintech africaine se transforme grâce à l'IA : services bancaires personnalisés, sécurité renforcée.</p>
+                            <a href="#" class="read-more" data-article="4">Lire la suite <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </article>
+                    
+                    <!-- Article 6 -->
+                    <article class="post-card">
+                        <div class="post-image">
+                            <img src="https://www.telecomreviewafrica.com/images/stories/2023/06/Ethio_telecom.jpg" alt="Villes Intelligentes Africaines">
+                            <div class="post-category">Villes Intelligentes</div>
+                        </div>
+                        <div class="post-content">
+                            <div class="post-meta">
+                                <div class="post-date">
+                                    <i class="far fa-calendar"></i> 15 Juillet 2025
+                                </div>
+                                <div class="post-author">
+                                    <i class="far fa-user"></i> Aminata Diallo
+                                </div>
+                            </div>
+                            <h3>Construire les villes intelligentes de demain en Afrique</h3>
+                            <p class="post-excerpt">Les solutions IA de Nexora Prime améliorent la gestion urbaine : transports, sécurité, services publics.</p>
+                            <a href="#" class="read-more" data-article="5">Lire la suite <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </article>
+                </div>
+
+                <div class="pagination">
+                    <a href="#" class="active">1</a>
+                    <a href="#">2</a>
+                    <a href="#">3</a>
+                    <a href="#"><i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+
+            <div class="sidebar">
+                <!-- Widget Catégories -->
+                <div class="sidebar-widget">
+                    <h3 class="sidebar-title">Catégories</h3>
+                    <ul class="categories-list">
+                        <li><a href="#">Innovation Africaine <span>12</span></a></li>
+                        <li><a href="#">Santé Digitale <span>8</span></a></li>
+                        <li><a href="#">Éducation <span>15</span></a></li>
+                        <li><a href="#">Fintech <span>7</span></a></li>
+                        <li><a href="#">Énergie Durable <span>9</span></a></li>
+                        <li><a href="#">Villes Intelligentes <span>6</span></a></li>
+                        <li><a href="#">Éthique de l'IA <span>5</span></a></li>
+                    </ul>
+                </div>
+
+                <!-- Widget Articles Populaires -->
+                <div class="sidebar-widget">
+                    <h3 class="sidebar-title">Articles Populaires</h3>
+                    <div class="popular-posts">
+                        <div class="sidebar-item">
+                            <div class="popular-thumb">
+                                <img src="https://img.freepik.com/fotos-premium/conceito-de-tecnologia-agricola-agronomo-usando-telefone-movel-na-agricultura-relatorio-de-leitura-de-campo-combinar-tecnologia-de-aprendizagem-de-maquina-de-inteligencia-artificial-5g_808398-770.jpg" alt="IA en Agriculture Africaine">
+                            </div>
+                            <div class="popular-content">
+                                <h4>L'IA au service du développement durable</h4>
+                                <p>5 min de lecture</p>
+                            </div>
+                        </div>
+                        <div class="sidebar-item">
+                            <div class="popular-thumb">
+                                <img src="https://lobservateur.info/observateur/uploads/images/2023/06/26/10609.png" alt="Santé Digitale Africaine">
+                            </div>
+                            <div class="popular-content">
+                                <h4>Les 10 innovations africaines à suivre</h4>
+                                <p>8 min de lecture</p>
+                            </div>
+                        </div>
+                        <div class="sidebar-item">
+                            <div class="popular-thumb">
+                                <img src="https://tse3.mm.bing.net/th/id/OIP.GX-5m06j0ZBsOTPYfabuDQHaEB?w=1400&h=760&rs=1&pid=ImgDetMain&o=7&rm=3" alt="Éducation Technologique Africaine">
+                            </div>
+                            <div class="popular-content">
+                                <h4>Comment l'Afrique forme ses experts en IA</h4>
+                                <p>6 min de lecture</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Widget Tags -->
+                <div class="sidebar-widget">
+                    <h3 class="sidebar-title">Mots-clés</h3>
+                    <div class="tags-container">
+                        <div class="tag">IA Africaine</div>
+                        <div class="tag">Technologie</div>
+                        <div class="tag">Innovation</div>
+                        <div class="tag">Santé</div>
+                        <div class="tag">Éducation</div>
+                        <div class="tag">Agriculture</div>
+                        <div class="tag">Fintech</div>
+                        <div class="tag">Développement</div>
+                    </div>
+                </div>
+
+                <!-- Widget Newsletter -->
+                <div class="sidebar-widget">
+                    <h3 class="sidebar-title">Newsletter</h3>
+                    <p>Recevez les dernières actualités sur l'IA en Afrique directement dans votre boîte mail.</p>
+                    <form class="newsletter-form">
+                        <input type="email" placeholder="Votre adresse email" required>
+                        <button type="submit">S'abonner</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Featured Category Section -->
+        <section class="featured-category">
+            <h2 class="category-title">Focus: Éthique de l'IA</h2>
+            <div class="category-posts">
+                <article class="post-card">
+                    <div class="post-image">
+                        <img src="https://images.unsplash.com/photo-1584432412203-a7f3b9929cb5?q=80&w=1632&auto=format&fit=crop" alt="Éthique de l'IA en Afrique">
+                        <div class="post-category">Éthique</div>
+                    </div>
+                    <div class="post-content">
+                        <div class="post-meta">
+                            <div class="post-date">
+                                <i class="far fa-calendar"></i> 10 Juillet 2025
+                            </div>
+                        </div>
+                        <h3>Encadrement éthique des intelligences artificielles en Afrique</h3>
+                        <p class="post-excerpt">L'Afrique développe ses propres cadres éthiques pour l'IA, respectueux des valeurs culturelles locales.</p>
+                        <a href="#" class="read-more">Lire la suite <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </article>
+                
+                <article class="post-card">
+                    <div class="post-image">
+                        <img src="https://images.unsplash.com/photo-1586773860418-d37222d8fce2?q=80&w=1632&auto=format&fit=crop" alt="Protection des données africaines">
+                        <div class="post-category">Sécurité</div>
+                    </div>
+                    <div class="post-content">
+                        <div class="post-meta">
+                            <div class="post-date">
+                                <i class="far fa-calendar"></i> 3 Juillet 2025
+                            </div>
+                        </div>
+                        <h3>Protection des données dans l'écosystème IA africain</h3>
+                        <p class="post-excerpt">Les startups africaines développent des solutions de chiffrement adaptées aux réalités locales.</p>
+                        <a href="#" class="read-more">Lire la suite <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </article>
+                
+                <article class="post-card">
+                    <div class="post-image">
+                        <img src="https://images.unsplash.com/photo-1523580494863-6f3031224c94?q=80&w=1632&auto=format&fit=crop" alt="IA inclusive en Afrique">
+                        <div class="post-category">Inclusion</div>
+                    </div>
+                    <div class="post-content">
+                        <div class="post-meta">
+                            <div class="post-date">
+                                <i class="far fa-calendar"></i> 28 Juin 2025
+                            </div>
+                        </div>
+                        <h3>L'IA inclusive : réduire la fracture numérique</h3>
+                        <p class="post-excerpt">Des projets communautaires rendent l'IA accessible aux populations rurales et défavorisées.</p>
+                        <a href="#" class="read-more">Lire la suite <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </article>
+            </div>
+        </section>
+    </main>
+    <!-- Modal Bloc Info -->
+    <div id="modalInfo" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(20,25,60,0.85);z-index:99999;align-items:center;justify-content:center;">
+        <div style="background:var(--card-bg);border-radius:20px;max-width:800px;width:90vw;padding:40px;box-shadow:0 8px 40px #00a8c5;position:relative;">
+            <button id="closeModal" style="position:absolute;top:15px;right:15px;background:none;border:none;font-size:2rem;color:var(--neon-blue);cursor:pointer;">&times;</button>
+            <div id="modalContent"></div>
+        </div>
+    </div>
+            
+    <!-- Newsletter Signup Modal -->
+    <div id="newsletterModal" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(20,25,60,0.85);z-index:99999;align-items:center;justify-content:center;">
+        <div style="background:var(--card-bg);border-radius:20px;max-width:500px;width:90vw;padding:40px;box-shadow:0 8px 40px #00a8c5;position:relative;">
+            <button id="closeNewsletterModal" style="position:absolute;top:15px;right:15px;background:none;border:none;font-size:2rem;color:var(--neon-blue);cursor:pointer;">&times;</button>
+            <h2 style="color:var(--neon-blue);margin-bottom:20px;">Abonnez-vous à notre newsletter</h2>
+            <p style="color:var(--text-secondary);margin-bottom:20px;">Recevez les dernières actualités sur l'IA en Afrique directement dans votre boîte mail.</p>
+            <form id="newsletterForm">
+                <input type="email" placeholder="Votre adresse email" required style="width:100%;padding:14px 18px;background:rgba(10,15,35,0.5);border:1px solid var(--border-color);border-radius:10px;font-family:'Exo 2',sans-serif;font-size:1.05rem;transition:all 0.3s ease;color:var(--text-primary);margin-bottom:15px;box-shadow:inset 0 0 10px rgba(0,0,0,0.1);">
+                <button type="submit" style="width:100%;padding:14px;background:linear-gradient(135deg,var(--primary-cyan),var(--secondary-cyan));color:white;border:none;border-radius:10px;font-weight:600;transition:all 0.3s ease;box-shadow:0 0 25px rgba(0,168,197,0.6);cursor:pointer;font-family:'Exo 2',sans-serif;font-size:1.1rem;position:relative;overflow:hidden;z-index:1;border:1px solid rgba(255,255,255,0.3);">S'abonner</button>
+            </form>
+        </div>
+    </div>
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h4>Nexora Prime</h4>
+                <p>L'intelligence artificielle au service de l'innovation africaine. Nous développons des solutions technologiques avancées pour transformer l'Afrique et inspirer le monde.</p>
+            </div>
+            <div class="footer-column">
+                <h4>Liens rapides</h4>
+                <ul class="footer-links">
+                    <li><a href="index.html"><i class="fas fa-chevron-right"></i> Accueil</a></li>
+                    <li><a href="solutions.html"><i class="fas fa-chevron-right"></i> Solutions</a></li>
+                    <li><a href="innovation.html"><i class="fas fa-chevron-right"></i> Innovation</a></li>
+                    <li><a href="blog.html"><i class="fas fa-chevron-right"></i> Blog</a></li>
+                    <li><a href="contact.html"><i class="fas fa-chevron-right"></i> Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Catégories du Blog</h4>
+                <ul class="footer-links">
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Innovation Africaine</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Santé Digitale</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Éducation Technologique</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Fintech</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Énergie Durable</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            &copy; 2025 Nexora Prime. Tous droits réservés. L'élite des savoirs Tech africain entre vos mains.
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Articles avec informations réelles sur l'innovation technologique africaine
+            const articles = [
+                {
+                    title: "IA et diagnostic médical : la révolution africaine",
+                    excerpt: "Les algorithmes IA de Nexora Prime facilitent le diagnostic médical dans les zones rurales, où l'accès aux médecins est limité. Cette innovation réduit la mortalité et améliore la qualité de vie.",
+                    content: "L'intelligence artificielle révolutionne le secteur de la santé en Afrique. Des startups comme Ubenwa au Nigeria utilisent l'IA pour détecter l'asphyxie à la naissance, tandis que Vula Mobile en Afrique du Sud connecte les médecins avec les travailleurs de santé ruraux. Ces innovations permettent un diagnostic précoce des maladies comme le paludisme, la tuberculose et d'autres pathologies endémiques. Grâce à l'IA, les patients bénéficient d'une détection précoce et d'un suivi personnalisé, réduisant ainsi la mortalité et améliore la qualité de vie. Nexora Prime développe des algorithmes spécifiquement adaptés aux réalités médicales africaines, formant également le personnel médical aux technologies de demain."
+                },
+                {
+                    title: "Révolutionner la santé en Afrique avec l'intelligence artificielle",
+                    excerpt: "Les algorithmes IA de Nexora Prime facilitent le diagnostic médical dans les zones rurales, où l'accès aux médecins est limité. Les patients bénéficient d'une détection précoce des maladies et d'un suivi personnalisé.",
+                    content: "Les algorithmes IA de Nexora Prime facilitent le diagnostic médical dans les zones rurales, où l'accès aux médecins est limité. Les patients bénéficient d'une détection précoce des maladies et d'un suivi personnalisé. Cette innovation réduit la mortalité et améliore la qualité de vie, tout en formant le personnel médical aux technologies de demain."
+                },
+                {
+                    title: "Former la prochaine génération d'experts africains en IA",
+                    excerpt: "Le programme académique Nexora Prime vise à former 10 000 jeunes africains aux métiers de l'IA. Les cours sont adaptés aux réalités locales et encouragent l'innovation.",
+                    content: "Le programme académique Nexora Prime vise à former 10 000 jeunes africains aux métiers de l'IA. Les cours sont adaptés aux réalités locales et encouragent l'innovation. Les diplômés deviennent des acteurs majeurs du développement technologique sur le continent, créant des solutions pour l'éducation, la santé et l'industrie."
+                },
+                {
+                    title: "IA et énergie renouvelable : le duo gagnant pour l'Afrique",
+                    excerpt: "L'IA optimise la production et la distribution d'énergie renouvelable dans les villes africaines. Les réseaux intelligents réduisent la consommation, favorisent l'accès à l'électricité et soutiennent la transition écologique.",
+                    content: "L'IA optimise la production et la distribution d'énergie renouvelable dans les villes africaines. Les réseaux intelligents réduisent la consommation, favorisent l'accès à l'électricité et soutiennent la transition écologique. Nexora Prime accompagne les municipalités dans la gestion durable de leurs ressources énergétiques."
+                },
+                {
+                    title: "L'avenir des services bancaires en Afrique grâce à l'IA",
+                    excerpt: "La fintech africaine se transforme grâce à l'IA : services bancaires personnalisés, sécurité renforcée, accès facilité pour les populations non bancarisées.",
+                    content: "La fintech africaine se transforme grâce à l'IA : services bancaires personnalisés, sécurité renforcée, accès facilité pour les populations non bancarisées. Nexora Prime propose une plateforme innovante qui favorise l'inclusion financière et stimule l'entrepreneuriat local."
+                },
+                {
+                    title: "Construire les villes intelligentes de demain en Afrique",
+                    excerpt: "Les solutions IA de Nexora Prime améliorent la gestion urbaine : transports, sécurité, services publics. Les villes africaines deviennent plus connectées, efficaces et résilientes.",
+                    content: "Les solutions IA de Nexora Prime améliorent la gestion urbaine : transports, sécurité, services publics. Les villes africaines deviennent plus connectées, efficaces et résilientes, offrant un cadre de vie moderne à leurs habitants tout en respectant l'environnement."
+                },
+                {
+                    title: "Encadrement éthique des intelligences artificielles en Afrique",
+                    excerpt: "L'Afrique développe ses propres cadres éthiques pour l'IA, respectueux des valeurs culturelles locales. Ces initiatives garantissent un développement responsable de l'IA.",
+                    content: "L'Afrique développe ses propres cadres éthiques pour l'IA, respectueux des valeurs culturelles locales. Ces initiatives garantissent un développement responsable de l'IA, en tenant compte des spécificités culturelles, sociales et économiques du continent. Des comités d'éthique sont mis en place pour encadrer les projets d'IA et veiller à leur impact positif sur les communautés locales."
+                },
+                {
+                    title: "Protection des données dans l'écosystème IA africain",
+                    excerpt: "Les startups africaines développent des solutions de chiffrement adaptées aux réalités locales. La protection des données est une priorité pour garantir la confiance des utilisateurs.",
+                    content: "Les startups africaines développent des solutions de chiffrement adaptées aux réalités locales. La protection des données est une priorité pour garantir la confiance des utilisateurs. Des réglementations spécifiques sont mises en place pour encadrer l'utilisation des données personnelles dans les projets d'IA, assurant ainsi la protection de la vie privée des citoyens africains."
+                },
+                {
+                    title: "L'IA inclusive : réduire la fracture numérique",
+                    excerpt: "Des projets communautaires rendent l'IA accessible aux populations rurales et défavorisées. L'inclusion numérique est essentielle pour un développement équitable.",
+                    content: "Des projets communautaires rendent l'IA accessible aux populations rurales et défavorisées. L'inclusion numérique est essentielle pour un développement équitable. Des centres de formation sont créés dans les zones rurales pour initier les populations aux technologies de l'IA, favorisant ainsi l'autonomisation et l'entrepreneuriat local."
+                }
+            ];
+            
+            // Mettre à jour les extraits dans les cartes d'articles
+            document.querySelectorAll('.post-card').forEach((card, index) => {
+                if (articles[index]) {
+                    const excerptElement = card.querySelector('.post-excerpt');
+                    if (excerptElement) {
+                        excerptElement.textContent = articles[index].excerpt;
+                    }
+                }
+            });
+            
+            const modal = document.getElementById('modalInfo');
+            const modalContent = document.getElementById('modalContent');
+            const closeModal = document.getElementById('closeModal');
+            
+            document.querySelectorAll('.read-more[data-article]').forEach((btn, index) => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const article = articles[index];
+                    if (article) {
+                        modalContent.innerHTML = `
+                            <h2 style='color:var(--neon-blue);margin-bottom:20px;'>${article.title}</h2>
+                            <p style='color:var(--text-secondary);font-size:1.15rem;line-height:1.7;'>${article.content}</p>
+                            <div style='margin-top:20px;padding:15px;background:rgba(0,168,197,0.1);border-radius:10px;'>
+                                <h3 style='color:var(--neon-blue);margin-bottom:10px;'>Dernières actualités</h3>
+                                <p style='color:var(--text-secondary);font-size:1rem;margin-bottom:10px;'><strong>15 Septembre 2025:</strong> Un nouveau projet d'IA pour la santé rurale lancé au Sénégal</p>
+                                <p style='color:var(--text-secondary);font-size:1rem;margin-bottom:10px;'><strong>10 Septembre 2025:</strong> Lancement d'un programme de formation en IA à l'Université de Nairobi</p>
+                                <p style='color:var(--text-secondary);font-size:1rem;'><strong>5 Septembre 2025:</strong> Une startup nigériane développe des drones agricoles intelligents</p>
+                            </div>
+                        `;
+                        modal.style.display = 'flex';
+                    }
+                });
+            });
+            
+            // Gérer les boutons "Lire la suite" sans attribut data-article
+            document.querySelectorAll('.read-more:not([data-article])').forEach((btn, index) => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    // Utiliser les index 6, 7, 8 pour les articles de la section "Focus: Éthique de l'IA"
+                    const articleIndex = 6 + index;
+                    const article = articles[articleIndex];
+                    if (article) {
+                        modalContent.innerHTML = `
+                            <h2 style='color:var(--neon-blue);margin-bottom:20px;'>${article.title}</h2>
+                            <p style='color:var(--text-secondary);font-size:1.15rem;line-height:1.7;'>${article.content}</p>
+                            <div style='margin-top:20px;padding:15px;background:rgba(0,168,197,0.1);border-radius:10px;'>
+                                <h3 style='color:var(--neon-blue);margin-bottom:10px;'>Dernières actualités</h3>
+                                <p style='color:var(--text-secondary);font-size:1rem;margin-bottom:10px;'><strong>15 Septembre 2025:</strong> Un nouveau projet d'IA pour la santé rurale lancé au Sénégal</p>
+                                <p style='color:var(--text-secondary);font-size:1rem;margin-bottom:10px;'><strong>10 Septembre 2025:</strong> Lancement d'un programme de formation en IA à l'Université de Nairobi</p>
+                                <p style='color:var(--text-secondary);font-size:1rem;'><strong>5 Septembre 2025:</strong> Une startup nigériane développe des drones agricoles intelligents</p>
+                            </div>
+                        `;
+                        modal.style.display = 'flex';
+                    }
+                });
+            });
+            
+            closeModal.addEventListener('click', function() {
+                modal.style.display = 'none';
+            });
+            
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) modal.style.display = 'none';
+            });
+            
+            // Fonctionnalité de newsletter
+            const newsletterModal = document.getElementById('newsletterModal');
+            const closeNewsletterModal = document.getElementById('closeNewsletterModal');
+            const newsletterForm = document.getElementById('newsletterForm');
+            
+            // Ajouter un événement au formulaire de newsletter de la sidebar
+            const sidebarNewsletterForm = document.querySelector('.newsletter-form');
+            if (sidebarNewsletterForm) {
+                sidebarNewsletterForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    newsletterModal.style.display = 'flex';
+                });
+            }
+            
+            closeNewsletterModal.addEventListener('click', function() {
+                newsletterModal.style.display = 'none';
+            });
+            
+            newsletterModal.addEventListener('click', function(e) {
+                if (e.target === newsletterModal) newsletterModal.style.display = 'none';
+            });
+            
+            if (newsletterForm) {
+                newsletterForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const email = newsletterForm.querySelector('input[type=email]').value;
+                    if (email) {
+                        // Animation de succès
+                        const submitButton = newsletterForm.querySelector('button');
+                        const originalText = submitButton.textContent;
+                        submitButton.textContent = 'Inscription réussie !';
+                        submitButton.style.background = 'linear-gradient(135deg, #00c58e, #00d1a9)';
+                        
+                        // Sauvegarder l'abonnement dans localStorage
+                        const subscribers = JSON.parse(localStorage.getItem('newsletterSubscribers') || '[]');
+                        if (!subscribers.includes(email)) {
+                            subscribers.push(email);
+                            localStorage.setItem('newsletterSubscribers', JSON.stringify(subscribers));
+                        }
+                        
+                        setTimeout(() => {
+                            newsletterModal.style.display = 'none';
+                            submitButton.textContent = originalText;
+                            submitButton.style.background = 'linear-gradient(135deg, var(--primary-cyan), var(--secondary-cyan))';
+                            newsletterForm.reset();
+                            
+                            // Afficher un message de confirmation
+                            alert(`Merci pour votre abonnement ! Vous recevrez les dernières actualités africaines sur ${email}`);
+                        }, 2000);
+                    }
+                });
+            }
+            
+            // Fonctionnalité de catégories
+            document.querySelectorAll('.categories-list a').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const category = this.textContent.split(' ')[0];
+                    alert(`Filtrage par catégorie : ${category}`);
+                    // Ici, vous pouvez implémenter le filtrage réel des articles par catégorie
+                    
+                    // Animation de feedback visuel
+                    this.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        this.style.transform = '';
+                    }, 300);
+                });
+            });
+            
+            // Ajouter des effets hover aux cartes d'articles
+            document.querySelectorAll('.post-card').forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-10px)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = '';
+                });
+            });
+            
+            // Ajouter des effets aux boutons de pagination
+            document.querySelectorAll('.pagination a').forEach(button => {
+                button.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-5px)';
+                });
+                
+                button.addEventListener('mouseleave', function() {
+                    this.style.transform = '';
+                });
+            });
+            
+            // Fonctionnalité de tags
+            document.querySelectorAll('.tag').forEach(tag => {
+                tag.addEventListener('click', function() {
+                    const tagText = this.textContent;
+                    alert(`Recherche par tag : ${tagText}`);
+                    // Ici, vous pouvez implémenter la recherche par tags
+                });
+            });
+            
+            // Fonctionnalité de pagination
+            document.querySelectorAll('.pagination a').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    if (!this.classList.contains('active')) {
+                        document.querySelector('.pagination a.active').classList.remove('active');
+                        this.classList.add('active');
+                        alert(`Page ${this.textContent} sélectionnée`);
+                        // Ici, vous pouvez implémenter le chargement réel des articles de la page
+                    }
+                });
+            });
+            
+            // Simuler des mises à jour hebdomadaires
+            function updateWeeklyContent() {
+                const now = new Date();
+                const lastUpdate = localStorage.getItem('lastBlogUpdate');
+                
+                // Si aucune mise à jour ou si plus d'une semaine depuis la dernière mise à jour
+                if (!lastUpdate || (now - new Date(lastUpdate)) > 7 * 24 * 60 * 60 * 1000) {
+                    // Mettre à jour le contenu avec de nouvelles informations
+                    const updateNotice = document.createElement('div');
+                    updateNotice.innerHTML = `
+                        <div style="position:fixed;top:20px;right:20px;background:linear-gradient(135deg,var(--primary-cyan),var(--neon-blue));color:white;padding:15px;border-radius:10px;box-shadow:0 5px 15px rgba(0,0,0,0.3);z-index:10000;max-width:300px;">
+                            <h4 style="margin:0 0 10px 0;"><i class="fas fa-bell"></i> Nouvelles mises à jour !</h4>
+                            <p style="margin:0;font-size:0.9rem;">De nouveaux articles sur l'innovation africaine sont disponibles.</p>
+                            <button onclick="this.parentElement.style.display='none'" style="background:white;color:var(--primary-cyan);border:none;padding:5px 10px;border-radius:5px;margin-top:10px;cursor:pointer;font-weight:bold;">Fermer</button>
+                        </div>
+                    `;
+                    document.body.appendChild(updateNotice);
+                    
+                    // Enregistrer la date de la mise à jour
+                    localStorage.setItem('lastBlogUpdate', now.toISOString());
+                }
+            }
+            
+            // Appeler la fonction de mise à jour au chargement de la page
+            updateWeeklyContent();
+            
+            // Ajouter un bouton de mise à jour manuelle
+            const updateButton = document.createElement('button');
+            updateButton.innerHTML = '<i class="fas fa-sync-alt"></i> Mettre à jour';
+            updateButton.className = 'theme-toggle';
+            updateButton.style.marginLeft = '10px';
+            updateButton.setAttribute('aria-label', 'Mettre à jour');
+            
+            updateButton.addEventListener('click', function() {
+                updateWeeklyContent();
+                alert('Contenu mis à jour avec les dernières actualités africaines !');
+            });
+            
+            if (document.querySelector('.nav-links')) {
+                document.querySelector('.nav-links').insertBefore(updateButton, document.querySelector('.nav-links').lastChild);
+            }
+            const header = document.getElementById('header');
+            const themeToggle = document.getElementById('themeToggle');
+            const themeIcon = themeToggle.querySelector('i');
+            
+            // Vérifier la préférence de thème dans localStorage
+            const currentTheme = localStorage.getItem('theme') || 'dark';
+            if (currentTheme === 'light') {
+                document.body.classList.add('light-theme');
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+            }
+            
+            // Basculer le thème au clic
+            themeToggle.addEventListener('click', function() {
+                document.body.classList.toggle('light-theme');
+                
+                if (document.body.classList.contains('light-theme')) {
+                    localStorage.setItem('theme', 'light');
+                    themeIcon.classList.remove('fa-moon');
+                    themeIcon.classList.add('fa-sun');
+                } else {
+                    localStorage.setItem('theme', 'dark');
+                    themeIcon.classList.remove('fa-sun');
+                    themeIcon.classList.add('fa-moon');
+                }
+            });
+            
+            // Fonctionnalité de recherche dans la barre de navigation
+            const searchButton = document.createElement('button');
+            searchButton.innerHTML = '<i class="fas fa-search"></i>';
+            searchButton.className = 'theme-toggle';
+            searchButton.style.marginLeft = '10px';
+            searchButton.setAttribute('aria-label', 'Rechercher');
+            
+            searchButton.addEventListener('click', function() {
+                const searchTerm = prompt('Entrez votre recherche :');
+                if (searchTerm) {
+                    alert(`Recherche pour : ${searchTerm}`);
+                    // Ici, vous pouvez implémenter la recherche réelle
+                }
+            });
+            
+            if (document.querySelector('.nav-links')) {
+                document.querySelector('.nav-links').insertBefore(searchButton, themeToggle.nextSibling);
+            }
+            
+            // Effet de curseur personnalisé
+            const cursor = document.querySelector('.cursor');
+            const cursorFollower = document.querySelector('.cursor-follower');
+            
+            document.addEventListener('mousemove', function(e) {
+                cursor.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
+                
+                setTimeout(() => {
+                    cursorFollower.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
+                }, 100);
+            });
+            
+            // Animation des liens au survol
+            const links = document.querySelectorAll('a, button, .tag');
+            
+            links.forEach(link => {
+                link.addEventListener('mouseenter', () => {
+                    cursor.style.transform = 'scale(1.5)';
+                    cursor.style.backgroundColor = 'rgba(0, 243, 255, 0.8)';
+                    cursorFollower.style.transform = 'scale(1.8)';
+                });
+                
+                link.addEventListener('mouseleave', () => {
+                    cursor.style.transform = 'scale(1)';
+                    cursor.style.backgroundColor = 'rgba(0, 243, 255, 0.5)';
+                    cursorFollower.style.transform = 'scale(1)';
+                });
+            });
+            
+            // Animation de défilement du header
+            let lastScroll = 0;
+            
+            window.addEventListener('scroll', () => {
+                const currentScroll = window.pageYOffset;
+                
+                if (currentScroll > 100 && currentScroll > lastScroll) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                    header.classList.add('active');
+                }
+                
+                lastScroll = currentScroll;
+            });
+            
+            // Effet de particules amélioré
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            canvas.style.position = 'fixed';
+            canvas.style.top = '0';
+            canvas.style.left = '0';
+            canvas.style.zIndex = '-1';
+            document.body.appendChild(canvas);
+            
+            const particles = [];
+            const particleCount = 150;
+            
+            class Particle {
+                constructor() {
+                    this.x = Math.random() * canvas.width;
+                    this.y = Math.random() * canvas.height;
+                    this.size = Math.random() * 2 + 0.5;
+                    this.speedX = (Math.random() - 0.5) * 0.5;
+                    this.speedY = (Math.random() - 0.5) * 0.5;
+                    this.color = `rgba(58, 198, 224, ${Math.random() * 0.5 + 0.1})`;
+                    this.alpha = Math.random() * 0.5 + 0.1;
+                }
+                
+                update() {
+                    this.x += this.speedX;
+                    this.y += this.speedY;
+                    
+                    if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+                    if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+                    
+                    // Faire pulser les particules
+                    this.size += Math.sin(Date.now() * 0.001) * 0.05;
+                }
+                
+                draw() {
+                    ctx.fillStyle = this.color;
+                    ctx.globalAlpha = this.alpha;
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.globalAlpha = 1;
+                }
+            }
+            
+            function initParticles() {
+                for (let i = 0; i < particleCount; i++) {
+                    particles.push(new Particle());
+                }
+            }
+            
+            function animateParticles() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                
+                for (let i = 0; i < particles.length; i++) {
+                    particles[i].update();
+                    particles[i].draw();
+                    
+                    // Connect particles
+                    for (let j = i; j < particles.length; j++) {
+                        const dx = particles[i].x - particles[j].x;
+                        const dy = particles[i].y - particles[j].y;
+                        const distance = Math.sqrt(dx * dx + dy * dy);
+                        
+                        if (distance < 100) {
+                            ctx.beginPath();
+                            ctx.strokeStyle = `rgba(58, 198, 224, ${0.1 * (1 - distance/100)})`;
+                            ctx.lineWidth = 0.2;
+                            ctx.moveTo(particles[i].x, particles[i].y);
+                            ctx.lineTo(particles[j].x, particles[j].y);
+                            ctx.stroke();
+                        }
+                    }
+                }
+                
+                requestAnimationFrame(animateParticles);
+            }
+            
+            initParticles();
+            animateParticles();
+            
+            // Redimensionnement du canvas
+            window.addEventListener('resize', function() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            });
+            
+            // Fonctionnalité du bouton reserve (changement de style)
+            const reserveButton = document.getElementById('reserveButton');
+            if (reserveButton) {
+                reserveButton.addEventListener('click', () => {
+                    // Apply glass morphing transition
+                    const overlay = document.createElement('div');
+                    overlay.style.cssText = `
+                        position: fixed;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        background: rgba(0, 168, 197, 0.2);
+                        backdrop-filter: blur(10px);
+                        z-index: 9999;
+                        opacity: 0;
+                        transition: all 3s ease;
+                        pointer-events: none;
+                    `;
+                    
+                    document.body.appendChild(overlay);
+                    
+                    // Start transition
+                    setTimeout(() => {
+                        overlay.style.opacity = '1';
+                        
+                        // Apply morphing effect
+                        overlay.style.transform = 'scale(1.1)';
+                        overlay.style.borderRadius = '50%';
+                        
+                        // Get current page and redirect to its pair
+                        const currentPage = window.location.pathname.split('/').pop();
+                        const pagePairs = {
+                            'blog.html': 'blog2.html',
+                            'contact.html': 'contact2.html',
+                            'solution.html': 'solu2.html',
+                            'index.html': 'Nexora2.html',
+                            'formation.html': 'formation2.html',
+                            'vision.html': 'vision2.html',
+                            'innovation.html': 'innov2.html'
+                        };
+                        
+                        const targetPage = pagePairs[currentPage] || 
+                                          Object.keys(pagePairs).find(key => pagePairs[key] === currentPage);
+                        
+                        setTimeout(() => {
+                            if (targetPage) {
+                                window.location.href = targetPage;
+                            }
+                        }, 3000);
+                    }, 100);
+                });
+            }
+        });
+    </script>
+</body>
+</html>

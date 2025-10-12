@@ -1,0 +1,1586 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog - Nexora Prime</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --dark-bg: #0a0a1a;
+            --darker-bg: #050510;
+            --card-bg: #15152b;
+            --primary-blue: #2563eb;
+            --neon-blue: #3b82f6;
+            --light-blue: #93c5fd;
+            --accent-cyan: #06b6d4;
+            --text-light: #f8fafc;
+            --text-muted: #cbd5e1;
+            --border-color: #334155;
+            --gradient-start: #1e40af;
+            --gradient-end: #0ea5e9;
+            
+            /* Variables pour le mode clair */
+            --light-bg: #ffffff;
+            --lighter-bg: #f8fafc;
+            --light-card-bg: #ffffff;
+            --light-text: #1f2937;
+            --light-text-muted: #6b7280;
+            --light-border: #e5e7eb;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text-light);
+            line-height: 1.6;
+            overflow-x: hidden;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* Mode clair */
+        body.light-theme {
+            background-color: var(--light-bg);
+            color: var(--light-text);
+        }
+
+        body.light-theme .grid-pattern {
+            background-image: 
+                linear-gradient(rgba(220, 220, 220, 0.7) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(220, 220, 220, 0.7) 1px, transparent 1px);
+        }
+
+        body.light-theme #header {
+            background: rgba(255, 255, 255, 0.8);
+            border-bottom: 1px solid var(--light-border);
+        }
+
+        body.light-theme .logo {
+            color: var(--light-text);
+        }
+
+        body.light-theme .nav-links a {
+            color: var(--light-text-muted);
+        }
+
+        body.light-theme .nav-links a:hover, 
+        body.light-theme .nav-links a.active {
+            color: var(--light-text);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Pattern de fond */
+        .grid-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(18, 18, 38, 0.9) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(18, 18, 38, 0.9) 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: -3;
+            opacity: 0.3;
+            transition: background-image 0.3s ease;
+        }
+
+        /* Particules d'arrière-plan */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            background-color: var(--neon-blue);
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: floatParticle 15s infinite linear;
+        }
+
+        @keyframes floatParticle {
+            0% {
+                transform: translateY(0) translateX(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.3;
+            }
+            90% {
+                opacity: 0.2;
+            }
+            100% {
+                transform: translateY(-100vh) translateX(100vw);
+                opacity: 0;
+            }
+        }
+
+        /* Header et Navigation */
+        #header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10, 10, 26, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            z-index: 1000;
+            transition: background 0.3s ease, border-color 0.3s ease;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--text-light);
+            transition: color 0.3s ease;
+        }
+
+        .logo-icon {
+            position: relative;
+            width: 60px;
+            height: 60px;
+            margin-right: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            color: var(--neon-blue);
+            background: rgba(59, 130, 246, 0.1);
+            border-radius: 12px;
+            overflow: hidden;
+            font-size: 2.5rem;
+        }
+
+        .logo-icon::before {
+            content: '';
+            position: absolute;
+            width: 150%;
+            height: 150%;
+            background: conic-gradient(transparent, transparent, transparent, var(--neon-blue));
+            animation: animateX 4s linear infinite;
+        }
+
+        .logo-icon::after {
+            content: '';
+            position: absolute;
+            inset: 2px;
+            background: var(--darker-bg);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        body.light-theme .logo-icon::after {
+            background: var(--lighter-bg);
+        }
+
+        .logo-icon span {
+            position: relative;
+            z-index: 10;
+        }
+
+        @keyframes animateX {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--text-light);
+        }
+
+        .nav-links a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--neon-blue);
+            border-radius: 2px;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: color 0.3s;
+        }
+
+        .theme-toggle:hover {
+            color: var(--text-light);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 180px 0 100px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero-text h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 15px;
+            line-height: 1.2;
+        }
+
+        .hero-text h1 strong {
+            background: linear-gradient(90deg, var(--neon-blue), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            color: var(--accent-cyan);
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .hero-text p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            margin-bottom: 30px;
+            transition: color 0.3s ease;
+        }
+
+        /* Blog Container */
+        .blog-container {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 40px;
+            padding: 60px 0;
+        }
+
+        .posts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .post-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid var(--border-color);
+        }
+
+        .post-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            border-color: var(--neon-blue);
+        }
+
+        .post-image {
+            position: relative;
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .post-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .post-card:hover .post-image img {
+            transform: scale(1.05);
+        }
+
+        .post-category {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: var(--neon-blue);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .post-content {
+            padding: 25px;
+        }
+
+        .post-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .post-meta div {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .post-content h3 {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            line-height: 1.4;
+            color: var(--text-light);
+        }
+
+        .post-excerpt {
+            color: var(--text-muted);
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .read-more {
+            display: inline-flex;
+            align-items: center;
+            color: var(--neon-blue);
+            text-decoration: none;
+            font-weight: 600;
+            transition: gap 0.3s ease;
+        }
+
+        .read-more:hover {
+            gap: 10px;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 40px;
+        }
+
+        .pagination a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            background: var(--card-bg);
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+        }
+
+        .pagination a:hover, .pagination a.active {
+            background: var(--neon-blue);
+            color: white;
+            border-color: var(--neon-blue);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: sticky;
+            top: 120px;
+            align-self: start;
+        }
+
+        .sidebar-widget {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 30px;
+            border: 1px solid var(--border-color);
+        }
+
+        .sidebar-title {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            color: var(--text-light);
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .sidebar-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            background: var(--neon-blue);
+            border-radius: 3px;
+        }
+
+        .categories-list {
+            list-style: none;
+        }
+
+        .categories-list li {
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .categories-list li:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .categories-list a {
+            display: flex;
+            justify-content: space-between;
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .categories-list a:hover {
+            color: var(--neon-blue);
+        }
+
+        .categories-list span {
+            background: var(--darker-bg);
+            padding: 2px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+
+        .popular-posts {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .sidebar-item {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .popular-thumb {
+            width: 70px;
+            height: 70px;
+            border-radius: 8px;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .popular-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .popular-content h4 {
+            font-size: 0.95rem;
+            margin-bottom: 5px;
+            color: var(--text-light);
+            line-height: 1.4;
+        }
+
+        .popular-content p {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .tags-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .tag {
+            background: var(--darker-bg);
+            color: var(--text-muted);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .tag:hover {
+            background: var(--neon-blue);
+            color: white;
+        }
+
+        .newsletter-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .newsletter-form input {
+            padding: 12px 15px;
+            background: var(--darker-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-light);
+            font-size: 1rem;
+        }
+
+        .newsletter-form input:focus {
+            outline: none;
+            border-color: var(--neon-blue);
+        }
+
+        .newsletter-form button {
+            padding: 12px;
+            background: linear-gradient(90deg, var(--gradient-start), var(--gradient-end));
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .newsletter-form button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3);
+        }
+
+        /* Featured Category */
+        .featured-category {
+            padding: 80px 0;
+            background: var(--darker-bg);
+        }
+
+        .category-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+            font-weight: 700;
+            background: linear-gradient(90deg, var(--neon-blue), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .category-posts {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--darker-bg);
+            padding: 60px 0 30px;
+            border-top: 1px solid var(--border-color);
+            transition: background 0.3s ease, border-color 0.3s ease;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-column h4 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            color: var(--text-light);
+            transition: color 0.3s ease;
+        }
+
+        .footer-column p {
+            color: var(--text-muted);
+            line-height: 1.6;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.3s;
+            display: flex;
+            align-items: center;
+        }
+
+        .footer-links a:hover {
+            color: var(--neon-blue);
+        }
+
+        .footer-links i {
+            margin-right: 10px;
+            font-size: 0.8rem;
+        }
+
+        .copyright {
+            text-align: center;
+            color: var(--text-muted);
+            padding-top: 30px;
+            border-top: 1px solid var(--border-color);
+            transition: color 0.3s ease, border-color 0.3s ease;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(20, 25, 60, 0.85);
+            z-index: 99999;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            border-radius: 20px;
+            max-width: 800px;
+            width: 90vw;
+            padding: 40px;
+            box-shadow: 0 8px 40px rgba(0, 168, 197, 0.5);
+            position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 2rem;
+            color: var(--neon-blue);
+            cursor: pointer;
+        }
+
+        /* Animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive */
+        /* Extra large devices (large desktops, 1200px and up) */
+        @media (min-width: 1200px) {
+            .posts-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .sidebar {
+                position: sticky;
+                top: 100px;
+                align-self: start;
+            }
+            
+            .category-posts {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        /* Large devices (desktops, 992px and up) */
+        @media (max-width: 1199px) and (min-width: 992px) {
+            .posts-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .sidebar {
+                position: sticky;
+                top: 100px;
+                align-self: start;
+            }
+            
+            .category-posts {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* Medium devices (tablets, 768px and up) */
+        @media (max-width: 991px) and (min-width: 768px) {
+            .blog-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                position: static;
+            }
+            
+            .posts-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .hero-text h1 {
+                font-size: 2.5rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .category-posts {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Small devices (landscape phones, 576px and up) */
+        @media (max-width: 767px) and (min-width: 576px) {
+            .blog-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                position: static;
+            }
+            
+            .posts-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .hero-text h1 {
+                font-size: 2.5rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .category-posts {
+                grid-template-columns: 1fr;
+            }
+            
+            .section-title {
+                font-size: 2.5rem;
+            }
+        }
+
+        /* Extra small devices (portrait phones, less than 576px) */
+        @media (max-width: 575px) {
+            .hero-text h1 {
+                font-size: 2rem;
+            }
+            
+            .logo-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 2rem;
+            }
+            
+            .post-meta {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .modal-content {
+                padding: 25px;
+            }
+            
+            .post-card {
+                padding: 25px;
+            }
+            
+            .post-title {
+                font-size: 1.5rem;
+            }
+            
+            .sidebar-widget {
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="grid-pattern"></div>
+    <div class="particles" id="particles"></div>
+    
+    <header id="header">
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">
+                    <div class="logo-icon"><span>X</span></div>
+                    Nexora Prime
+                </a>
+                <ul class="nav-links">
+                    <li><a href="Nexora2.html">Accueil</a></li>
+                    <li><a href="solu2.html">Solutions</a></li>
+                    <li><a href="innov2.html">Innovation</a></li>
+                    <li><a href="vision2.html">Vision</a></li>
+                    <li><a href="formation2.html">Formation</a></li>
+                    <li><a href="contact2.html">Contact</a></li>
+                    <li><a href="blog2.html" class="active">Blog</a></li>
+                    <li>
+                        <button class="reserve-button" id="reserveButton" aria-label="Changer de style">
+                            <i class="fas fa-exchange-alt"></i> Style
+                        </button>
+                    </li>
+                    <li>
+                        <button class="theme-toggle" id="themeToggle" aria-label="Basculer le mode clair/sombre">
+                            <i class="fas fa-moon"></i>
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <h1>Blog <strong>IA</strong> & Innovation</h1>
+                    <div class="subtitle">L'avenir technologique de l'Afrique</div>
+                    <p>Découvrez les dernières avancées en intelligence artificielle, les innovations africaines et les perspectives d'avenir dans notre blog dédié à la révolution technologique.</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="container blog-container">
+            <div class="posts-container">
+                <div class="posts-grid" id="postsGrid">
+                    <!-- Les articles seront chargés dynamiquement par JavaScript -->
+                </div>
+
+                <div class="pagination">
+                    <a href="#" class="active" data-page="1">1</a>
+                    <a href="#" data-page="2">2</a>
+                    <a href="#" data-page="3">3</a>
+                    <a href="#"><i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+
+            <div class="sidebar">
+                <!-- Widget Catégories -->
+                <div class="sidebar-widget reveal">
+                    <h3 class="sidebar-title">Catégories</h3>
+                    <ul class="categories-list">
+                        <li><a href="#">Innovation Africaine <span>12</span></a></li>
+                        <li><a href="#">Santé Digitale <span>8</span></a></li>
+                        <li><a href="#">Éducation <span>15</span></a></li>
+                        <li><a href="#">Fintech <span>7</span></a></li>
+                        <li><a href="#">Énergie Durable <span>9</span></a></li>
+                        <li><a href="#">Villes Intelligentes <span>6</span></a></li>
+                        <li><a href="#">Éthique de l'IA <span>5</span></a></li>
+                    </ul>
+                </div>
+
+                <!-- Widget Articles Populaires -->
+                <div class="sidebar-widget reveal">
+                    <h3 class="sidebar-title">Articles Populaires</h3>
+                    <div class="popular-posts">
+                        <div class="sidebar-item">
+                            <div class="popular-thumb">
+                                <img src="https://img.freepik.com/fotos-premium/conceito-de-tecnologia-agricola-agronomo-usando-telefone-movel-na-agricultura-relatorio-de-leitura-de-campo-combinar-tecnologia-de-aprendizagem-de-maquina-de-inteligencia-artificial-5g_808398-770.jpg" alt="IA en Agriculture Africaine">
+                            </div>
+                            <div class="popular-content">
+                                <h4>L'IA au service du développement durable</h4>
+                                <p>5 min de lecture</p>
+                            </div>
+                        </div>
+                        <div class="sidebar-item">
+                            <div class="popular-thumb">
+                                <img src="https://lobservateur.info/observateur/uploads/images/2023/06/26/10609.png" alt="Santé Digitale Africaine">
+                            </div>
+                            <div class="popular-content">
+                                <h4>Les 10 innovations africaines à suivre</h4>
+                                <p>8 min de lecture</p>
+                            </div>
+                        </div>
+                        <div class="sidebar-item">
+                            <div class="popular-thumb">
+                                <img src="https://tse3.mm.bing.net/th/id/OIP.GX-5m06j0ZBsOTPYfabuDQHaEB?w=1400&h=760&rs=1&pid=ImgDetMain&o=7&rm=3" alt="Éducation Technologique Africaine">
+                            </div>
+                            <div class="popular-content">
+                                <h4>Comment l'Afrique forme ses experts en IA</h4>
+                                <p>6 min de lecture</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Widget Tags -->
+                <div class="sidebar-widget reveal">
+                    <h3 class="sidebar-title">Mots-clés</h3>
+                    <div class="tags-container">
+                        <div class="tag">IA Africaine</div>
+                        <div class="tag">Technologie</div>
+                        <div class="tag">Innovation</div>
+                        <div class="tag">Santé</div>
+                        <div class="tag">Éducation</div>
+                        <div class="tag">Agriculture</div>
+                        <div class="tag">Fintech</div>
+                        <div class="tag">Développement</div>
+                    </div>
+                </div>
+
+                <!-- Widget Newsletter -->
+                <div class="sidebar-widget reveal">
+                    <h3 class="sidebar-title">Newsletter</h3>
+                    <p>Recevez les dernières actualités sur l'IA en Afrique directement dans votre boîte mail.</p>
+                    <form class="newsletter-form">
+                        <input type="email" placeholder="Votre adresse email" required>
+                        <button type="submit">S'abonner</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Featured Category Section -->
+        <section class="featured-category">
+            <div class="container">
+                <h2 class="category-title reveal">Focus: Éthique de l'IA</h2>
+                <div class="category-posts">
+                    <article class="post-card reveal">
+                        <div class="post-image">
+                            <img src="https://images.unsplash.com/photo-1584432412203-a7f3b9929cb5?q=80&w=1632&auto=format&fit=crop" alt="Éthique de l'IA en Afrique">
+                            <div class="post-category">Éthique</div>
+                        </div>
+                        <div class="post-content">
+                            <div class="post-meta">
+                                <div class="post-date">
+                                    <i class="far fa-calendar"></i> 10 Juillet 2025
+                                </div>
+                            </div>
+                            <h3>Encadrement éthique des intelligences artificielles en Afrique</h3>
+                            <p class="post-excerpt">L'Afrique développe ses propres cadres éthiques pour l'IA, respectueux des valeurs culturelles locales.</p>
+                            <a href="#" class="read-more">Lire la suite <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </article>
+                    
+                    <article class="post-card reveal">
+                        <div class="post-image">
+                            <img src="https://images.unsplash.com/photo-1586773860418-d37222d8fce2?q=80&w=1632&auto=format&fit=crop" alt="Protection des données africaines">
+                            <div class="post-category">Sécurité</div>
+                        </div>
+                        <div class="post-content">
+                            <div class="post-meta">
+                                <div class="post-date">
+                                    <i class="far fa-calendar"></i> 3 Juillet 2025
+                                </div>
+                            </div>
+                            <h3>Protection des données dans l'écosystème IA africain</h3>
+                            <p class="post-excerpt">Les startups africaines développent des solutions de chiffrement adaptées aux réalités locales.</p>
+                            <a href="#" class="read-more">Lire la suite <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </article>
+                    
+                    <article class="post-card reveal">
+                        <div class="post-image">
+                            <img src="https://images.unsplash.com/photo-1523580494863-6f3031224c94?q=80&w=1632&auto=format&fit=crop" alt="IA inclusive en Afrique">
+                            <div class="post-category">Inclusion</div>
+                        </div>
+                        <div class="post-content">
+                            <div class="post-meta">
+                                <div class="post-date">
+                                    <i class="far fa-calendar"></i> 28 Juin 2025
+                                </div>
+                            </div>
+                            <h3>L'IA inclusive : réduire la fracture numérique</h3>
+                            <p class="post-excerpt">Des projets communautaires rendent l'IA accessible aux populations rurales et défavorisées.</p>
+                            <a href="#" class="read-more">Lire la suite <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal Bloc Info -->
+    <div id="modalInfo" class="modal">
+        <div class="modal-content">
+            <button class="close-modal" id="closeModal">&times;</button>
+            <div id="modalContent"></div>
+        </div>
+    </div>
+    
+    <!-- Newsletter Signup Modal -->
+    <div id="newsletterModal" class="modal">
+        <div class="modal-content">
+            <button class="close-modal" id="closeNewsletterModal">&times;</button>
+            <h2 style="color:var(--neon-blue);margin-bottom:20px;">Abonnez-vous à notre newsletter</h2>
+            <p style="color:var(--text-muted);margin-bottom:20px;">Recevez les dernières actualités sur l'IA en Afrique directement dans votre boîte mail.</p>
+            <form id="newsletterForm">
+                <input type="email" placeholder="Votre adresse email" required style="width:100%;padding:14px 18px;background:var(--darker-bg);border:1px solid var(--border-color);border-radius:10px;font-size:1.05rem;transition:all 0.3s ease;color:var(--text-light);margin-bottom:15px;">
+                <button type="submit" style="width:100%;padding:14px;background:linear-gradient(135deg,var(--gradient-start),var(--gradient-end));color:white;border:none;border-radius:10px;font-weight:600;transition:all 0.3s ease;cursor:pointer;font-size:1.1rem;">S'abonner</button>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h4>Nexora Prime</h4>
+                    <p>L'intelligence artificielle au service de l'innovation africaine. Nous développons des solutions technologiques avancées pour transformer l'Afrique et inspirer le monde.</p>
+                </div>
+                <div class="footer-column">
+                    <h4>Liens rapides</h4>
+                    <ul class="footer-links">
+                        <li><a href="Nexora2.html"><i class="fas fa-chevron-right"></i> Accueil</a></li>
+                        <li><a href="solu2.html"><i class="fas fa-chevron-right"></i> Solutions</a></li>
+                        <li><a href="innov2.html"><i class="fas fa-chevron-right"></i> Innovation</a></li>
+                        <li><a href="vision2.html"><i class="fas fa-chevron-right"></i> Vision</a></li>
+                        <li><a href="contact2.html"><i class="fas fa-chevron-right"></i> Contact</a></li>
+                        <li><a href="blog2.html"><i class="fas fa-chevron-right"></i> Blog</a></li>
+                        <li><a href="formation2.html"><i class="fas fa-chevron-right"></i> Formation</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Catégories du Blog</h4>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Innovation Africaine</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Santé Digitale</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Éducation Technologique</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Fintech</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Énergie Durable</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                &copy; 2025 Nexora Prime. Tous droits réservés. L'élite des savoirs Tech africain entre vos mains.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Données des articles de blog
+        const blogArticles = {
+            page1: [
+                {
+                    image: "https://img.freepik.com/fotos-premium/conceito-de-tecnologia-agricola-agronomo-usando-telefone-movel-na-agricultura-relatorio-de-leitura-de-campo-combinar-tecnologia-de-aprendizagem-de-maquina-de-inteligencia-artificial-5g_808398-770.jpg",
+                    category: "Innovation Africaine",
+                    date: "15 Août 2025",
+                    author: "Awa Diop",
+                    title: "Comment l'IA transforme l'agriculture en Afrique de l'Ouest",
+                    excerpt: "L'intelligence artificielle permet aux agriculteurs africains d'accéder à des outils de prédiction météo et de gestion intelligente de l'irrigation.",
+                    content: `<p>L'intelligence artificielle révolutionne l'agriculture en Afrique de l'Ouest en offrant aux agriculteurs des outils de prédiction météorologique avancés et des systèmes de gestion intelligente de l'irrigation. Ces technologies permettent d'optimiser les rendements tout en préservant les ressources naturelles.</p>
+                    <p>Grâce à des capteurs IoT et à l'analyse de données, les agriculteurs peuvent désormais anticiper les conditions climatiques défavorables et adapter leurs pratiques en conséquence. Cette approche intelligente de l'agriculture contribue à la sécurité alimentaire de la région.</p>
+                    <p>Nexora Prime développe actuellement des solutions spécifiquement adaptées aux besoins des agriculteurs ouest-africains, en collaboration avec des agronomes locaux et des experts en data science.</p>`
+                },
+                {
+                    image: "https://lobservateur.info/observateur/uploads/images/2023/06/26/10609.png",
+                    category: "Santé Digitale",
+                    date: "10 Août 2025",
+                    author: "Koffi Mensah",
+                    title: "Révolutionner la santé en Afrique avec l'intelligence artificielle",
+                    excerpt: "Les algorithmes IA de Nexora Prime facilitent le diagnostic médical dans les zones rurales, où l'accès aux médecins est limité.",
+                    content: `<p>Les algorithmes d'intelligence artificielle développés par Nexora Prime facilitent considérablement le diagnostic médical dans les zones rurales africaines, où l'accès aux médecins spécialistes est souvent limité.</p>
+                    <p>Nos solutions de télémédecine assistée par IA permettent de détecter précocement des maladies comme le paludisme, la tuberculose ou certaines pathologies oculaires, à partir d'images médicales analysées par des algorithmes de pointe.</p>
+                    <p>Ces technologies ne remplacent pas les professionnels de santé, mais les assistent dans leur travail quotidien, permettant une prise en charge plus rapide et plus précise des patients, même dans les régions les plus reculées.</p>`
+                },
+                {
+                    image: "https://tse3.mm.bing.net/th/id/OIP.GX-5m06j0ZBsOTPYfabuDQHaEB?w=1400&h=760&rs=1&pid=ImgDetMain&o=7&rm=3",
+                    category: "Éducation",
+                    date: "5 Août 2025",
+                    author: "Fatima Bello",
+                    title: "Former la prochaine génération d'experts africains en IA",
+                    excerpt: "Le programme académique Nexora Prime vise à former 10 000 jeunes africains aux métiers de l'IA.",
+                    content: `<p>Le programme académique Nexora Prime a pour ambition de former 10 000 jeunes africains aux métiers de l'intelligence artificielle d'ici 2030. Cette initiative vise à créer une expertise locale et à favoriser l'émergence d'une économie numérique compétitive sur le continent.</p>
+                    <p>Notre programme combine formation théorique et expérience pratique, avec des partenariats avec les meilleures universités et entreprises technologiques africaines. Les étudiants ont l'opportunité de travailler sur des projets concrets répondant aux défis spécifiques du continent.</p>
+                    <p>Nous croyons fermement que l'avenir de l'IA en Afrique doit être construit par des Africains, pour des Africains, en tenant compte des contextes culturels, économiques et sociaux spécifiques à chaque région.</p>`
+                },
+                {
+                    image: "https://img.freepik.com/photos-gratuite/technicien-afro-americain-verifie-entretien-panneaux-solaires-groupe-trois-ingenieurs-noirs-reunis-station-solaire_627829-4806.jpg",
+                    category: "Énergie Durable",
+                    date: "28 Juillet 2025",
+                    author: "Samuel Okafor",
+                    title: "IA et énergie renouvelable : le duo gagnant pour l'Afrique",
+                    excerpt: "L'IA optimise la production et la distribution d'énergie renouvelable dans les villes africaines.",
+                    content: `<p>L'intelligence artificielle optimise la production et la distribution d'énergie renouvelable dans les villes africaines, contribuant à résoudre les défis énergétiques du continent.</p>
+                    <p>Nos algorithmes prédictifs permettent de mieux gérer l'intermittence des énergies solaire et éolienne, en anticipant les variations de production et en ajustant la distribution en conséquence. Cette approche intelligente garantit une alimentation électrique plus stable et fiable.</p>
+                    <p>De plus, l'IA aide à identifier les zones où l'installation de nouvelles infrastructures renouvelables serait la plus bénéfique, en tenant compte de facteurs comme l'ensoleillement, la demande énergétique et les contraintes géographiques.</p>`
+                },
+                {
+                    image: "https://cdn.slidesharecdn.com/ss_thumbnails/fintechinafrica-230218173813-af75e2ca-thumbnail.jpg?width=640&height=640&fit=bounds",
+                    category: "Fintech",
+                    date: "20 Juillet 2025",
+                    author: "Jean Kabore",
+                    title: "L'avenir des services bancaires en Afrique grâce à l'IA",
+                    excerpt: "La fintech africaine se transforme grâce à l'IA : services bancaires personnalisés, sécurité renforcée.",
+                    content: `<p>La fintech africaine se transforme radicalement grâce à l'intelligence artificielle, avec l'émergence de services bancaires personnalisés et de systèmes de sécurité renforcés.</p>
+                    <p>Les algorithmes d'IA permettent d'analyser le comportement financier des clients pour leur proposer des produits et services sur mesure, adaptés à leurs besoins spécifiques. Cette personnalisation améliore l'expérience utilisateur et favorise l'inclusion financière.</p>
+                    <p>Parallèlement, les systèmes de détection de fraude basés sur l'IA protègent mieux les consommateurs contre les transactions suspectes, renforçant la confiance dans les services financiers digitaux qui se développent rapidement à travers le continent.</p>`
+                },
+                {
+                    image: "https://www.telecomreviewafrica.com/images/stories/2023/06/Ethio_telecom.jpg",
+                    category: "Villes Intelligentes",
+                    date: "15 Juillet 2025",
+                    author: "Aminata Diallo",
+                    title: "Construire les villes intelligentes de demain en Afrique",
+                    excerpt: "Les solutions IA de Nexora Prime améliorent la gestion urbaine : transports, sécurité, services publics.",
+                    content: `<p>Les solutions d'intelligence artificielle de Nexora Prime améliorent significativement la gestion urbaine dans les villes africaines, avec des applications dans les domaines des transports, de la sécurité et des services publics.</p>
+                    <p>Nos systèmes optimisent la circulation routière en analysant en temps réel les flux de véhicules et en ajustant la signalisation pour réduire les embouteillages. Ils améliorent également la collecte des déchets en planifiant des trajets plus efficaces pour les camions poubelles.</p>
+                    <p>Dans le domaine de la sécurité, l'IA aide les services municipaux à anticiper les risques et à affecter plus judicieusement leurs ressources. Ces avancées contribuent à rendre les villes africaines plus agréables à vivre et plus durables.</p>`
+                }
+            ],
+            page2: [
+                {
+                    image: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80",
+                    category: "Robotique",
+                    date: "12 Juillet 2025",
+                    author: "Chidi Okonkwo",
+                    title: "La robotique intelligente au service de l'industrie africaine",
+                    excerpt: "Les robots équipés d'IA révolutionnent la production manufacturière en Afrique.",
+                    content: `<p>La robotique intelligente transforme l'industrie manufacturière africaine en améliorant l'efficacité, la précision et la sécurité des processus de production. Les robots équipés d'IA peuvent fonctionner 24h/24 avec une constance remarquable.</p>
+                    <p>Ces technologies permettent aux entreprises africaines de devenir plus compétitives sur le marché international tout en créant de nouveaux emplois spécialisés dans la maintenance et la programmation robotique.</p>
+                    <p>Nexora Prime collabore avec plusieurs gouvernements africains pour développer des centres de formation en robotique et intelligence artificielle, préparant la main-d'œuvre aux défis de l'industrie 4.0.</p>`
+                },
+                {
+                    image: "https://images.unsplash.com/photo-1533750349088-cd871a92f312?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80",
+                    category: "Data Science",
+                    date: "8 Juillet 2025",
+                    author: "Zara Mohamed",
+                    title: "L'exploitation des big data pour le développement africain",
+                    excerpt: "Comment les données massives transforment la prise de décision en Afrique.",
+                    content: `<p>L'exploitation des big data représente une opportunité sans précédent pour le développement économique et social de l'Afrique. Les données massives permettent une prise de décision éclairée dans des domaines critiques comme la santé, l'agriculture et l'urbanisme.</p>
+                    <p>Les analystes de données africains développent des modèles prédictifs qui aident les gouvernements à anticiper les crises sanitaires, optimiser les récoltes et planifier le développement des infrastructures.</p>
+                    <p>Nexora Prime a mis en place une plateforme cloud dédiée au traitement des big data africains, respectant strictement les réglementations locales sur la protection des données et la souveraineté numérique.</p>`
+                },
+                {
+                    image: "https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80",
+                    category: "Blockchain",
+                    date: "3 Juillet 2025",
+                    author: "Kwame Adjei",
+                    title: "Blockchain et IA : une alliance transformative pour l'Afrique",
+                    excerpt: "La combinaison blockchain-IA crée de nouvelles opportunités économiques.",
+                    content: `<p>La combinaison de la blockchain et de l'intelligence artificielle ouvre de nouvelles perspectives pour l'économie numérique africaine. Cette alliance technologique permet de créer des systèmes décentralisés, transparents et intelligents.</p>
+                    <p>Des applications concrètes émergent dans divers secteurs : traçabilité des produits agricoles, certification des diplômes, gestion des identités numériques et finance décentralisée (DeFi).</p>
+                    <p>Nexora Prime participe à plusieurs projets pilotes utilisant la blockchain et l'IA pour améliorer la transparence des processus électoraux et lutter contre la corruption dans l'administration publique.</p>`
+                },
+                {
+                    image: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80",
+                    category: "Tourisme",
+                    date: "28 Juin 2025",
+                    author: "Léa Ndiaye",
+                    title: "L'IA au service du tourisme durable en Afrique",
+                    excerpt: "Des solutions intelligentes pour un tourisme respectueux de l'environnement.",
+                    content: `<p>L'intelligence artificielle révolutionne le secteur touristique africain en proposant des solutions innovantes pour un tourisme durable et respectueux de l'environnement. Les algorithmes aident à mieux répartir les flux touristiques et à réduire l'impact écologique.</p>
+                    <p>Des plateformes utilisant l'IA proposent des itinéraires personnalisés qui mettent en valeur le patrimoine culturel et naturel local tout en évitant la sur-fréquentation des sites sensibles.</p>
+                    <p>Nexora Prime développe actuellement un assistant vocal multilingue capable de guider les touristes à travers l'Afrique, en s'adaptant à leurs préférences et en respectant les capacités d'accueil des destinations.</p>`
+                },
+                {
+                    image: "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80",
+                    category: "Manufacture",
+                    date: "22 Juin 2025",
+                    author: "Oumar Diallo",
+                    title: "Usines intelligentes : la révolution 4.0 en Afrique",
+                    excerpt: "L'Internet des Objets industriel et l'IA optimisent la production.",
+                    content: `<p>L'Afrique entre dans l'ère des usines intelligentes grâce à l'intégration de l'Internet des Objets industriels (IIoT) et de l'intelligence artificielle. Ces technologies permettent une production plus efficiente, flexible et respectueuse de l'environnement.</p>
+                    <p>Les capteurs connectés et les systèmes d'IA analysent en temps réel les processus de production, anticipent les pannes et optimisent la consommation énergétique. Cette approche réduit les coûts et améliore la qualité des produits.</p>
+                    <p>Nexora Prime accompagne plusieurs groupes industriels africains dans leur transformation digitale, en développant des solutions sur mesure adaptées aux spécificités des marchés locaux.</p>`
+                },
+                {
+                    image: "https://images.unsplash.com/photo-1552664688-cf412ec27db2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80",
+                    category: "Environnement",
+                    date: "18 Juin 2025",
+                    author: "Sibongile Nkosi",
+                    title: "L'IA pour la protection de la biodiversité africaine",
+                    excerpt: "Des algorithmes au service de la conservation de la faune et la flore.",
+                    content: `<p>L'intelligence artificielle devient un outil précieux pour la protection de la riche biodiversité africaine. Des algorithmes sophistiqués aident à surveiller les écosystèmes, traquer le braconnage et étudier les comportements animaliers.</p>
+                    <p>Des drones équipés de caméras et d'IA parcourent les parcs nationaux pour recenser la faune, détecter les activités illégales et évaluer l'impact du changement climatique sur les habitats naturels.</p>
+                    <p>Nexora Prime collabore avec plusieurs organisations de conservation pour développer des solutions IA qui aident à préserver l'incroyable patrimoine naturel de l'Afrique pour les générations futures.</p>`
+                }
+            ],
+            page3: [
+                {
+                    image: "https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80",
+                    category: "Transport",
+                    date: "14 Juin 2025",
+                    author: "Tunde Ojo",
+                    title: "Mobilité intelligente : révolutionner les transports africains",
+                    excerpt: "L'IA optimise les réseaux de transport dans les métropoles africaines.",
+                    content: `<p>L'intelligence artificielle transforme les systèmes de transport dans les grandes métropoles africaines, réduisant la congestion et améliorant la mobilité des citoyens. Des algorithmes predictifs optimisent les feux de circulation et la planification des transports publics.</p>
+                    <p>Des applications de mobilité intelligente aident les usagers à planifier leurs déplacements en combinant différents modes de transport, réduisant ainsi leur temps de trajet et leur empreinte carbone.</p>
+                    <p>Nexora Prime travaille avec plusieurs municipalités africaines pour développer des systèmes de transport intelligents qui s'adaptent en temps réel aux conditions de circulation et aux besoins des usagers.</p>`
+                },
+                {
+                    image: "https://images.unsplash.com/photo-1581092921461-eab62e97a780?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80",
+                    category: "Éducation",
+                    date: "9 Juin 2025",
+                    author: "Amina Said",
+                    title: "L'adaptive learning : personnaliser l'éducation avec l'IA",
+                    excerpt: "Des parcours pédagogiques sur mesure pour chaque apprenant africain.",
+                    content: `<p>L'adaptive learning, ou apprentissage adaptatif, utilise l'intelligence artificielle pour personnaliser l'éducation selon les besoins spécifiques de chaque apprenant. Cette approche révolutionnaire est particulièrement prometteuse pour le continent africain.</p>
+                    <p>Les plateformes d'adaptive learning analysent les forces et faiblesses de chaque étudiant, adaptent le contenu pédagogique et le rythme d'apprentissage en conséquence, maximisant ainsi les chances de succès.</p>
+                    <p>Nexora Prime a développé une plateforme d'apprentissage adaptatif spécialement conçue pour les contextes africains, prenant en compte les spécificités linguistiques et culturelles de chaque région.</p>`
+                },
+                {
+                    image: "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80",
+                    category: "Fintech",
+                    date: "5 Juin 2025",
+                    author: "David Mbeki",
+                    title: "Inclusion financière : l'IA au service des populations non-bancarisées",
+                    excerpt: "Des solutions innovantes pour l'accès aux services financiers.",
+                    content: `<p>L'intelligence artificielle joue un rôle crucial dans l'inclusion financière des populations africaines traditionnellement exclues du système bancaire. Des solutions innovantes utilisant l'IA permettent d'évaluer la solvabilité même sans historique bancaire.</p>
+                    <p>Des algorithmes analysent des données alternatives (historique de paiement de factures, activité sur mobile, etc.) pour offrir des services financiers adaptés aux populations non-bancarisées.</p>
+                    <p>Nexora Prime collabore avec plusieurs institutions de microfinance pour développer des outils d'évaluation du crédit plus inclusifs, favorisant ainsi l'entreprenariat et le développement économique local.</p>`
+                },
+                {
+                    image: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80",
+                    category: "Santé",
+                    date: "1 Juin 2025",
+                    author: "Grace Kamau",
+                    title: "Diagnostic précoce du cancer par IA : l'avancée africaine",
+                    excerpt: "Des algorithmes capables de détecter précocement plusieurs types de cancer.",
+                    content: `<p>L'Afrique fait des progrès remarquables dans le diagnostic précoce du cancer grâce à des algorithmes d'intelligence artificielle spécialement entraînés sur des données médicales africaines. Ces technologies aident à pallier le manque de spécialistes dans de nombreuses régions.</p>
+                    <p>Des solutions IA permettent d'analyser des images médicales (radiographies, scanners, IRM) avec une précision croissante, détectant des signes précoces de cancer du sein, du col de l'utérus ou de la prostate.</p>
+                    <p>Nexora Prime travaille avec des hôpitaux universitaires africains pour développer des outils de diagnostic assisté par IA accessibles même dans les zones rurales, sauver des milliers de vies chaque année.</p>`
+                },
+                {
+                    image: "https://images.unsplash.com/photo-1533750349088-cd871a92f312?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80",
+                    category: "Linguistique",
+                    date: "28 Mai 2025",
+                    author: "Lingani Ouédraogo",
+                    title: "IA et langues africaines : préserver le patrimoine linguistique",
+                    excerpt: "Des technologies qui redonnent vie aux langues menacées.",
+                    content: `<p>L'intelligence artificielle contribue à préserver le riche patrimoine linguistique africain, menacé par la globalisation. Des technologies de traitement du langage naturel sont développées spécifiquement pour les langues africaines.</p>
+                    <p>Des assistants vocaux capables de comprendre et de parler les langues locales émergent, rendant la technologie accessible à des populations non anglophones ou francophones. Ces outils aident aussi à documenter et préserver les langues en danger.</p>
+                    <p>Nexora Prime participe à plusieurs projets de recherche visant à développer des modèles linguistiques pour les langues africaines, favorisant ainsi l'inclusion numérique et la préservation culturelle.</p>`
+                },
+                {
+                    image: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80",
+                    category: "Art",
+                    date: "24 Mai 2025",
+                    author: "Jelani Adebayo",
+                    title: "L'IA au service de la création artistique africaine",
+                    excerpt: "Quand l'intelligence artificielle rencontre l'art contemporain africain.",
+                    content: `<p>L'intelligence artificielle inspire une nouvelle vague de création artistique en Afrique, où artistes et technologues collaborent pour produire des œuvres innovantes mêlant traditions ancestrales et technologies de pointe.</p>
+                    <p>Des algorithmes génératifs créent des motifs inspirés de l'art tribal, des œuvres musicales fusionnant rythmes traditionnels et sonorités électroniques, et des installations interactives questionnant l'identité africaine à l'ère numérique.</p>
+                    <p>Nexora Prime soutient plusieurs initiatives artistiques explorant les intersections entre l'IA et l'art africain, organisant des expositions et des résidences croisant artistes et data scientists.</p>`
+                }
+            ]
+        };
+
+        // Animation de révélation au défilement
+        function revealOnScroll() {
+            const elements = document.querySelectorAll('.reveal');
+            elements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
+                if (elementTop < window.innerHeight - elementVisible) {
+                    element.classList.add('active');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', revealOnScroll);
+        window.addEventListener('load', revealOnScroll);
+
+        // Fonctionnalité de basculement de thème
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+        const icon = themeToggle.querySelector('i');
+        
+        // Vérifier le thème sauvegardé dans le localStorage
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'light') {
+            body.classList.add('light-theme');
+            icon.classList.remove('fa-moon');
+            icon.classList.add('fa-sun');
+        }
+
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('light-theme');
+            
+            if (body.classList.contains('light-theme')) {
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+                localStorage.setItem('theme', 'light');
+            } else {
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+                localStorage.setItem('theme', 'dark');
+            }
+        });
+
+        // Création des particules d'arrière-plan
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 50;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // Taille aléatoire
+                const size = Math.random() * 5 + 2;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                
+                // Position aléatoire
+                const posX = Math.random() * 100;
+                const posY = Math.random() * 100;
+                particle.style.left = `${posX}vw`;
+                particle.style.top = `${posY}vh`;
+                
+                // Délai d'animation aléatoire
+                const delay = Math.random() * 15;
+                particle.style.animationDelay = `${delay}s`;
+                
+                // Couleur aléatoire (bleu ou cyan)
+                const colors = ['#3b82f6', '#06b6d4'];
+                const randomColor = colors[Math.floor(Math.random() * colors.length)];
+                particle.style.backgroundColor = randomColor;
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // Fonction pour afficher les articles d'une page
+        function displayArticles(page) {
+            const postsGrid = document.getElementById('postsGrid');
+            postsGrid.innerHTML = '';
+            
+            const articles = blogArticles[`page${page}`];
+            
+            articles.forEach((article, index) => {
+                const articleElement = document.createElement('article');
+                articleElement.className = 'post-card reveal';
+                articleElement.innerHTML = `
+                    <div class="post-image">
+                        <img src="${article.image}" alt="${article.title}">
+                        <div class="post-category">${article.category}</div>
+                    </div>
+                    <div class="post-content">
+                        <div class="post-meta">
+                            <div class="post-date">
+                                <i class="far fa-calendar"></i> ${article.date}
+                            </div>
+                            <div class="post-author">
+                                <i class="far fa-user"></i> ${article.author}
+                            </div>
+                        </div>
+                        <h3>${article.title}</h3>
+                        <p class="post-excerpt">${article.excerpt}</p>
+                        <a href="#" class="read-more" data-article="${page}-${index}">Lire la suite <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                `;
+                
+                postsGrid.appendChild(articleElement);
+            });
+            
+            // Mettre à jour la pagination active
+            document.querySelectorAll('.pagination a').forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('data-page') == page) {
+                    link.classList.add('active');
+                }
+            });
+            
+            // Réinitialiser les animations
+            setTimeout(() => {
+                revealOnScroll();
+            }, 100);
+        }
+
+        // Gestion des modales
+        function setupModals() {
+            const modal = document.getElementById('modalInfo');
+            const modalContent = document.getElementById('modalContent');
+            const closeModal = document.getElementById('closeModal');
+            const postsGrid = document.getElementById('postsGrid');
+            
+            const newsletterModal = document.getElementById('newsletterModal');
+            const closeNewsletterModal = document.getElementById('closeNewsletterModal');
+            const newsletterForm = document.getElementById('newsletterForm');
+            
+            // Ouvrir la modal d'article
+            postsGrid.addEventListener('click', (e) => {
+                if (e.target.classList.contains('read-more') || e.target.parentElement.classList.contains('read-more')) {
+                    e.preventDefault();
+                    const readMoreLink = e.target.classList.contains('read-more') ? e.target : e.target.parentElement;
+                    const articleId = readMoreLink.getAttribute('data-article');
+                    const [page, index] = articleId.split('-');
+                    
+                    const article = blogArticles[`page${page}`][parseInt(index)];
+                    
+                    modalContent.innerHTML = `
+                        <h2>${article.title}</h2>
+                        <div class="post-meta" style="margin: 20px 0;">
+                            <div class="post-date">
+                                <i class="far fa-calendar"></i> ${article.date}
+                            </div>
+                            <div class="post-author">
+                                <i class="far fa-user"></i> ${article.author}
+                            </div>
+                            <div class="post-category" style="background: var(--neon-blue); color: white; padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; display: inline-block;">
+                                ${article.category}
+                            </div>
+                        </div>
+                        <img src="${article.image}" alt="${article.title}" style="width: 100%; border-radius: 12px; margin-bottom: 20px;">
+                        ${article.content}
+                    `;
+                    modal.style.display = 'flex';
+                }
+            });
+            
+            // Fermer la modal d'article
+            closeModal.addEventListener('click', () => {
+                modal.style.display = 'none';
+            });
+            
+            // Fermer en cliquant à l'extérieur
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+            
+            // Gestion de la newsletter
+            newsletterForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                alert('Merci de vous être abonné à notre newsletter !');
+                newsletterModal.style.display = 'none';
+            });
+            
+            closeNewsletterModal.addEventListener('click', () => {
+                newsletterModal.style.display = 'none';
+            });
+            
+            // Ouvrir la modal newsletter après un délai
+            setTimeout(() => {
+                newsletterModal.style.display = 'flex';
+            }, 10000);
+        }
+
+        // Gestion de la pagination
+        function setupPagination() {
+            const paginationLinks = document.querySelectorAll('.pagination a');
+            
+            paginationLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const page = link.getAttribute('data-page');
+                    
+                    if (page) {
+                        displayArticles(page);
+                    }
+                });
+            });
+        }
+
+        // Fonctionnalité du bouton reserve (changement de style)
+        const reserveButton = document.getElementById('reserveButton');
+        if (reserveButton) {
+            reserveButton.addEventListener('click', () => {
+                // Apply glass morphing transition
+                const overlay = document.createElement('div');
+                overlay.style.cssText = `
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: rgba(0, 168, 197, 0.2);
+                    backdrop-filter: blur(10px);
+                    z-index: 9999;
+                    opacity: 0;
+                    transition: all 3s ease;
+                    pointer-events: none;
+                `;
+                
+                document.body.appendChild(overlay);
+                
+                // Start transition
+                setTimeout(() => {
+                    overlay.style.opacity = '1';
+                    
+                    // Apply morphing effect
+                    overlay.style.transform = 'scale(1.1)';
+                    overlay.style.borderRadius = '50%';
+                    
+                    // Get current page and redirect to its pair
+                    const currentPage = window.location.pathname.split('/').pop();
+                    const pagePairs = {
+                        'blog.html': 'blog2.html',
+                        'contact.html': 'contact2.html',
+                        'solution.html': 'solu2.html',
+                        'index.html': 'Nexora2.html',
+                        'formation.html': 'formation2.html',
+                        'vision.html': 'vision2.html',
+                        'innovation.html': 'innov2.html'
+                    };
+                    
+                    const targetPage = pagePairs[currentPage] || 
+                                      Object.keys(pagePairs).find(key => pagePairs[key] === currentPage);
+                    
+                    setTimeout(() => {
+                        if (targetPage) {
+                            window.location.href = targetPage;
+                        }
+                    }, 3000);
+                }, 100);
+            });
+        }
+
+        // Initialisation des effets
+        document.addEventListener('DOMContentLoaded', () => {
+            createParticles();
+            displayArticles(1); // Afficher la première page par défaut
+            setupModals();
+            setupPagination();
+            revealOnScroll();
+        });
+    </script>
+</body>
+</html>

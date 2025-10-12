@@ -1,0 +1,1615 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact - Nexora Prime</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;500;600;700&family=Orbitron:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Couleurs par défaut (mode sombre) */
+            --primary-cyan: #00a8c5;
+            --secondary-cyan: #3ac6e0;
+            --dark-cyan: #005f73;
+            --neon-blue: #00f3ff;
+            --neon-purple: #b967ff;
+            --text-primary: #fff;
+            --text-secondary: #d1eef5;
+            --bg-primary: #0b0c1a;
+            --bg-secondary: #1a1d3a;
+            --card-bg: rgba(20, 25, 60, 0.5);
+            --border-color: rgba(58, 198, 224, 0.3);
+            --highlight-color: #ff7a00;
+            --glass-bg: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --footer-bg: linear-gradient(135deg, #001820 0%, #002e40 100%);
+            --grid-pattern-color: rgba(0, 168, 197, 0.05);
+        }
+
+        /* Mode clair */
+        body.light-theme {
+            --text-primary: #222;
+            --text-secondary: #444;
+            --bg-primary: #f0f8ff;
+            --bg-secondary: #e6f7ff;
+            --card-bg: rgba(255, 255, 255, 0.7);
+            --border-color: rgba(0, 168, 197, 0.2);
+            --glass-bg: rgba(255, 255, 255, 0.7);
+            --glass-border: rgba(0, 0, 0, 0.1);
+            --footer-bg: linear-gradient(135deg, #e6f7ff 0%, #d1eef5 100%);
+            --grid-pattern-color: rgba(0, 168, 197, 0.03);
+        }
+
+        body.light-theme .hero h1,
+        body.light-theme .section-title,
+        body.light-theme .contact-info h2,
+        body.light-theme .contact-form h2,
+        body.light-theme .faq-question {
+            color: var(--text-primary);
+            text-shadow: none;
+        }
+
+        body.light-theme .logo {
+            color: var(--primary-cyan);
+            text-shadow: none;
+        }
+
+        body.light-theme .nav-links a {
+            color: var(--text-primary);
+        }
+
+        body.light-theme .nav-links a:hover {
+            color: var(--primary-cyan);
+        }
+
+        body.light-theme .hero p,
+        body.light-theme .contact-details p,
+        body.light-theme .faq-answer,
+        body.light-theme .footer-column p,
+        body.light-theme .copyright {
+            color: var(--text-secondary);
+        }
+
+        body.light-theme .subtitle {
+            color: var(--primary-cyan);
+        }
+
+        body.light-theme .grid-pattern {
+            background-image: 
+                linear-gradient(var(--grid-pattern-color) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid-pattern-color) 1px, transparent 1px);
+        }
+
+        body.light-theme .hologram-map {
+            box-shadow: 0 0 30px rgba(0, 168, 197, 0.3);
+            border: 1px solid rgba(0, 168, 197, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Exo 2', sans-serif;
+            background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+            transition: background 0.5s ease, color 0.5s ease;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(58, 198, 224, 0.1) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(185, 103, 255, 0.1) 0%, transparent 40%);
+            z-index: -1;
+        }
+
+        .grid-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(var(--grid-pattern-color) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid-pattern-color) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: -2;
+            pointer-events: none;
+        }
+
+        /* Header futuriste */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 15px 0;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.2);
+            border-bottom: 1px solid var(--glass-border);
+            transition: all 0.5s ease;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--neon-blue);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-shadow: 0 0 10px rgba(0, 243, 255, 0.7);
+            transition: color 0.5s ease;
+        }
+
+        .logo-icon {
+            width: 42px;
+            height: 42px;
+            background: linear-gradient(135deg, var(--primary-cyan), var(--secondary-cyan));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            box-shadow: 0 0 15px var(--primary-cyan);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 35px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+            font-family: 'Exo 2', sans-serif;
+            font-size: 1.05rem;
+            padding: 5px 0;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--neon-blue);
+            transition: width 0.3s ease;
+            box-shadow: 0 0 5px var(--neon-blue);
+        }
+
+        .nav-links a:hover {
+            color: var(--neon-blue);
+            text-shadow: 0 0 8px rgba(0, 243, 255, 0.7);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .theme-toggle {
+            background: transparent;
+            border: none;
+            color: var(--neon-blue);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-left: 20px;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
+            color: var(--neon-purple);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        body.light-theme .theme-toggle {
+            color: var(--primary-cyan);
+        }
+
+        body.light-theme .theme-toggle:hover {
+            color: var(--dark-cyan);
+        }
+
+        /* Hero avec carte holographique */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 0 5%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-text {
+            padding-right: 30px;
+        }
+
+        .hero h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3.8rem;
+            font-weight: 800;
+            margin-bottom: 25px;
+            color: white;
+            line-height: 1.2;
+            letter-spacing: -0.5px;
+            text-shadow: 0 0 15px rgba(0, 243, 255, 0.5);
+            transition: color 0.5s ease;
+        }
+
+        .hero h1 strong {
+            color: var(--neon-blue);
+            font-weight: 800;
+            background: linear-gradient(90deg, var(--primary-cyan), var(--neon-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: none;
+        }
+
+        .hero .subtitle {
+            font-family: 'Exo 2', sans-serif;
+            font-size: 1.8rem;
+            color: var(--secondary-cyan);
+            margin-bottom: 35px;
+            font-weight: 400;
+            position: relative;
+            padding-left: 20px;
+            text-shadow: 0 0 10px rgba(58, 198, 224, 0.5);
+            transition: color 0.5s ease;
+        }
+
+        .hero .subtitle::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 10px;
+            height: 10px;
+            background: var(--neon-blue);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--neon-blue);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 45px;
+            line-height: 1.7;
+            transition: color 0.5s ease;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 16px 42px;
+            background: linear-gradient(135deg, var(--primary-cyan), var(--secondary-cyan));
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 25px rgba(0, 168, 197, 0.6);
+            cursor: pointer;
+            border: none;
+            font-family: 'Exo 2', sans-serif;
+            font-size: 1.1rem;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: 0.5s;
+            z-index: -1;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 35px rgba(0, 168, 197, 0.8);
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
+        }
+
+        .hologram-map {
+            position: relative;
+            width: 100%;
+            height: 500px;
+            perspective: 1000px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 0 50px rgba(0, 243, 255, 0.3);
+            border: 1px solid var(--border-color);
+            transition: all 0.5s ease;
+        }
+
+        .hologram-map::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(0, 168, 197, 0.1), rgba(185, 103, 255, 0.1));
+            backdrop-filter: blur(5px);
+            z-index: 1;
+        }
+
+        .map-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://images.unsplash.com/photo-1501594907352-04cda38ebc29?q=80&w=1632&auto=format&fit=crop') no-repeat center center;
+            background-size: cover;
+            opacity: 0.8;
+            z-index: 2;
+        }
+
+        .map-points {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 3;
+        }
+
+        .map-point {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: var(--neon-blue);
+            border-radius: 50%;
+            box-shadow: 0 0 15px var(--neon-blue);
+            animation: pulse 2s infinite;
+            cursor: pointer;
+            z-index: 4;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(0, 243, 255, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(0, 243, 255, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(0, 243, 255, 0); }
+        }
+
+        .map-point::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100px;
+            height: 100px;
+            border: 2px solid var(--neon-blue);
+            border-radius: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            opacity: 0;
+            transition: all 0.5s ease;
+        }
+
+        .map-point:hover::after {
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 0.5;
+        }
+
+        .map-point:nth-child(1) { top: 40%; left: 45%; }
+        .map-point:nth-child(2) { top: 60%; left: 50%; }
+        .map-point:nth-child(3) { top: 30%; left: 55%; }
+
+        .point-info {
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(10px);
+            padding: 15px;
+            border-radius: 10px;
+            width: 200px;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            z-index: 5;
+        }
+
+        body.light-theme .point-info {
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .map-point:hover .point-info {
+            opacity: 1;
+            visibility: visible;
+            bottom: 120%;
+        }
+
+        .point-info h4 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: var(--neon-blue);
+            transition: color 0.5s ease;
+        }
+
+        .point-info p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+            transition: color 0.5s ease;
+        }
+
+        /* Section Contact */
+        .contact-section {
+            padding: 120px 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .section-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3.5rem;
+            text-align: center;
+            margin-bottom: 80px;
+            color: white;
+            position: relative;
+            text-shadow: 0 0 15px rgba(0, 243, 255, 0.5);
+            transition: color 0.5s ease;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-cyan), var(--neon-blue));
+            border-radius: 2px;
+            box-shadow: 0 0 15px var(--primary-cyan);
+        }
+
+        .contact-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+        }
+
+        .contact-info {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 50px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.5s ease;
+        }
+
+        .contact-info::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary-cyan), var(--neon-blue));
+            box-shadow: 0 0 20px var(--primary-cyan);
+        }
+
+        .contact-info h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+            color: var(--neon-blue);
+            text-shadow: 0 0 10px rgba(0, 243, 255, 0.3);
+            transition: color 0.5s ease;
+        }
+
+        .contact-methods {
+            margin-bottom: 40px;
+        }
+
+        .contact-method {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            background: rgba(10, 15, 35, 0.3);
+            border: 1px solid transparent;
+        }
+
+        body.light-theme .contact-method {
+            background: rgba(230, 247, 255, 0.5);
+        }
+
+        .contact-method:hover {
+            transform: translateY(-5px);
+            background: rgba(0, 168, 197, 0.1);
+            border-color: var(--neon-blue);
+            box-shadow: 0 10px 30px rgba(0, 168, 197, 0.2);
+        }
+
+        body.light-theme .contact-method:hover {
+            background: rgba(0, 168, 197, 0.15);
+        }
+
+        .contact-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, var(--primary-cyan), var(--secondary-cyan));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.8rem;
+            margin-right: 25px;
+            flex-shrink: 0;
+            box-shadow: 0 0 20px var(--primary-cyan);
+            transition: all 0.3s ease;
+        }
+
+        .contact-method:hover .contact-icon {
+            transform: scale(1.1);
+            box-shadow: 0 0 30px var(--neon-blue);
+        }
+
+        .contact-details h3 {
+            font-size: 1.4rem;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+            transition: color 0.5s ease;
+        }
+
+        .contact-details p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            transition: color 0.5s ease;
+        }
+
+        .social-container {
+            margin-top: 50px;
+        }
+
+        .social-container h3 {
+            font-size: 1.4rem;
+            margin-bottom: 25px;
+            color: var(--neon-blue);
+            font-family: 'Orbitron', sans-serif;
+            transition: color 0.5s ease;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 20px;
+        }
+
+        .social-icons a {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: rgba(10, 15, 35, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--neon-blue);
+            font-size: 1.8rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--border-color);
+        }
+
+        body.light-theme .social-icons a {
+            background: rgba(230, 247, 255, 0.5);
+        }
+
+        .social-icons a:hover {
+            transform: translateY(-8px);
+            background: var(--primary-cyan);
+            color: white;
+            box-shadow: 0 0 30px var(--primary-cyan);
+        }
+
+        /* Formulaire de contact holographique */
+        .contact-form {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 50px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.5s ease;
+        }
+
+        .contact-form::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--neon-purple), var(--neon-blue));
+            box-shadow: 0 0 20px var(--neon-purple);
+        }
+
+        .contact-form h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+            color: var(--neon-blue);
+            text-shadow: 0 0 10px rgba(0, 243, 255, 0.3);
+            transition: color 0.5s ease;
+        }
+
+        .form-group {
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 12px;
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 1.1rem;
+            transition: color 0.5s ease;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 18px 22px;
+            background: rgba(10, 15, 35, 0.5);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            font-family: 'Exo 2', sans-serif;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            color: var(--text-primary);
+        }
+
+        body.light-theme .form-group input,
+        body.light-theme .form-group textarea,
+        body.light-theme .form-group select {
+            background: rgba(255, 255, 255, 0.7);
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--neon-blue);
+            box-shadow: 0 0 0 3px rgba(0, 243, 255, 0.3);
+        }
+
+        .form-group textarea {
+            height: 180px;
+            resize: vertical;
+        }
+
+        .submit-button {
+            display: inline-block;
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, var(--primary-cyan), var(--secondary-cyan));
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 25px rgba(0, 168, 197, 0.6);
+            cursor: pointer;
+            font-family: 'Exo 2', sans-serif;
+            font-size: 1.2rem;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .submit-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: 0.5s;
+            z-index: -1;
+        }
+
+        .submit-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 35px rgba(0, 168, 197, 0.8);
+        }
+
+        .submit-button:hover::before {
+            left: 100%;
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            padding: 120px 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .faq-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: var(--card-bg);
+            border-radius: 15px;
+            margin-bottom: 25px;
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: all 0.5s ease;
+        }
+
+        .faq-question {
+            padding: 25px 30px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.4rem;
+            color: var(--neon-blue);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .faq-question:hover {
+            background: rgba(0, 168, 197, 0.1);
+        }
+
+        .faq-question::after {
+            content: '+';
+            font-size: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .faq-question.active::after {
+            transform: rotate(45deg);
+        }
+
+        .faq-answer {
+            padding: 0 30px;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            line-height: 1.7;
+        }
+
+        .faq-answer.show {
+            padding: 0 30px 30px;
+            max-height: 500px;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--footer-bg);
+            color: var(--text-primary);
+            padding: 100px 5% 60px;
+            text-align: center;
+            position: relative;
+            border-top: 1px solid var(--border-color);
+            transition: all 0.5s ease;
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary-cyan), var(--neon-blue));
+            box-shadow: 0 0 20px var(--primary-cyan);
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 50px;
+            text-align: left;
+            margin-bottom: 60px;
+        }
+
+        .footer-column h4 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            margin-bottom: 25px;
+            color: var(--neon-blue);
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .footer-column h4::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--secondary-cyan);
+            border-radius: 2px;
+            box-shadow: 0 0 10px var(--secondary-cyan);
+        }
+
+        .footer-column p {
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            line-height: 1.8;
+            transition: color 0.5s ease;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 15px;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .footer-links a:hover {
+            color: var(--neon-blue);
+            transform: translateX(5px);
+            text-shadow: 0 0 8px var(--neon-blue);
+        }
+
+        .footer-links i {
+            color: var(--neon-blue);
+            text-shadow: 0 0 8px var(--neon-blue);
+        }
+
+        .copyright {
+            padding-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 1400px;
+            margin: 0 auto;
+            transition: color 0.5s ease;
+        }
+
+        /* Responsive */
+        /* Extra large devices (large desktops, 1200px and up) */
+        @media (min-width: 1200px) {
+            .contact-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .hologram-map {
+                height: 500px;
+            }
+        }
+
+        /* Large devices (desktops, 992px and up) */
+        @media (max-width: 1199px) and (min-width: 992px) {
+            .contact-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .hologram-map {
+                height: 400px;
+            }
+        }
+
+        /* Medium devices (tablets, 768px and up) */
+        @media (max-width: 991px) and (min-width: 768px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 40px;
+            }
+            
+            .hero-text {
+                padding-right: 0;
+            }
+            
+            .hero .subtitle::before {
+                left: 50%;
+                transform: translate(-50%, -50%);
+                top: 0;
+            }
+            
+            .contact-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .hologram-map {
+                height: 350px;
+            }
+        }
+
+        /* Small devices (landscape phones, 576px and up) */
+        @media (max-width: 767px) and (min-width: 576px) {
+            .nav-links {
+                gap: 15px;
+            }
+            
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+            
+            .hero .subtitle {
+                font-size: 1.4rem;
+            }
+            
+            .section-title {
+                font-size: 2.4rem;
+            }
+            
+            .contact-info, .contact-form {
+                padding: 30px;
+            }
+            
+            .hologram-map {
+                height: 300px;
+            }
+        }
+
+        /* Extra small devices (portrait phones, less than 576px) */
+        @media (max-width: 575px) {
+            .nav-links {
+                gap: 10px;
+                font-size: 0.9rem;
+            }
+            
+            .logo {
+                font-size: 1.5rem;
+            }
+            
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .hero .subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .contact-info, .contact-form {
+                padding: 25px;
+            }
+            
+            .contact-method {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .social-icons {
+                justify-content: center;
+            }
+            
+            .form-group input,
+            .form-group textarea {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="grid-pattern"></div>
+    
+    <header id="header">
+        <nav>
+            <a href="index.html" class="logo">
+                <div class="logo-icon">X</div>
+                Nexora Prime
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="solution.html">Solutions</a></li>
+                <li><a href="innovation.html">Innovation</a></li>
+                <li><a href="vision.html">Vision</a></li>
+                <li><a href="formation.html">Formation</a></li>
+                <li><a href="contact.html" class="active">Contact</a></li>
+                <li><a href="blog.html">Blog</a></li>
+                <li>
+                    <button class="reserve-button" id="reserveButton" aria-label="Changer de style">
+                        <i class="fas fa-exchange-alt"></i> Style
+                    </button>
+                </li>
+                <li>
+                    <button class="theme-toggle" id="themeToggle" aria-label="Basculer le mode clair/sombre">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>Contactez <strong>Nexora Prime</strong></h1>
+                    <div class="subtitle">Nous sommes là pour vous</div>
+                    <p>Que vous ayez une question sur nos solutions, un projet à discuter ou simplement envie d'en savoir plus sur l'innovation africaine, notre équipe est à votre disposition.</p>
+                    <a href="#contact" class="cta-button">Envoyer un message</a>
+                </div>
+                <div class="hologram-map">
+                    <div class="map-overlay"></div>
+                    <div class="map-points">
+                        <div class="map-point">
+                            <div class="point-info">
+                                <h4>Siège Social</h4>
+                                <p>Eneo Santabarbara,Yaoundé, Cameroun</p>
+                            </div>
+                        </div>
+                        <div class="map-point">
+                            <div class="point-info">
+                                
+                            </div>
+                        </div>
+                        <div class="map-point">
+                            <div class="point-info">
+                               
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="contact-section">
+            <h2 class="section-title">Restons Connectés</h2>
+            <div class="contact-container">
+                <div class="contact-info">
+                    <h2>Nos Coordonnées</h2>
+                    <div class="contact-methods">
+                        <div class="contact-method">
+                            <div class="contact-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div class="contact-details">
+                                <h3>Adresse</h3>
+                                <p>Eneo Santabarbara,Yaoundé, Cameroun</p>
+                            </div>
+                        </div>
+                        <div class="contact-method">
+                            <div class="contact-icon">
+                                <i class="fas fa-phone-alt"></i>
+                            </div>
+                            <div class="contact-details">
+                                <h3>Téléphone</h3>
+                                <p>+237 682759466/ +237 656799351 / +237 698657458</p>
+                            </div>
+                        </div>
+                        <div class="contact-method">
+                            <div class="contact-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div class="contact-details">
+                                <h3>Email</h3>
+                                <p>nexoraprime051709@gmail.com</p>
+                            </div>
+                        </div>
+                        <div class="contact-method">
+                            <div class="contact-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="contact-details">
+                                <h3>Horaires</h3>
+                                <p>Lun-Ven: 8h00 - 18h00<br>Sam: 9h00 - 13h00</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="social-container">
+                        <h3>Suivez-nous</h3>
+                        <div class="social-icons">
+                        <a href="https://x.com/NexoraPrime"><i class="fab fa-twitter"></i></a>
+                        <a href="http://www.linkedin.com/in/nexora-prime-9b920b384"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="https://www.instagram.com/nexora.prime03?igsh=MTh1Mzl2N3B0cGUweQ=="><i class="fab fa-instagram"></i></a>
+                        <a href="https://github.com/NexoraPrime03"><i class="fab fa-github"></i></a>
+                        <a href="https://www.facebook.com/profile.php?id=61577809709014"><i class="fab fa-facebook"></i></a>
+                        <a href="https://whatsapp.com/channel/0029VbAkC3k0bIdefJdKrk3T"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-form">
+                    <h2>Envoyez-nous un message</h2>
+                    <form id="contactForm">
+                        <input type="hidden" id="csrf_token" name="csrf_token" value="">
+                        <div class="form-group">
+                            <label for="name">Nom complet</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Adresse email</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="subject">Sujet</label>
+                            <select id="subject" name="subject" required>
+                                <option value="">Sélectionnez un sujet</option>
+                                <option value="support">Support technique</option>
+                                <option value="partnership">Partenariat</option>
+                                <option value="career">Carrières</option>
+                                <option value="info">Demande d'information</option>
+                                <option value="other">Autre</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" name="message" required></textarea>
+                        </div>
+                        <button type="submit" class="submit-button">Envoyer le message</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <section class="faq-section">
+            <h2 class="section-title">Questions Fréquentes</h2>
+            <div class="faq-container">
+                <div class="faq-item">
+                    <div class="faq-question">Comment puis-je devenir partenaire de Nexora Prime ?</div>
+                    <div class="faq-answer">
+                        <p>Pour devenir partenaire, veuillez nous contacter via le formulaire de contact en sélectionnant "Partenariat" comme sujet. Notre équipe relations partenaires vous contactera sous 48 heures pour discuter des opportunités de collaboration.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">Quels sont vos domaines d'expertise en IA ?</div>
+                    <div class="faq-answer">
+                        <p>Nos domaines d'expertise incluent l'apprentissage automatique, le traitement du langage naturel, la vision par ordinateur, la robotique intelligente et les systèmes de recommandation. Nous développons des solutions sur mesure pour divers secteurs incluant la santé, l'agriculture, la finance et l'éducation.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">Proposez-vous des formations en intelligence artificielle ?</div>
+                    <div class="faq-answer">
+                        <p>Oui, nous proposons plusieurs programmes de formation adaptés à différents niveaux :</p>
+                        <ul>
+                            <li>Formations d'introduction à l'IA pour les débutants</li>
+                            <li>Programmes avancés pour les développeurs et data scientists</li>
+                            <li>Ateliers spécialisés pour les entreprises</li>
+                            <li>Programmes académiques en partenariat avec des universités africaines</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">Quelle est votre politique de confidentialité ?</div>
+                    <div class="faq-answer">
+                        <p>Nous accordons une importance primordiale à la confidentialité et à la sécurité des données. Toutes les informations que vous nous confiez sont protégées par des protocoles de chiffrement avancés. Nous ne partageons jamais vos données avec des tiers sans votre consentement explicite. Pour plus de détails, consultez notre politique de confidentialité complète.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">Quels sont vos délais de réponse pour le support technique ?</div>
+                    <div class="faq-answer">
+                        <p>Notre équipe de support s'engage à répondre dans les délais suivants :</p>
+                        <ul>
+                            <li>Urgences critiques : moins de 1 heure</li>
+                            <li>Problèmes majeurs : moins de 4 heures</li>
+                            <li>Demandes générales : moins de 24 heures</li>
+                            <li>Demandes d'information : moins de 48 heures</li>
+                        </ul>
+                        <p>Notre support est disponible 24/7 pour les clients sous contrat de service premium.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h4>Nexora Prime</h4>
+                <p>L'intelligence artificielle au service de l'innovation africaine. Nous développons des solutions technologiques avancées pour transformer l'Afrique et inspirer le monde.</p>
+            </div>
+            <div class="footer-column">
+                <h4>Liens rapides</h4>
+                <ul class="footer-links">
+                    <li><a href="index.html"><i class="fas fa-chevron-right"></i> Accueil</a></li>
+                    <li><a href="solutions.html"><i class="fas fa-chevron-right"></i> Solutions</a></li>
+                    <li><a href="innovation.html"><i class="fas fa-chevron-right"></i> Innovation</a></li>
+                    <li><a href="vision.html"><i class="fas fa-chevron-right"></i> Vision</a></li>
+                    <li><a href="contact.html"><i class="fas fa-chevron-right"></i> Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Contactez-nous</h4>
+                <ul class="footer-links">
+                    <li><a href="#"><i class="fas fa-map-marker-alt"></i> Dakar, Sénégal</a></li>
+                    <li><a href="tel:+221331234567"><i class="fas fa-phone-alt"></i> +221 33 123 4567</a></li>
+                    <li><a href="mailto:contact@nexoraprime.africa"><i class="fas fa-envelope"></i> contact@nexoraprime.africa</a></li>
+                    <li><a href="#"><i class="fas fa-clock"></i> Lun-Ven: 8h-18h</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            &copy; 2025 Nexora Prime. Tous droits réservés. L'innovation africaine au service du monde.
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const header = document.getElementById('header');
+            const themeToggle = document.getElementById('themeToggle');
+            const themeIcon = themeToggle.querySelector('i');
+            
+            // Vérifier la préférence de thème dans localStorage
+            const currentTheme = localStorage.getItem('theme') || 'dark';
+            if (currentTheme === 'light') {
+                document.body.classList.add('light-theme');
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+            }
+            
+            // Basculer le thème au clic
+            themeToggle.addEventListener('click', function() {
+                document.body.classList.toggle('light-theme');
+                
+                if (document.body.classList.contains('light-theme')) {
+                    localStorage.setItem('theme', 'light');
+                    themeIcon.classList.remove('fa-moon');
+                    themeIcon.classList.add('fa-sun');
+                } else {
+                    localStorage.setItem('theme', 'dark');
+                    themeIcon.classList.remove('fa-sun');
+                    themeIcon.classList.add('fa-moon');
+                }
+            });
+            
+            // Effet de particules pour le background
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            canvas.style.position = 'fixed';
+            canvas.style.top = '0';
+            canvas.style.left = '0';
+            canvas.style.zIndex = '-1';
+            document.body.appendChild(canvas);
+            
+            const particles = [];
+            const particleCount = 150;
+            
+            class Particle {
+                constructor() {
+                    this.x = Math.random() * canvas.width;
+                    this.y = Math.random() * canvas.height;
+                    this.size = Math.random() * 2 + 0.5;
+                    this.speedX = (Math.random() - 0.5) * 0.5;
+                    this.speedY = (Math.random() - 0.5) * 0.5;
+                    this.color = `rgba(58, 198, 224, ${Math.random() * 0.5 + 0.1})`;
+                }
+                
+                update() {
+                    this.x += this.speedX;
+                    this.y += this.speedY;
+                    
+                    if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+                    if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+                }
+                
+                draw() {
+                    ctx.fillStyle = this.color;
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+            
+            function initParticles() {
+                for (let i = 0; i < particleCount; i++) {
+                    particles.push(new Particle());
+                }
+            }
+            
+            function animateParticles() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                
+                for (let i = 0; i < particles.length; i++) {
+                    particles[i].update();
+                    particles[i].draw();
+                    
+                    // Connect particles
+                    for (let j = i; j < particles.length; j++) {
+                        const dx = particles[i].x - particles[j].x;
+                        const dy = particles[i].y - particles[j].y;
+                        const distance = Math.sqrt(dx * dx + dy * dy);
+                        
+                        if (distance < 100) {
+                            ctx.beginPath();
+                            ctx.strokeStyle = `rgba(58, 198, 224, ${0.1 * (1 - distance/100)})`;
+                            ctx.lineWidth = 0.2;
+                            ctx.moveTo(particles[i].x, particles[i].y);
+                            ctx.lineTo(particles[j].x, particles[j].y);
+                            ctx.stroke();
+                        }
+                    }
+                }
+                
+                requestAnimationFrame(animateParticles);
+            }
+            
+            initParticles();
+            animateParticles();
+            
+            // Formulaire de contact
+            const contactForm = document.getElementById('contactForm');
+            if (contactForm) {
+                // Fetch CSRF token when page loads
+                fetch('csrf_token.php')
+                    .then(response => response.json())
+                    .then(data => {
+                        document.getElementById('csrf_token').value = data.csrf_token;
+                    })
+                    .catch(error => {
+                        console.error('Error fetching CSRF token:', error);
+                    });
+                
+                contactForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    // Simple validation
+                    const name = document.getElementById('name').value;
+                    const email = document.getElementById('email').value;
+                    const subject = document.getElementById('subject').value;
+                    const message = document.getElementById('message').value;
+                    const csrf_token = document.getElementById('csrf_token').value;
+                    
+                    if (name && email && subject && message && csrf_token) {
+                        // Send email using fetch API to our PHP script
+                        const formData = new FormData();
+                        formData.append('name', name);
+                        formData.append('email', email);
+                        formData.append('subject', subject);
+                        formData.append('message', message);
+                        formData.append('csrf_token', csrf_token);
+                        
+                        fetch('send_email.php', {
+                            method: 'POST',
+                            body: formData
+                        })
+                        .then(response => {
+                            // Log the raw response for debugging
+                            return response.text().then(text => {
+                                console.log('Raw server response:', text);
+                                try {
+                                    return JSON.parse(text);
+                                } catch (e) {
+                                    throw new Error('Invalid JSON response: ' + text);
+                                }
+                            });
+                        })
+                        .then(data => {
+                            if (data.status === 'success' || data.status === 'partial_success') {
+                                // Animation de succès
+                                const submitButton = contactForm.querySelector('.submit-button');
+                                submitButton.textContent = 'Message envoyé !';
+                                submitButton.style.background = 'linear-gradient(135deg, #00c58e, #00d1a9)';
+                                
+                                setTimeout(() => {
+                                    submitButton.textContent = 'Envoyer le message';
+                                    submitButton.style.background = 'linear-gradient(135deg, var(--primary-cyan), var(--secondary-cyan))';
+                                    contactForm.reset();
+                                }, 3000);
+                                
+                                // Show success message
+                                if (data.status === 'partial_success') {
+                                    alert('Message enregistré: ' + data.message);
+                                } else {
+                                    alert('Message envoyé avec succès!');
+                                }
+                                
+                                // Fetch a new CSRF token for the next submission
+                                fetch('csrf_token.php')
+                                    .then(response => response.json())
+                                    .then(data => {
+                                        document.getElementById('csrf_token').value = data.csrf_token;
+                                    })
+                                    .catch(error => {
+                                        console.error('Error fetching new CSRF token:', error);
+                                    });
+                            } else {
+                                alert('Erreur: ' + data.message);
+                                
+                                // Fetch a new CSRF token after failed submission
+                                fetch('csrf_token.php')
+                                    .then(response => response.json())
+                                    .then(data => {
+                                        document.getElementById('csrf_token').value = data.csrf_token;
+                                    })
+                                    .catch(error => {
+                                        console.error('Error fetching new CSRF token:', error);
+                                    });
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            alert('Erreur lors de l\'envoi du message. Veuillez réessayer. Détails: ' + error.message);
+                            
+                            // Fetch a new CSRF token after failed submission
+                            fetch('csrf_token.php')
+                                .then(response => response.json())
+                                .then(data => {
+                                    document.getElementById('csrf_token').value = data.csrf_token;
+                                })
+                                .catch(error => {
+                                    console.error('Error fetching new CSRF token:', error);
+                                });
+                        });
+                    } else {
+                        alert('Veuillez remplir tous les champs obligatoires.');
+                    }
+                });
+            }
+            
+            // FAQ Accordéon
+            const faqQuestions = document.querySelectorAll('.faq-question');
+            faqQuestions.forEach(question => {
+                question.addEventListener('click', function() {
+                    const answer = this.nextElementSibling;
+                    const isActive = this.classList.contains('active');
+                    
+                    // Fermer toutes les réponses
+                    document.querySelectorAll('.faq-answer').forEach(ans => {
+                        ans.classList.remove('show');
+                    });
+                    
+                    // Retirer la classe active de toutes les questions
+                    document.querySelectorAll('.faq-question').forEach(q => {
+                        q.classList.remove('active');
+                    });
+                    
+                    // Ouvrir la réponse si elle était fermée
+                    if (!isActive) {
+                        this.classList.add('active');
+                        answer.classList.add('show');
+                    }
+                });
+            });
+            
+            // Redimensionnement du canvas
+            window.addEventListener('resize', function() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            });
+            
+            // Fonctionnalité du bouton reserve (changement de style)
+            const reserveButton = document.getElementById('reserveButton');
+            if (reserveButton) {
+                reserveButton.addEventListener('click', () => {
+                    // Apply glass morphing transition
+                    const overlay = document.createElement('div');
+                    overlay.style.cssText = `
+                        position: fixed;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        background: rgba(0, 168, 197, 0.2);
+                        backdrop-filter: blur(10px);
+                        z-index: 9999;
+                        opacity: 0;
+                        transition: all 3s ease;
+                        pointer-events: none;
+                    `;
+                    
+                    document.body.appendChild(overlay);
+                    
+                    // Start transition
+                    setTimeout(() => {
+                        overlay.style.opacity = '1';
+                        
+                        // Apply morphing effect
+                        overlay.style.transform = 'scale(1.1)';
+                        overlay.style.borderRadius = '50%';
+                        
+                        // Get current page and redirect to its pair
+                        const currentPage = window.location.pathname.split('/').pop();
+                        const pagePairs = {
+                            'blog.html': 'blog2.html',
+                            'contact.html': 'contact2.html',
+                            'solution.html': 'solu2.html',
+                            'index.html': 'Nexora2.html',
+                            'formation.html': 'formation2.html',
+                            'vision.html': 'vision2.html',
+                            'innovation.html': 'innov2.html'
+                        };
+                        
+                        const targetPage = pagePairs[currentPage] || 
+                                          Object.keys(pagePairs).find(key => pagePairs[key] === currentPage);
+                        
+                        setTimeout(() => {
+                            if (targetPage) {
+                                window.location.href = targetPage;
+                            }
+                        }, 3000);
+                    }, 100);
+                });
+            }
+        });
+    </script>
+</body>
+</html>

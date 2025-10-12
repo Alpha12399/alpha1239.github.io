@@ -1,0 +1,1388 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solutions - Nexora Prime</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --dark-bg: #0a0a1a;
+            --darker-bg: #050510;
+            --card-bg: #15152b;
+            --primary-blue: #2563eb;
+            --neon-blue: #3b82f6;
+            --light-blue: #93c5fd;
+            --accent-cyan: #06b6d4;
+            --text-light: #f8fafc;
+            --text-muted: #cbd5e1;
+            --border-color: #334155;
+            --gradient-start: #1e40af;
+            --gradient-end: #0ea5e9;
+            
+            /* Variables pour le mode clair */
+            --light-bg: #ffffff;
+            --lighter-bg: #f8fafc;
+            --light-card-bg: #ffffff;
+            --light-text: #1f2937;
+            --light-text-muted: #6b7280;
+            --light-border: #e5e7eb;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text-light);
+            line-height: 1.6;
+            overflow-x: hidden;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* Mode clair */
+        body.light-theme {
+            background-color: var(--light-bg);
+            color: var(--light-text);
+        }
+
+        body.light-theme .grid-pattern {
+            background-image: 
+                linear-gradient(rgba(220, 220, 220, 0.7) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(220, 220, 220, 0.7) 1px, transparent 1px);
+        }
+
+        body.light-theme #header {
+            background: rgba(255, 255, 255, 0.8);
+            border-bottom: 1px solid var(--light-border);
+        }
+
+        body.light-theme .logo {
+            color: var(--light-text);
+        }
+
+        body.light-theme .nav-links a {
+            color: var(--light-text-muted);
+        }
+
+        body.light-theme .nav-links a:hover, 
+        body.light-theme .nav-links a.active {
+            color: var(--light-text);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Pattern de fond */
+        .grid-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(18, 18, 38, 0.9) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(18, 18, 38, 0.9) 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: -2;
+            opacity: 0.3;
+            transition: background-image 0.3s ease;
+        }
+
+        /* Particules d'arrière-plan */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            background-color: var(--neon-blue);
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: floatParticle 15s infinite linear;
+        }
+
+        @keyframes floatParticle {
+            0% {
+                transform: translateY(0) translateX(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.3;
+            }
+            90% {
+                opacity: 0.2;
+            }
+            100% {
+                transform: translateY(-100vh) translateX(100vw);
+                opacity: 0;
+            }
+        }
+
+        /* Header et Navigation */
+        #header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10, 10, 26, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            z-index: 1000;
+            transition: background 0.3s ease, border-color 0.3s ease;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--text-light);
+            transition: color 0.3s ease;
+        }
+
+        .logo-icon {
+            position: relative;
+            width: 60px;
+            height: 60px;
+            margin-right: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            color: var(--neon-blue);
+            background: rgba(59, 130, 246, 0.1);
+            border-radius: 12px;
+            overflow: hidden;
+            font-size: 2.5rem;
+        }
+
+        .logo-icon::before {
+            content: '';
+            position: absolute;
+            width: 150%;
+            height: 150%;
+            background: conic-gradient(transparent, transparent, transparent, var(--neon-blue));
+            animation: animateX 4s linear infinite;
+        }
+
+        .logo-icon::after {
+            content: '';
+            position: absolute;
+            inset: 2px;
+            background: var(--darker-bg);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        body.light-theme .logo-icon::after {
+            background: var(--lighter-bg);
+        }
+
+        .logo-icon span {
+            position: relative;
+            z-index: 10;
+        }
+
+        @keyframes animateX {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--text-light);
+        }
+
+        .nav-links a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--neon-blue);
+            border-radius: 2px;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+
+        /* Reserve Button Styles */
+        .reserve-button {
+            background: linear-gradient(135deg, #00a8c5, #3ac6e0);
+            border: none;
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: auto;
+            height: 40px;
+            border-radius: 20px;
+            margin-left: 15px;
+            padding: 0 15px;
+            font-weight: 600;
+            box-shadow: 0 0 15px rgba(0, 168, 197, 0.6);
+        }
+
+        .reserve-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 25px rgba(0, 168, 197, 0.8);
+        }
+
+        .reserve-button i {
+            margin-right: 8px;
+        }
+
+        .theme-toggle {
+            transition: color 0.3s;
+        }
+
+        .theme-toggle:hover {
+            color: var(--text-light);
+        }
+
+        /* Hero Section Solutions */
+        .solutions-hero {
+            padding: 180px 0 100px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 60px;
+        }
+
+        .hero-text {
+            max-width: 800px;
+        }
+
+        .hero-text h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .hero-text h1 strong {
+            background: linear-gradient(90deg, var(--neon-blue), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+        }
+
+        .hero-text p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            margin-bottom: 30px;
+            transition: color 0.3s ease;
+        }
+
+        body.light-theme .hero-text p {
+            color: var(--light-text-muted);
+        }
+
+        /* Hologramme - Animation unique */
+        .hologram-container {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            perspective: 1000px;
+        }
+
+        .hologram-platform {
+            position: absolute;
+            width: 200px;
+            height: 20px;
+            background: linear-gradient(90deg, var(--primary-blue), var(--accent-cyan));
+            border-radius: 50%;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            filter: blur(10px);
+            animation: platform-glow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes platform-glow {
+            0% {
+                box-shadow: 0 0 20px var(--neon-blue);
+                opacity: 0.7;
+            }
+            100% {
+                box-shadow: 0 0 40px var(--neon-blue), 0 0 60px var(--accent-cyan);
+                opacity: 1;
+            }
+        }
+
+        .hologram-beam {
+            position: absolute;
+            width: 150px;
+            height: 200px;
+            background: linear-gradient(to top, transparent, rgba(59, 130, 246, 0.3), transparent);
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+            animation: beam-pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes beam-pulse {
+            0%, 100% {
+                opacity: 0.3;
+            }
+            50% {
+                opacity: 0.7;
+            }
+        }
+
+        .hologram-content {
+            position: absolute;
+            top: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            z-index: 2;
+            animation: hologram-float 6s ease-in-out infinite;
+        }
+
+        @keyframes hologram-float {
+            0%, 100% {
+                transform: translateX(-50%) translateY(0);
+            }
+            50% {
+                transform: translateX(-50%) translateY(-15px);
+            }
+        }
+
+        .hologram-content h3 {
+            font-size: 1.8rem;
+            color: var(--neon-blue);
+            margin-bottom: 10px;
+            text-shadow: 0 0 15px var(--neon-blue);
+            animation: text-shimmer 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes text-shimmer {
+            0% {
+                text-shadow: 0 0 15px var(--neon-blue);
+            }
+            100% {
+                text-shadow: 0 0 25px var(--neon-blue), 0 0 35px var(--accent-cyan);
+            }
+        }
+
+        .hologram-content p {
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+
+        .hologram-icons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .hologram-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(59, 130, 246, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--neon-blue);
+            font-size: 1.2rem;
+            animation: icon-pulse 2s ease-in-out infinite;
+        }
+
+        .hologram-icon:nth-child(2) {
+            animation-delay: 0.5s;
+        }
+
+        .hologram-icon:nth-child(3) {
+            animation-delay: 1s;
+        }
+
+        @keyframes icon-pulse {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 0 0 10px var(--neon-blue);
+            }
+            50% {
+                transform: scale(1.1);
+                box-shadow: 0 0 20px var(--neon-blue);
+            }
+        }
+
+        /* Solutions Grid */
+        .solutions-section {
+            padding: 100px 0;
+            background: var(--darker-bg);
+            position: relative;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 60px;
+            font-weight: 700;
+            transition: color 0.3s ease;
+        }
+
+        body.light-theme .section-title {
+            color: var(--light-text);
+        }
+
+        .solutions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .solution-card {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            transition: transform 0.3s, box-shadow 0.3s, background 0.3s ease, border-color 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .solution-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-blue), var(--accent-cyan));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.5s ease;
+        }
+
+        .solution-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .solution-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            border-color: var(--neon-blue);
+        }
+
+        .solution-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            transition: transform 0.5s ease;
+        }
+
+        .solution-card:hover .solution-image {
+            transform: scale(1.05);
+        }
+
+        .solution-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+            color: white;
+            font-size: 2rem;
+            position: relative;
+            animation: icon-float 4s ease-in-out infinite;
+        }
+
+        @keyframes icon-float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .solution-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--text-light);
+            text-align: center;
+            transition: color 0.3s ease;
+        }
+
+        body.light-theme .solution-card h3 {
+            color: var(--light-text);
+        }
+
+        .solution-card p {
+            color: var(--text-muted);
+            margin-bottom: 20px;
+            text-align: center;
+            flex-grow: 1;
+            transition: color 0.3s ease;
+        }
+
+        .solution-features {
+            list-style: none;
+            margin-bottom: 25px;
+        }
+
+        .solution-features li {
+            margin-bottom: 10px;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            transition: color 0.3s ease;
+        }
+
+        .solution-features li:before {
+            content: '•';
+            color: var(--neon-blue);
+            font-weight: bold;
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+
+        .solution-link {
+            display: inline-block;
+            padding: 12px 25px;
+            background: linear-gradient(90deg, var(--gradient-start), var(--gradient-end));
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .solution-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3);
+        }
+
+        /* Transformation Section */
+        .transformation-section {
+            padding: 100px 0;
+            background: var(--dark-bg);
+        }
+
+        .transformation-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .transformation-content h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: var(--text-light);
+            transition: color 0.3s ease;
+        }
+
+        body.light-theme .transformation-content h2 {
+            color: var(--light-text);
+        }
+
+        .transformation-content p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            margin-bottom: 60px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            transition: color 0.3s ease;
+        }
+
+        .transformation-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 30px;
+        }
+
+        .transformation-step {
+            background: var(--card-bg);
+            padding: 30px 20px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            transition: transform 0.3s, box-shadow 0.3s, background 0.3s ease, border-color 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .transformation-step::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-blue), var(--accent-cyan));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.5s ease;
+        }
+
+        .transformation-step:hover::after {
+            transform: scaleX(1);
+        }
+
+        .transformation-step:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            border-color: var(--neon-blue);
+        }
+
+        .step-number {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--neon-blue);
+            margin-bottom: 15px;
+            opacity: 0.2;
+            line-height: 1;
+        }
+
+        .transformation-step h3 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: var(--text-light);
+            transition: color 0.3s ease;
+        }
+
+        body.light-theme .transformation-step h3 {
+            color: var(--light-text);
+        }
+
+        .transformation-step p {
+            font-size: 1rem;
+            color: var(--text-muted);
+            margin-bottom: 0;
+            transition: color 0.3s ease;
+        }
+
+        /* CTA Section */
+        .transformation-cta {
+            padding: 100px 0;
+            background: linear-gradient(135deg, var(--darker-bg), var(--dark-bg));
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-content {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .cta-content h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: var(--text-light);
+            transition: color 0.3s ease;
+        }
+
+        body.light-theme .cta-content h2 {
+            color: var(--light-text);
+        }
+
+        .cta-content p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+            transition: color 0.3s ease;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 15px 40px;
+            background: linear-gradient(90deg, var(--gradient-start), var(--gradient-end));
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(37, 99, 235, 0.4);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--darker-bg);
+            padding: 60px 0 30px;
+            border-top: 1px solid var(--border-color);
+            transition: background 0.3s ease, border-color 0.3s ease;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-column h4 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            color: var(--text-light);
+            transition: color 0.3s ease;
+        }
+
+        body.light-theme .footer-column h4 {
+            color: var(--light-text);
+        }
+
+        .footer-column p {
+            color: var(--text-muted);
+            line-height: 1.6;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.3s;
+            display: flex;
+            align-items: center;
+        }
+
+        .footer-links a:hover {
+            color: var(--neon-blue);
+        }
+
+        .footer-links i {
+            margin-right: 10px;
+            font-size: 0.8rem;
+        }
+
+        .copyright {
+            text-align: center;
+            color: var(--text-muted);
+            padding-top: 30px;
+            border-top: 1px solid var(--border-color);
+            transition: color 0.3s ease, border-color 0.3s ease;
+        }
+
+        /* Animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive */
+        /* Extra large devices (large desktops, 1200px and up) */
+        @media (min-width: 1200px) {
+            .solutions-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .transformation-steps {
+                grid-template-columns: repeat(4, 1fr);
+            }
+            
+            .hologram-container {
+                height: 500px;
+            }
+            
+            .hologram-content {
+                width: 350px;
+                height: 350px;
+            }
+        }
+
+        /* Large devices (desktops, 992px and up) */
+        @media (max-width: 1199px) and (min-width: 992px) {
+            .solutions-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .transformation-steps {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .hologram-container {
+                height: 400px;
+            }
+            
+            .hologram-content {
+                width: 300px;
+                height: 300px;
+            }
+        }
+
+        /* Medium devices (tablets, 768px and up) */
+        @media (max-width: 991px) and (min-width: 768px) {
+            .nav-links {
+                gap: 15px;
+            }
+            
+            .hero-text h1 {
+                font-size: 2.8rem;
+            }
+            
+            .section-title {
+                font-size: 2.4rem;
+            }
+            
+            .solutions-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .transformation-steps {
+                grid-template-columns: 1fr;
+            }
+            
+            .hologram-container {
+                height: 350px;
+            }
+            
+            .hologram-content {
+                width: 250px;
+                height: 250px;
+            }
+        }
+
+        /* Small devices (landscape phones, 576px and up) */
+        @media (max-width: 767px) and (min-width: 576px) {
+            .nav-links {
+                gap: 15px;
+            }
+            
+            .hero-text h1 {
+                font-size: 2.8rem;
+            }
+            
+            .section-title {
+                font-size: 2.4rem;
+            }
+            
+            .solutions-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .transformation-steps {
+                grid-template-columns: 1fr;
+            }
+            
+            .hologram-container {
+                height: 300px;
+            }
+            
+            .hologram-content {
+                width: 250px;
+                height: 250px;
+            }
+
+            .solution-card {
+                padding: 30px;
+            }
+
+            .solution-card h3 {
+                font-size: 1.8rem;
+            }
+
+            .transformation-step {
+                padding: 30px;
+            }
+
+            .transformation-step h3 {
+                font-size: 1.5rem;
+            }
+        }
+
+        /* Extra small devices (portrait phones, less than 576px) */
+        @media (max-width: 575px) {
+            .hero-text h1 {
+                font-size: 2.2rem;
+            }
+            
+            .hero-text p {
+                font-size: 1.1rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .hologram-container {
+                height: 250px;
+            }
+            
+            .solution-card {
+                padding: 25px;
+            }
+            
+            .solution-card h3 {
+                font-size: 1.5rem;
+            }
+            
+            .transformation-step {
+                padding: 25px;
+            }
+            
+            .transformation-step h3 {
+                font-size: 1.3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="grid-pattern"></div>
+    <div class="particles" id="particles"></div>
+    
+    <header id="header">
+        <div class="container">
+            <nav>
+                <a href="#" class="logo">
+                    <div class="logo-icon"><span>X</span></div>
+                    Nexora Prime
+                </a>
+                <ul class="nav-links">
+                  <li><a href="Nexora2.html">Accueil</a></li>
+                    <li><a href="solu2.html"class="active">Solutions</a></li>
+                    <li><a href="innov2.html">Innovation</a></li>
+                    <li><a href="vision2.html">Vision</a></li>
+                    <li><a href="formation2.html">Formation</a></li>
+                    <li><a href="contact2.html">Contact</a></li>
+                    <li><a href="blog2.html" >Blog</a></li>
+                    <li>
+                        <button class="reserve-button" id="reserveButton" aria-label="Changer de style">
+                            <i class="fas fa-exchange-alt"></i> Style
+                        </button>
+                    </li>
+                    <li>
+                        <button class="theme-toggle" id="themeToggle" aria-label="Basculer le mode clair/sombre">
+                            <i class="fas fa-moon"></i>
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section - Design Unique -->
+        <section class="solutions-hero">
+            <div class="container">
+                <div class="hero-content">
+                    <div class="hero-text reveal">
+                        <h1>Solutions d'IA <strong>Révolutionnaires</strong></h1>
+                        <p>Découvrez nos technologies d'intelligence artificielle qui transforment l'Afrique et inspirent le monde</p>
+                    </div>
+                    
+                    <!-- Hologramme IA - Élément unique -->
+                    <div class="hologram-container reveal">
+                        <div class="hologram-platform"></div>
+                        <div class="hologram-beam"></div>
+                        <div class="hologram-content">
+                            <img src="https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="IA Hologramme" style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover; border: 2px solid var(--neon-blue); box-shadow: 0 0 20px var(--neon-blue);">
+                            <h3>NEXORA CORE</h3>
+                            <p>Intelligence Africaine</p>
+                            <div class="hologram-icons">
+                                <div class="hologram-icon"><i class="fas fa-brain"></i></div>
+                                <div class="hologram-icon"><i class="fas fa-robot"></i></div>
+                                <div class="hologram-icon"><i class="fas fa-cloud"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Solutions Grid - Disposition unique -->
+        <section class="solutions-section">
+            <div class="container">
+                <h2 class="section-title reveal">Nos Technologies d'IA</h2>
+                <div class="solutions-grid">
+                    <div class="solution-card reveal">
+                        <img src="https://images.unsplash.com/photo-1677442135135-416f8aa26a5b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Cognition Augmentée" class="solution-image">
+                        <div class="solution-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <h3>Cognition Augmentée</h3>
+                        <p>Amplifiez les capacités cognitives de vos équipes avec notre IA qui améliore la prise de décision et la résolution de problèmes complexes.</p>
+                        <ul class="solution-features">
+                            <li>Analyse prédictive avancée</li>
+                            <li>Recommandations intelligentes</li>
+                            <li>Optimisation des processus</li>
+                            <li>Simulations de scénarios</li>
+                        </ul>
+                        <a href="#" class="solution-link">Découvrir</a>
+                    </div>
+                    
+                    <div class="solution-card reveal">
+                        <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Automatisation Intelligente" class="solution-image">
+                        <div class="solution-icon">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <h3>Automatisation Intelligente</h3>
+                        <p>Transformez vos opérations avec des systèmes d'automatisation pilotés par l'IA qui apprennent et s'adaptent continuellement.</p>
+                        <ul class="solution-features">
+                            <li>Robots logiciels auto-apprenants</li>
+                            <li>Intégration transparente</li>
+                            <li>Surveillance en temps réel</li>
+                            <li>Optimisation continue</li>
+                        </ul>
+                        <a href="#" class="solution-link">Explorer</a>
+                    </div>
+                    
+                    <div class="solution-card reveal">
+                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Analytique Visionnaire" class="solution-image">
+                        <div class="solution-icon">
+                            <i class="fas fa-chart-network"></i>
+                        </div>
+                        <h3>Analytique Visionnaire</h3>
+                        <p>Anticipez l'avenir avec nos puissants outils d'analyse prédictive qui transforment vos données en avantages concurrentiels.</p>
+                        <ul class="solution-features">
+                            <li>Modèles prédictifs sur mesure</li>
+                            <li>Détection d'opportunités cachées</li>
+                            <li>Alertes préventives sur les risques</li>
+                            <li>Tableaux de bord interactifs</li>
+                        </ul>
+                        <a href="#" class="solution-link">En savoir plus</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Transformation Section - Design unique -->
+        <section class="transformation-section">
+            <div class="container">
+                <div class="transformation-content">
+                    <h2 class="reveal">Votre Transformation IA</h2>
+                    <p class="reveal">Découvrez notre processus en 4 étapes pour intégrer l'IA dans votre entreprise</p>
+                    
+                    <div class="transformation-steps">
+                        <div class="transformation-step reveal">
+                            <img src="https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=300&q=80" alt="Diagnostic IA" style="width: 100%; height: 150px; object-fit: cover; border-radius: 8px; margin-bottom: 15px;">
+                            <div class="step-number">01</div>
+                            <h3>Diagnostic IA</h3>
+                            <p>Analyse approfondie de vos processus et identification des opportunités d'intégration de l'IA.</p>
+                        </div>
+                        
+                        <div class="transformation-step reveal">
+                            <img src="https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=300&q=80" alt="Conception Sur Mesure" style="width: 100%; height: 150px; object-fit: cover; border-radius: 8px; margin-bottom: 15px;">
+                            <div class="step-number">02</div>
+                            <h3>Conception Sur Mesure</h3>
+                            <p>Création d'une solution IA adaptée à vos besoins spécifiques et à votre secteur d'activité.</p>
+                        </div>
+                        
+                        <div class="transformation-step reveal">
+                            <img src="https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=300&q=80" alt="Implémentation Agile" style="width: 100%; height: 150px; object-fit: cover; border-radius: 8px; margin-bottom: 15px;">
+                            <div class="step-number">03</div>
+                            <h3>Implémentation Agile</h3>
+                            <p>Déploiement progressif avec formation de vos équipes et ajustements en temps réel.</p>
+                        </div>
+                        
+                        <div class="transformation-step reveal">
+                            <img src="https://images.unsplash.com/photo-1581092586560-4a50e5dca5e8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=300&q=80" alt="Optimisation Continue" style="width: 100%; height: 150px; object-fit: cover; border-radius: 8px; margin-bottom: 15px;">
+                            <div class="step-number">04</div>
+                            <h3>Optimisation Continue</h3>
+                            <p>Amélioration constante grâce à l'apprentissage automatique et aux retours d'expérience.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Nouvelle section de transformation gratuite -->
+        <section class="transformation-cta">
+            <div class="container">
+                <div class="cta-content">
+                    <h2 class="reveal">Prêt pour la révolution IA ?</h2>
+                    <p class="reveal">Démarrez votre transformation numérique avec notre évaluation gratuite et découvrez comment notre intelligence artificielle peut propulser votre entreprise vers l'avenir.</p>
+                    <a href="#" class="cta-button reveal">Commencez votre transformation gratuite</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h4>Nexora Prime</h4>
+                    <p>L'intelligence artificielle au service de l'innovation africaine. Nous développons des solutions technologiques avancées pour transformer l'Afrique et inspirer le monde.</p>
+                </div>
+                <div class="footer-column">
+                    <h4>Liens rapides</h4>
+                    <ul class="footer-links">
+                        <li><a href="Nexora2.html"><i class="fas fa-chevron-right"></i> Accueil</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Solutions</a></li>
+                        <li><a href="innov2.html"><i class="fas fa-chevron-right"></i> Innovation</a></li>
+                        <li><a href="vision2.html"><i class="fas fa-chevron-right"></i> Vision</a></li>
+                        <li><a href="contact2.html"><i class="fas fa-chevron-right"></i> Contact</a></li>
+                        <li><a href="blog2.html"><i class="fas fa-chevron-right"></i> Blog</a></li>
+                        <li><a href="formation2.html"><i class="fas fa-chevron-right"></i> Formation</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Nos Solutions</h4>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Cognition Augmentée</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Automatisation Intelligente</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Analytique Visionnaire</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Sécurité Prédictive</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Interactions Contextuelles</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                &copy; 2025 Nexora Prime. Tous droits réservés. L'innovation africaine au service du monde.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Animation de révélation au défilement
+        function revealOnScroll() {
+            const elements = document.querySelectorAll('.reveal');
+            elements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
+                if (elementTop < window.innerHeight - elementVisible) {
+                    element.classList.add('active');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', revealOnScroll);
+        window.addEventListener('load', revealOnScroll);
+
+        // Fonctionnalité du bouton reserve (changement de style)
+        document.addEventListener('DOMContentLoaded', function() {
+            const reserveButton = document.getElementById('reserveButton');
+            if (reserveButton) {
+                reserveButton.addEventListener('click', () => {
+                    // Apply glass morphing transition
+                    const overlay = document.createElement('div');
+                    overlay.style.cssText = `
+                        position: fixed;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        background: rgba(0, 168, 197, 0.2);
+                        backdrop-filter: blur(10px);
+                        z-index: 9999;
+                        opacity: 0;
+                        transition: all 3s ease;
+                        pointer-events: none;
+                    `;
+                    
+                    document.body.appendChild(overlay);
+                    
+                    // Start transition
+                    setTimeout(() => {
+                        overlay.style.opacity = '1';
+                        
+                        // Apply morphing effect
+                        overlay.style.transform = 'scale(1.1)';
+                        overlay.style.borderRadius = '50%';
+                        
+                        // Get current page and redirect to its pair
+                        const currentPage = window.location.pathname.split('/').pop();
+                        const pagePairs = {
+                            'blog.html': 'blog2.html',
+                            'contact.html': 'contact2.html',
+                            'solution.html': 'solu2.html',
+                            'index.html': 'Nexora2.html',
+                            'formation.html': 'formation2.html',
+                            'vision.html': 'vision2.html',
+                            'innovation.html': 'innov2.html'
+                        };
+                        
+                        const targetPage = pagePairs[currentPage] || 
+                                          Object.keys(pagePairs).find(key => pagePairs[key] === currentPage);
+                        
+                        setTimeout(() => {
+                            if (targetPage) {
+                                window.location.href = targetPage;
+                            }
+                        }, 3000);
+                    }, 100);
+                });
+            }
+        });
+
+        // Fonctionnalité de basculement de thème
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+        const icon = themeToggle.querySelector('i');
+        
+        // Vérifier le thème sauvegardé dans le localStorage
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'light') {
+            body.classList.add('light-theme');
+            icon.classList.remove('fa-moon');
+            icon.classList.add('fa-sun');
+        }
+
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('light-theme');
+            
+            if (body.classList.contains('light-theme')) {
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+                localStorage.setItem('theme', 'light');
+            } else {
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+                localStorage.setItem('theme', 'dark');
+            }
+        });
+
+        // Création des particules d'arrière-plan
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 30;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // Taille aléatoire
+                const size = Math.random() * 5 + 2;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                
+                // Position aléatoire
+                const posX = Math.random() * 100;
+                const posY = Math.random() * 100;
+                particle.style.left = `${posX}vw`;
+                particle.style.top = `${posY}vh`;
+                
+                // Délai d'animation aléatoire
+                const delay = Math.random() * 15;
+                particle.style.animationDelay = `${delay}s`;
+                
+                // Couleur aléatoire (bleu ou cyan)
+                const colors = ['#3b82f6', '#06b6d4'];
+                const randomColor = colors[Math.floor(Math.random() * colors.length)];
+                particle.style.backgroundColor = randomColor;
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // Animation au survol des cartes
+        function enhanceCardInteractions() {
+            const cards = document.querySelectorAll('.solution-card, .transformation-step');
+            
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', () => {
+                    card.style.transition = 'transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease, border-color 0.3s ease';
+                });
+                
+                card.addEventListener('mouseleave', () => {
+                    card.style.transition = 'transform 0.5s ease, box-shadow 0.5s ease, background 0.5s ease, border-color 0.5s ease';
+                });
+            });
+        }
+
+        // Initialisation des effets
+        document.addEventListener('DOMContentLoaded', () => {
+            createParticles();
+            enhanceCardInteractions();
+            revealOnScroll(); // Initial reveal check
+        });
+    </script>
+</body>
+</html>

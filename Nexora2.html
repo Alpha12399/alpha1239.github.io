@@ -1,0 +1,1483 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexora Prime - L'Intelligence Artificielle Réinventée</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --dark-bg: #0a0a1a;
+            --darker-bg: #050510;
+            --card-bg: #15152b;
+            --primary-blue: #2563eb;
+            --neon-blue: #3b82f6;
+            --light-blue: #93c5fd;
+            --accent-cyan: #06b6d4;
+            --text-light: #f8fafc;
+            --text-muted: #cbd5e1;
+            --border-color: #334155;
+            --gradient-start: #1e40af;
+            --gradient-end: #0ea5e9;
+            
+            /* Variables pour le mode clair - initialement vides */
+            --light-bg: #ffffff;
+            --lighter-bg: #f8fafc;
+            --light-card-bg: #ffffff;
+            --light-text: #1f2937;
+            --light-text-muted: #6b7280;
+            --light-border: #e5e7eb;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text-light);
+            line-height: 1.6;
+            overflow-x: hidden;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* Mode clair */
+        body.light-theme {
+            background-color: var(--light-bg);
+            color: var(--light-text);
+        }
+
+        body.light-theme .grid-pattern {
+            background-image: 
+                linear-gradient(rgba(220, 220, 220, 0.7) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(220, 220, 220, 0.7) 1px, transparent 1px);
+        }
+
+        body.light-theme #header {
+            background: rgba(255, 255, 255, 0.8);
+            border-bottom: 1px solid var(--light-border);
+        }
+
+        body.light-theme .logo {
+            color: var(--light-text);
+        }
+
+        body.light-theme .nav-links a {
+            color: var(--light-text-muted);
+        }
+
+        body.light-theme .nav-links a:hover, 
+        body.light-theme .nav-links a.active {
+            color: var(--light-text);
+        }
+
+        body.light-theme .service-card,
+        body.light-theme .innovation-card,
+        body.light-theme .vision-container {
+            background: var(--light-card-bg);
+            border: 1px solid var(--light-border);
+            color: var(--light-text);
+        }
+
+        body.light-theme .service-card p,
+        body.light-theme .innovation-card p,
+        body.light-theme .value-card p,
+        body.light-theme .vision-statement,
+        body.light-theme .feature-list li {
+            color: var(--light-text-muted);
+        }
+
+        body.light-theme .form-group input, 
+        body.light-theme .form-group textarea {
+            background: var(--light-card-bg);
+            border: 1px solid var(--light-border);
+            color: var(--light-text);
+        }
+
+        body.light-theme footer {
+            background: var(--lighter-bg);
+            border-top: 1px solid var(--light-border);
+        }
+
+        body.light-theme .copyright {
+            border-top: 1px solid var(--light-border);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Pattern de fond */
+        .grid-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(18, 18, 38, 0.9) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(18, 18, 38, 0.9) 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: -1;
+            opacity: 0.3;
+            transition: background-image 0.3s ease;
+        }
+
+        /* Header et Navigation - Style Cursor */
+        #header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10, 10, 26, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            z-index: 1000;
+            transition: background 0.3s ease, border-color 0.3s ease;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--text-light);
+            transition: color 0.3s ease;
+        }
+
+        .logo-icon {
+            position: relative;
+            width: 60px;
+            height: 60px;
+            margin-right: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            color: var(--neon-blue);
+            background: rgba(59, 130, 246, 0.1);
+            border-radius: 12px;
+            overflow: hidden;
+            font-size: 2.5rem;
+        }
+
+        .logo-icon::before {
+            content: '';
+            position: absolute;
+            width: 150%;
+            height: 150%;
+            background: conic-gradient(transparent, transparent, transparent, var(--neon-blue));
+            animation: animateX 4s linear infinite;
+        }
+
+        .logo-icon::after {
+            content: '';
+            position: absolute;
+            inset: 2px;
+            background: var(--darker-bg);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        body.light-theme .logo-icon::after {
+            background: var(--lighter-bg);
+        }
+
+        .logo-icon span {
+            position: relative;
+            z-index: 10;
+        }
+
+        @keyframes animateX {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--text-light);
+        }
+
+        .nav-links a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--neon-blue);
+            border-radius: 2px;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: color 0.3s;
+        }
+
+        .theme-toggle:hover {
+            color: var(--text-light);
+        }
+
+        /* Hero Section - Nouvelle disposition */
+        .hero {
+            padding: 150px 0 100px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 60px;
+        }
+
+        .hero-text {
+            flex: 1;
+            max-width: 600px;
+            padding-right: 40px;
+        }
+
+        .hero-text h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .hero-text h1 strong {
+            background: linear-gradient(90deg, var(--neon-blue), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+        }
+
+        .subtitle {
+            font-size: 1.5rem;
+            color: var(--neon-blue);
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .hero-text p {
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            color: var(--text-muted);
+            transition: color 0.3s ease;
+        }
+
+        body.light-theme .hero-text p {
+            color: var(--light-text-muted);
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 12px 30px;
+            background: linear-gradient(90deg, var(--gradient-start), var(--gradient-end));
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3);
+        }
+
+        /* Grand X à droite */
+        .hero-x {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            min-height: 400px;
+            margin-top: 200px;
+        }
+
+        .floating-x {
+            position: relative;
+            width: 350px;
+            height: 350px;
+        }
+
+        .x-line {
+            position: absolute;
+            width: 100%;
+            height: 20px;
+            background: linear-gradient(45deg, var(--primary-blue), var(--accent-cyan));
+            border-radius: 10px;
+            box-shadow: 0 0 30px var(--neon-blue);
+            animation: x-float 6s ease-in-out infinite;
+        }
+
+        .x-line:nth-child(1) {
+            transform: rotate(45deg);
+            animation-delay: 0s;
+        }
+
+        .x-line:nth-child(2) {
+            transform: rotate(-45deg);
+            animation-delay: 0.5s;
+        }
+
+        @keyframes x-float {
+            0%, 100% {
+                transform: rotate(45deg) translateY(0) scale(1);
+                box-shadow: 0 0 30px var(--neon-blue);
+            }
+            25% {
+                transform: rotate(45deg) translateY(-20px) scale(1.05);
+                box-shadow: 0 0 50px var(--neon-blue);
+            }
+            50% {
+                transform: rotate(45deg) translateY(0) scale(1);
+                box-shadow: 0 0 30px var(--neon-blue);
+            }
+            75% {
+                transform: rotate(45deg) translateY(20px) scale(1.05);
+                box-shadow: 0 0 50px var(--neon-blue);
+            }
+        }
+
+        .x-line:nth-child(2) {
+            animation-name: x-float-2;
+        }
+
+        @keyframes x-float-2 {
+            0%, 100% {
+                transform: rotate(-45deg) translateY(0) scale(1);
+                box-shadow: 0 0 30px var(--neon-blue);
+            }
+            25% {
+                transform: rotate(-45deg) translateY(20px) scale(1.05);
+                box-shadow: 0 0 50px var(--neon-blue);
+            }
+            50% {
+                transform: rotate(-45deg) translateY(0) scale(1);
+                box-shadow: 0 0 30px var(--neon-blue);
+            }
+            75% {
+                transform: rotate(-45deg) translateY(-20px) scale(1.05);
+                box-shadow: 0 0 50px var(--neon-blue);
+            }
+        }
+
+        .x-glow {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.2) 0%, transparent 70%);
+            filter: blur(40px);
+            animation: glow-pulse 4s ease-in-out infinite alternate;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        @keyframes glow-pulse {
+            0% {
+                opacity: 0.3;
+                transform: translate(-50%, -50%) scale(0.8);
+            }
+            100% {
+                opacity: 0.6;
+                transform: translate(-50%, -50%) scale(1.2);
+            }
+        }
+
+        .x-particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+        }
+
+        .particle {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: var(--neon-blue);
+            border-radius: 50%;
+            animation: float 6s infinite;
+            opacity: 0;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translate(0, 0);
+                opacity: 0;
+            }
+            25% {
+                transform: translate(80px, -80px);
+                opacity: 1;
+            }
+            50% {
+                transform: translate(0, -160px);
+                opacity: 0.5;
+            }
+            75% {
+                transform: translate(-80px, -80px);
+                opacity: 1;
+            }
+        }
+
+        .particle:nth-child(1) { top: 20%; left: 20%; animation-delay: 0s; }
+        .particle:nth-child(2) { top: 80%; left: 20%; animation-delay: 1s; }
+        .particle:nth-child(3) { top: 20%; left: 80%; animation-delay: 2s; }
+        .particle:nth-child(4) { top: 80%; left: 80%; animation-delay: 3s; }
+        .particle:nth-child(5) { top: 50%; left: 10%; animation-delay: 0.5s; }
+        .particle:nth-child(6) { top: 50%; left: 90%; animation-delay: 1.5s; }
+        .particle:nth-child(7) { top: 10%; left: 50%; animation-delay: 2.5s; }
+        .particle:nth-child(8) { top: 90%; left: 50%; animation-delay: 3.5s; }
+
+        /* Sections communes */
+        section {
+            padding: 100px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 60px;
+            font-weight: 700;
+            transition: color 0.3s ease;
+        }
+
+        body.light-theme .section-title {
+            color: var(--light-text);
+        }
+
+        /* Services Section - Avec images réelles */
+        .services-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .service-card {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            transition: transform 0.3s, box-shadow 0.3s, background 0.3s ease, border-color 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            border-color: var(--neon-blue);
+        }
+
+        .service-image {
+            width: 100%;
+            height: 200px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .service-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .service-card:hover .service-image img {
+            transform: scale(1.05);
+        }
+
+        .service-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .service-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--text-light);
+            transition: color 0.3s ease;
+        }
+
+        body.light-theme .service-card h3 {
+            color: var(--light-text);
+        }
+
+        .service-card p {
+            color: var(--text-muted);
+            margin-bottom: 20px;
+            flex-grow: 1;
+            transition: color 0.3s ease;
+        }
+
+        .feature-list {
+            list-style: none;
+        }
+
+        .feature-list li {
+            margin-bottom: 10px;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            transition: color 0.3s ease;
+        }
+
+        .feature-list li:before {
+            content: '•';
+            color: var(--neon-blue);
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        /* Innovation Section - Avec images réelles */
+        .innovation-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .innovation-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid var(--border-color);
+            transition: transform 0.3s, background 0.3s ease, border-color 0.3s ease;
+            overflow: hidden;
+        }
+
+        .innovation-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--neon-blue);
+        }
+
+        .innovation-image {
+            width: 100%;
+            height: 180px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .innovation-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .innovation-card:hover .innovation-image img {
+            transform: scale(1.05);
+        }
+
+        .innovation-content {
+            padding: 25px;
+        }
+
+        .innovation-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(59, 130, 246, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            color: var(--neon-blue);
+            font-size: 1.5rem;
+        }
+
+        .innovation-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: var(--text-light);
+            transition: color 0.3s ease;
+        }
+
+        body.light-theme .innovation-card h3 {
+            color: var(--light-text);
+        }
+
+        .innovation-card p {
+            color: var(--text-muted);
+            transition: color 0.3s ease;
+        }
+
+        /* Vision Section */
+        .vision-container {
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            transition: background 0.3s ease, border-color 0.3s ease;
+        }
+
+        .vision-title {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: var(--text-light);
+            text-align: center;
+            transition: color 0.3s ease;
+        }
+
+        body.light-theme .vision-title {
+            color: var(--light-text);
+        }
+
+        .vision-statement {
+            font-size: 1.1rem;
+            margin-bottom: 40px;
+            text-align: center;
+            color: var(--text-muted);
+            transition: color 0.3s ease;
+        }
+
+        .vision-statement strong {
+            color: var(--neon-blue);
+        }
+
+        .vision-values {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+        }
+
+        .value-card {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .value-card h4 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: var(--text-light);
+            transition: color 0.3s ease;
+        }
+
+        body.light-theme .value-card h4 {
+            color: var(--light-text);
+        }
+
+        .value-card p {
+            color: var(--text-muted);
+            transition: color 0.3s ease;
+        }
+
+        /* Contact Section */
+        .contact-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .contact-info h3, .contact-form h3 {
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+            color: var(--text-light);
+            transition: color 0.3s ease;
+        }
+
+        body.light-theme .contact-info h3, 
+        body.light-theme .contact-form h3 {
+            color: var(--light-text);
+        }
+
+        .contact-method {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .contact-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(59, 130, 246, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            color: var(--neon-blue);
+            font-size: 1.2rem;
+        }
+
+        .contact-details h4 {
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+            color: var(--text-light);
+            transition: color 0.3s ease;
+        }
+
+        body.light-theme .contact-details h4 {
+            color: var(--light-text);
+        }
+
+        .contact-details p {
+            color: var(--text-muted);
+            transition: color 0.3s ease;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .social-icons a {
+            width: 40px;
+            height: 40px;
+            background: var(--card-bg);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: all 0.3s;
+            border: 1px solid var(--border-color);
+        }
+
+        body.light-theme .social-icons a {
+            background: var(--light-card-bg);
+            border: 1px solid var(--light-border);
+        }
+
+        .social-icons a:hover {
+            color: var(--neon-blue);
+            border-color: var(--neon-blue);
+            transform: translateY(-3px);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-light);
+            transition: color 0.3s ease;
+        }
+
+        body.light-theme .form-group label {
+            color: var(--light-text);
+        }
+
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-light);
+            font-size: 1rem;
+            transition: background 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+        }
+
+        .form-group input:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: var(--neon-blue);
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--darker-bg);
+            padding: 60px 0 30px;
+            border-top: 1px solid var(--border-color);
+            transition: background 0.3s ease, border-color 0.3s ease;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-column h4 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            color: var(--text-light);
+            transition: color 0.3s ease;
+        }
+
+        body.light-theme .footer-column h4 {
+            color: var(--light-text);
+        }
+
+        .footer-column p {
+            color: var(--text-muted);
+            line-height: 1.6;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.3s;
+            display: flex;
+            align-items: center;
+        }
+
+        .footer-links a:hover {
+            color: var(--neon-blue);
+        }
+
+        .footer-links i {
+            margin-right: 10px;
+            font-size: 0.8rem;
+        }
+
+        .copyright {
+            text-align: center;
+            color: var(--text-muted);
+            padding-top: 30px;
+            border-top: 1px solid var(--border-color);
+            transition: color 0.3s ease, border-color 0.3s ease;
+        }
+
+        /* Animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .hero-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 40px;
+            }
+            
+            .hero-text {
+                padding-right: 0;
+                max-width: 100%;
+            }
+            
+            .hero-text h1 {
+                font-size: 2.5rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .floating-x {
+                width: 280px;
+                height: 280px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .hero-text h1 {
+                font-size: 2rem;
+            }
+            
+            .subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .logo-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 2rem;
+            }
+            
+            .floating-x {
+                width: 220px;
+                height: 220px;
+            }
+            
+            .x-line {
+                height: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="grid-pattern"></div>
+    
+    <header id="header">
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">
+                    <div class="logo-icon"><span>X</span></div>
+                    Nexora Prime
+                </a>
+                <ul class="nav-links">
+                   <li><a href="Nexora2.html" class="active">Accueil</a></li>
+                    <li><a href="solu2.html">Solutions</a></li>
+                    <li><a href="innov2.html">Innovation</a></li>
+                    <li><a href="vision2.html">Vision</a></li>
+                    <li><a href="formation2.html">Formation</a></li>
+                    <li><a href="contact2.html">Contact</a></li>
+                    <li><a href="blog2.html" >Blog</a></li>
+                    <li>
+                        <button class="reserve-button" id="reserveButton" aria-label="Changer de style">
+                            <i class="fas fa-exchange-alt"></i> Style
+                        </button>
+                    </li>
+                    <li>
+                        <button class="theme-toggle" id="themeToggle" aria-label="Basculer le mode clair/sombre">
+                            <i class="fas fa-moon"></i>
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero" id="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <div class="hero-text reveal">
+                        <h1>L'Intelligence Artificielle <strong>Réinventée</strong></h1>
+                        <div class="subtitle">Nexora Prime - L'élite des savoirs Tech entre vos mains</div>
+                        <p>Solutions technologiques avancées basées sur l'IA, conçues pour transformer l'Afrique et inspirer le monde avec innovation, simplicité et design futuriste.</p>
+                        <a href="solu2.html" class="cta-button">Découvrir nos Solutions</a>
+                    </div>
+                    
+                    <div class="hero-x reveal">
+                        <div class="floating-x">
+                            <div class="x-glow"></div>
+                            <div class="x-line"></div>
+                            <div class="x-line"></div>
+                            <div class="x-particles">
+                                <div class="particle"></div>
+                                <div class="particle"></div>
+                                <div class="particle"></div>
+                                <div class="particle"></div>
+                                <div class="particle"></div>
+                                <div class="particle"></div>
+                                <div class="particle"></div>
+                                <div class="particle"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="services">
+            <div class="container">
+                <h2 class="section-title reveal">Nos Solutions IA</h2>
+                <div class="services-container">
+                    <div class="service-card reveal">
+                        <div class="service-image">
+                            <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Assistants Intelligents IA">
+                        </div>
+                        <div class="service-icon">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <h3>Assistants Intelligents</h3>
+                        <p>Des agents IA personnalisés qui comprennent, apprennent et s'adaptent à vos besoins spécifiques pour optimiser votre productivité.</p>
+                        <ul class="feature-list">
+                            <li>Compréhension contextuelle avancée</li>
+                            <li>Apprentissage continu et adaptation</li>
+                            <li>Intégration multi-plateforme</li>
+                            <li>Personnalisation approfondie</li>
+                        </ul>
+                    </div>
+                    <div class="service-card reveal">
+                        <div class="service-image">
+                            <img src="https://images.unsplash.com/photo-1593508512255-86ab42a8e620?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Réalité Augmentée IA">
+                        </div>
+                        <div class="service-icon">
+                            <i class="fas fa-vr-cardboard"></i>
+                        </div>
+                        <h3>Réalité Augmentée IA</h3>
+                        <p>Fusion entre intelligence artificielle et réalité augmentée pour créer des expériences immersives révolutionnaires.</p>
+                        <ul class="feature-list">
+                            <li>Reconnaissance d'environnement en temps réel</li>
+                            <li>Interactions naturelles par IA</li>
+                            <li>Solutions industrielles et éducatives</li>
+                            <li>Personnalisation en temps réel</li>
+                        </ul>
+                    </div>
+                    <div class="service-card reveal">
+                        <div class="service-image">
+                            <img src="https://images.unsplash.com/photo-1606857521015-7f9fcf423740?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Productivité Augmentée IA">
+                        </div>
+                        <div class="service-icon">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <h3>Productivité Augmentée</h3>
+                        <p>Plateformes intelligentes qui automatisent les tâches complexes et libèrent votre potentiel créatif.</p>
+                        <ul class="feature-list">
+                            <li>Automatisation intelligente des workflows</li>
+                            <li>Analyses prédictives avancées</li>
+                            <li>Collaboration assistée par IA</li>
+                            <li>Gestion de projet intelligente</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="innovation">
+            <div class="container">
+                <h2 class="section-title reveal">Innovation Radicale</h2>
+                <div class="innovation-grid">
+                    <div class="innovation-card reveal">
+                        <div class="innovation-image">
+                            <img src="https://images.unsplash.com/photo-1532094349884-543bc11b234d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Recherche et Développement IA">
+                        </div>
+                        <div class="innovation-content">
+                            <div class="innovation-icon">
+                                <i class="fas fa-flask"></i>
+                            </div>
+                            <h3>Recherche & Développement</h3>
+                            <p>Exploration constante de nouvelles approches technologiques pour repousser les limites de l'IA.</p>
+                        </div>
+                    </div>
+                    <div class="innovation-card reveal">
+                        <div class="innovation-image">
+                            <img src="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Solutions Africaines IA">
+                        </div>
+                        <div class="innovation-content">
+                            <div class="innovation-icon">
+                                <i class="fas fa-globe-africa"></i>
+                            </div>
+                            <h3>Solutions Africaines</h3>
+                            <p>Technologies adaptées aux défis spécifiques du continent africain avec une perspective internationale.</p>
+                        </div>
+                    </div>
+                    <div class="innovation-card reveal">
+                        <div class="innovation-image">
+                            <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Design Visionnaire IA">
+                        </div>
+                        <div class="innovation-content">
+                            <div class="innovation-icon">
+                                <i class="fas fa-paint-brush"></i>
+                            </div>
+                            <h3>Design Visionnaire</h3>
+                            <p>Interfaces utilisateur immersives qui allient fonctionnalité avancée et esthétique de pointe.</p>
+                        </div>
+                    </div>
+                    <div class="innovation-card reveal">
+                        <div class="innovation-image">
+                            <img src="https://images.unsplash.com/photo-1563013544-824ae1b704d3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Éthique et Responsabilité IA">
+                        </div>
+                        <div class="innovation-content">
+                            <div class="innovation-icon">
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+                            <h3>Éthique & Responsabilité</h3>
+                            <p>Développement responsable de l'IA avec une approche éthique et transparente.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="vision">
+            <div class="container">
+                <h2 class="section-title reveal">Notre Vision</h2>
+                <div class="vision-container reveal">
+                    <h3 class="vision-title">Transformer l'Afrique par l'Innovation</h3>
+                    <p class="vision-statement">
+                        Chez Nexora Prime, nous croyons en un avenir où <strong>l'innovation technologique africaine</strong> rayonne à l'échelle mondiale. Notre mission est de créer des solutions d'IA qui résolvent les défis locaux tout en ayant un <strong>impact global positif</strong>.
+                    </p>
+                    <div class="vision-values">
+                        <div class="value-card reveal">
+                            <h4>Innovation</h4>
+                            <p>Repousser constamment les limites technologiques pour créer des solutions révolutionnaires.</p>
+                        </div>
+                        <div class="value-card reveal">
+                            <h4>Simplicité</h4>
+                            <p>Transformer des technologies complexes en solutions accessibles et intuitives.</p>
+                        </div>
+                        <div class="value-card reveal">
+                            <h4>Fiabilité</h4>
+                            <p>Développer des systèmes robustes, sécurisés et stables qui inspirent confiance.</p>
+                        </div>
+                        <div class="value-card reveal">
+                            <h4>Impact</h4>
+                            <p>Créer des solutions qui transforment positivement les entreprises et la société.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact">
+            <div class="container">
+                <h2 class="section-title reveal">Prêt pour l'Avenir ?</h2>
+                <div class="contact-container">
+                    <div class="contact-info reveal">
+                        <h3>Contactez-nous</h3>
+                        <div class="contact-methods">
+                            <div class="contact-method">
+                                <div class="contact-icon">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                </div>
+                                <div class="contact-details">
+                                    <h4>Adresse</h4>
+                                    <p>Eneo Santabarbara, Yaoundé, Cameroun</p>
+                                </div>
+                            </div>
+                            <div class="contact-method">
+                                <div class="contact-icon">
+                                    <i class="fas fa-phone-alt"></i>
+                                </div>
+                                <div class="contact-details">
+                                    <h4>Téléphone</h4>
+                                    <p>+237 682759466 / +237 656799351 / +237 698657458</p>
+                                </div>
+                            </div>
+                            <div class="contact-method">
+                                <div class="contact-icon">
+                                    <i class="fas fa-envelope"></i>
+                                </div>
+                                <div class="contact-details">
+                                    <h4>Email</h4>
+                                    <p>nexoraprime051709@gmail.com</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="social-icons">
+                            <a href="https://x.com/NexoraPrime"><i class="fab fa-twitter"></i></a>
+                            <a href="http://www.linkedin.com/in/nexora-prime-9b920b384"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="https://www.instagram.com/nexora.prime03?igsh=MTh1Mzl2N3B0cGUweQ=="><i class="fab fa-instagram"></i></a>
+                            <a href="https://github.com/NexoraPrime03"><i class="fab fa-github"></i></a>
+                            <a href="https://www.facebook.com/profile.php?id=61577809709014"><i class="fab fa-facebook"></i></a>
+                            <a href="https://whatsapp.com/channel/0029VbAkC3k0bIdefJdKrk3T"><i class="fab fa-whatsapp"></i></a>
+                        </div>
+                    </div>
+                    <div class="contact-form reveal">
+                        <h3>Envoyez-nous un message</h3>
+                        <form>
+                            <input type="hidden" id="csrf_token" name="csrf_token" value="">
+                            <div class="form-group">
+                                <label for="name">Nom complet</label>
+                                <input type="text" id="name" name="name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Adresse email</label>
+                                <input type="email" id="email" name="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="subject">Sujet</label>
+                                <input type="text" id="subject" name="subject" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="message">Message</label>
+                                <textarea id="message" name="message" required></textarea>
+                            </div>
+                            <button type="submit" class="cta-button">Envoyer le message</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h4>Nexora Prime</h4>
+                    <p>L'élite des savoirs Tech africain entre vos mains. Nous développons des solutions technologiques avancées pour transformer l'Afrique et inspirer le monde.</p>
+                </div>
+                <div class="footer-column">
+                    <h4>Liens rapides</h4>
+                    <ul class="footer-links">
+                        <li><a href="#hero"><i class="fas fa-chevron-right"></i> Accueil</a></li>
+                        <li><a href="solu2.html"><i class="fas fa-chevron-right"></i> Solutions</a></li>
+                        <li><a href="innov2.html"><i class="fas fa-chevron-right"></i> Innovation</a></li>
+                        <li><a href="vision2.html"><i class="fas fa-chevron-right"></i> Vision</a></li>
+                        <li><a href="contact2.html"><i class="fas fa-chevron-right"></i> Contact</a></li>
+                        <li><a href="blog2.html"><i class="fas fa-chevron-right"></i> Blog</a></li>
+                        <li><a href="formation2.html"><i class="fas fa-chevron-right"></i> Formation</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Nos Solutions</h4>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Assistants Intelligents</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Réalité Augmentée IA</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Outils de Productivité</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Plateformes d'Analyse</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Solutions Industrielles</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                &copy; 2025 Nexora Prime. Tous droits réservés. L'innovation africaine au service du monde.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Animation de révélation au défilement
+        function revealOnScroll() {
+            const elements = document.querySelectorAll('.reveal');
+            elements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
+                if (elementTop < window.innerHeight - elementVisible) {
+                    element.classList.add('active');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', revealOnScroll);
+        window.addEventListener('load', revealOnScroll);
+
+        // Fonctionnalité de basculement de thème
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+        const icon = themeToggle.querySelector('i');
+        
+        // Vérifier le thème sauvegardé dans le localStorage
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'light') {
+            body.classList.add('light-theme');
+            icon.classList.remove('fa-moon');
+            icon.classList.add('fa-sun');
+        }
+
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('light-theme');
+            
+            if (body.classList.contains('light-theme')) {
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+                localStorage.setItem('theme', 'light');
+            } else {
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+                localStorage.setItem('theme', 'dark');
+            }
+        });
+
+        // Form validation
+        const contactForm = document.querySelector('.contact-form form');
+        if (contactForm) {
+            // Fetch CSRF token when page loads
+            fetch('csrf_token.php')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('csrf_token').value = data.csrf_token;
+                })
+                .catch(error => {
+                    console.error('Error fetching CSRF token:', error);
+                });
+            
+            contactForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Simple validation
+                const name = document.getElementById('name').value;
+                const email = document.getElementById('email').value;
+                const subject = document.getElementById('subject').value;
+                const message = document.getElementById('message').value;
+                const csrf_token = document.getElementById('csrf_token').value;
+                
+                if (name && email && subject && message && csrf_token) {
+                    // Send email using fetch API to our PHP script
+                    const formData = new FormData();
+                    formData.append('name', name);
+                    formData.append('email', email);
+                    formData.append('subject', subject);
+                    formData.append('message', message);
+                    formData.append('csrf_token', csrf_token);
+                    
+                    fetch('send_email.php', {
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(response => {
+                        // Log the raw response for debugging
+                        return response.text().then(text => {
+                            console.log('Raw server response:', text);
+                            try {
+                                return JSON.parse(text);
+                            } catch (e) {
+                                throw new Error('Invalid JSON response: ' + text);
+                            }
+                        });
+                    })
+                    .then(data => {
+                        if (data.status === 'success' || data.status === 'partial_success') {
+                            if (data.status === 'partial_success') {
+                                alert('Message enregistré: ' + data.message);
+                            } else {
+                                alert('Votre message a été envoyé avec succès ! Nous vous répondrons dans les plus brefs délais.');
+                            }
+                            contactForm.reset();
+                            
+                            // Fetch a new CSRF token for the next submission
+                            fetch('csrf_token.php')
+                                .then(response => response.json())
+                                .then(data => {
+                                    document.getElementById('csrf_token').value = data.csrf_token;
+                                })
+                                .catch(error => {
+                                    console.error('Error fetching new CSRF token:', error);
+                                });
+                        } else {
+                            alert('Erreur: ' + data.message);
+                            
+                            // Fetch a new CSRF token after failed submission
+                            fetch('csrf_token.php')
+                                .then(response => response.json())
+                                .then(data => {
+                                    document.getElementById('csrf_token').value = data.csrf_token;
+                                })
+                                .catch(error => {
+                                    console.error('Error fetching new CSRF token:', error);
+                                });
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('Erreur lors de l\'envoi du message. Veuillez réessayer. Détails: ' + error.message);
+                        
+                        // Fetch a new CSRF token after failed submission
+                        fetch('csrf_token.php')
+                            .then(response => response.json())
+                            .then(data => {
+                                document.getElementById('csrf_token').value = data.csrf_token;
+                            })
+                            .catch(error => {
+                                console.error('Error fetching new CSRF token:', error);
+                            });
+                    });
+                } else {
+                    alert('Veuillez remplir tous les champs obligatoires.');
+                }
+            });
+        }
+
+        // Fonctionnalité du bouton reserve (changement de style)
+        const reserveButton = document.getElementById('reserveButton');
+        if (reserveButton) {
+            reserveButton.addEventListener('click', () => {
+                // Apply glass morphing transition
+                const overlay = document.createElement('div');
+                overlay.style.cssText = `
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: rgba(59, 130, 246, 0.2);
+                    backdrop-filter: blur(10px);
+                    z-index: 9999;
+                    opacity: 0;
+                    transition: all 3s ease;
+                    pointer-events: none;
+                `;
+                
+                document.body.appendChild(overlay);
+                
+                // Start transition
+                setTimeout(() => {
+                    overlay.style.opacity = '1';
+                    
+                    // Apply morphing effect
+                    overlay.style.transform = 'scale(1.1)';
+                    overlay.style.borderRadius = '50%';
+                    
+                    // Get current page and redirect to its pair
+                    const currentPage = window.location.pathname.split('/').pop();
+                    const pagePairs = {
+                        'index.html': 'Nexora2.html',
+                        'blog.html': 'blog2.html',
+                        'contact.html': 'contact2.html',
+                        'solution.html': 'solu2.html',
+                        'index.html': 'Nexora2.html',
+                        'formation.html': 'formation2.html',
+                        'vision.html': 'vision2.html',
+                        'innovation.html': 'innov2.html'
+                    };
+                    
+                    const targetPage = pagePairs[currentPage] || 
+                                      Object.keys(pagePairs).find(key => pagePairs[key] === currentPage);
+                    
+                    setTimeout(() => {
+                        if (targetPage) {
+                            window.location.href = targetPage;
+                        }
+                    }, 3000);
+                }, 100);
+            });
+        }
+    </script>
+</body>
+</html>
