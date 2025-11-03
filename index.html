@@ -1083,6 +1083,44 @@
             .vision-values {
                 grid-template-columns: repeat(2, 1fr);
             }
+            
+            /* Tablet menu styles */
+            .menu-toggle {
+                display: flex;
+            }
+            
+            .nav-links {
+                position: fixed;
+                left: -100%;
+                top: 70px;
+                flex-direction: column;
+                background: var(--bg-secondary);
+                width: 100%;
+                text-align: center;
+                transition: 0.3s;
+                box-shadow: 0 10px 27px rgba(0, 0, 0, 0.05);
+                padding: 20px 0;
+                z-index: 999;
+                gap: 15px;
+            }
+            
+            .nav-links.active {
+                left: 0;
+            }
+            
+            .nav-links li {
+                margin: 10px 0;
+            }
+            
+            .nav-links a {
+                font-size: 1.2rem;
+                padding: 10px 20px;
+                display: block;
+            }
+            
+            .nav-links .reserve-button, .nav-links .theme-toggle {
+                margin: 10px auto;
+            }
         }
 
         /* Small devices (landscape phones, 576px and up) */
@@ -1167,6 +1205,62 @@
                 font-size: 1.2rem;
             }
         }
+        
+        /* Mobile menu styles */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 5px;
+        }
+        
+        .menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background: var(--neon-blue);
+            margin: 3px 0;
+            transition: 0.3s;
+            border-radius: 2px;
+        }
+        
+        @media (max-width: 991px) {
+            .menu-toggle {
+                display: flex;
+            }
+            
+            .nav-links {
+                position: fixed;
+                left: -100%;
+                top: 70px;
+                flex-direction: column;
+                background: var(--bg-secondary);
+                width: 100%;
+                text-align: center;
+                transition: 0.3s;
+                box-shadow: 0 10px 27px rgba(0, 0, 0, 0.05);
+                padding: 20px 0;
+                z-index: 999;
+                gap: 15px;
+            }
+            
+            .nav-links.active {
+                left: 0;
+            }
+            
+            .nav-links li {
+                margin: 10px 0;
+            }
+            
+            .nav-links a {
+                font-size: 1.2rem;
+                padding: 10px 20px;
+                display: block;
+            }
+            
+            .nav-links .reserve-button, .nav-links .theme-toggle {
+                margin: 10px auto;
+            }
+        }
     </style>
     <link rel="stylesheet" href="css/responsive-theme.css">
 </head>
@@ -1179,6 +1273,11 @@
                 <div class="logo-icon">X</div>
                 Nexora Prime
             </a>
+            <div class="menu-toggle" id="menuToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
             <ul class="nav-links">
                 <li><a href="index.html" class="active">Accueil</a></li>
                 <li><a href="solution.html">Solutions</a></li>
@@ -1500,7 +1599,14 @@
                         overlay.style.borderRadius = '50%';
                         
                         // Get current page and redirect to its pair
-                        const currentPage = window.location.pathname.split('/').pop();
+                        // Handle both local and hosted environments
+                        let currentPage = window.location.pathname.split('/').pop();
+                        
+                        // Fallback for cases where pathname doesn't end with .html
+                        if (!currentPage || currentPage.indexOf('.') === -1) {
+                            currentPage = 'index.html'; // Default fallback
+                        }
+                        
                         const pagePairs = {
                             'blog.html': 'blog2.html',
                             'contact.html': 'contact2.html',
@@ -1517,6 +1623,11 @@
                         setTimeout(() => {
                             if (targetPage) {
                                 window.location.href = targetPage;
+                            } else {
+                                // Fallback: try to redirect with full path handling
+                                const baseUrl = window.location.href.substring(0, window.location.href.lastIndexOf('/') + 1);
+                                const possibleTarget = 'Nexora2.html'; // Direct fallback for this page
+                                window.location.href = baseUrl + possibleTarget;
                             }
                         }, 3000);
                     }, 100);
@@ -1608,19 +1719,24 @@
                 }
             });
             
-            // Smooth scrolling for navigation
+            // Smooth scrolling for navigation (only for anchor links)
             navLinks.forEach(link => {
                 link.addEventListener('click', function(e) {
-                    e.preventDefault();
                     const targetId = this.getAttribute('href');
-                    const targetSection = document.querySelector(targetId);
                     
-                    if (targetSection) {
-                        targetSection.scrollIntoView({
-                            behavior: 'smooth',
-                            block: 'start'
-                        });
+                    // Only prevent default for anchor links (starting with #)
+                    if (targetId.startsWith('#')) {
+                        e.preventDefault();
+                        const targetSection = document.querySelector(targetId);
+                        
+                        if (targetSection) {
+                            targetSection.scrollIntoView({
+                                behavior: 'smooth',
+                                block: 'start'
+                            });
+                        }
                     }
+                    // For other links, allow default behavior (navigation to other pages)
                 });
             });
             
@@ -1758,6 +1874,55 @@
                 canvas.width = window.innerWidth;
                 canvas.height = window.innerHeight;
             });
+            
+            // Mobile menu toggle
+            const menuToggle = document.getElementById('menuToggle');
+            if (menuToggle) {
+                menuToggle.addEventListener('click', function() {
+                    const navLinks = document.querySelector('.nav-links');
+                    navLinks.classList.toggle('active');
+                    
+                    // Animate hamburger icon
+                    const spans = menuToggle.querySelectorAll('span');
+                    if (navLinks.classList.contains('active')) {
+                        spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
+                        spans[1].style.opacity = '0';
+                        spans[2].style.transform = 'rotate(-45deg) translate(7px, -6px)';
+                    } else {
+                        spans[0].style.transform = 'none';
+                        spans[1].style.opacity = '1';
+                        spans[2].style.transform = 'none';
+                    }
+                });
+                
+                // Close menu when clicking on a link
+                const navLinks = document.querySelectorAll('.nav-links a');
+                navLinks.forEach(link => {
+                    link.addEventListener('click', () => {
+                        document.querySelector('.nav-links').classList.remove('active');
+                        const spans = menuToggle.querySelectorAll('span');
+                        spans[0].style.transform = 'none';
+                        spans[1].style.opacity = '1';
+                        spans[2].style.transform = 'none';
+                    });
+                });
+                            
+                // Close menu when clicking outside
+                document.addEventListener('click', function(event) {
+                    const navLinks = document.querySelector('.nav-links');
+                    const menuToggle = document.getElementById('menuToggle');
+                                
+                    if (navLinks.classList.contains('active') && 
+                        !navLinks.contains(event.target) && 
+                        !menuToggle.contains(event.target)) {
+                        navLinks.classList.remove('active');
+                        const spans = menuToggle.querySelectorAll('span');
+                        spans[0].style.transform = 'none';
+                        spans[1].style.opacity = '1';
+                        spans[2].style.transform = 'none';
+                    }
+                });
+            }
         });
     </script>
     <script src="js/theme-transition.js"></script>
